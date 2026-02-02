@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCI_XENCETWO | XI B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #1e3c72, #2a5298);
+            --card-bg: white;
+            --text-main: #333;
+            --glass: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #00d2ff;
+        }
+
+        .dark-mode {
+            --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --card-bg: #1e1e1e;
+            --text-main: #f1f1f1;
+            --glass: rgba(0, 0, 0, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: 0.3s; }
+        body { background: var(--bg); background-attachment: fixed; color: white; min-height: 100vh; padding: 20px; overflow-x: hidden; }
+
+        /* --- FIX STUCK ANIMATION --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f2027; z-index: 99999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+        .loader-logo {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--primary);
+            text-shadow: 0 0 15px var(--primary); animation: pulse 1s infinite;
+        }
+        .loader-bar { width: 180px; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: var(--primary); animation: load 1.5s ease-in-out forwards; }
+        
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
+        @keyframes load { to { width: 100%; } }
+
+        /* --- CONTENT WRAPPER --- */
+        .container { max-width: 500px; margin: auto; opacity: 0; transform: translateY(20px); transition: 1s all ease; }
+        .container.show { opacity: 1; transform: translateY(0); }
+
+        header { margin-bottom: 25px; }
+        header h1 { font-size: 1.8rem; font-weight: 600; font-style: italic; }
+        .date-display { font-size: 11px; background: var(--primary); display: inline-block; padding: 4px 12px; border-radius: 10px; margin-top: 5px; font-weight: 600; }
+
+        .hero-box { background: var(--card-bg); padding: 10px; border-radius: 25px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .hero-box img { width: 100%; border-radius: 18px; display: block; }
+
+        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        .card { background: var(--card-bg); padding: 15px; border-radius: 20px; color: var(--text-main); text-align: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card:active { transform: scale(0.95); }
+        .card h3 { font-size: 13px; margin-top: 5px; }
+
+        .page { display: none; padding-bottom: 120px; }
+        .page.active { display: block; animation: fadeIn 0.5s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .list-box { background: var(--glass); backdrop-filter: blur(15px); padding: 15px; border-radius: 25px; border: 1px solid var(--glass-border); margin-bottom: 20px; }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+
+        .status-select { padding: 5px; border-radius: 8px; border: none; font-size: 10px; font-weight: bold; color: white; }
+        .bg-masuk { background: #2ecc71; } .bg-sakit { background: #3498db; } .bg-izin { background: #f1c40f; color: #333; } .bg-alpa { background: #e74c3c; }
+
+        .btn-kembali { background: white; color: #333; padding: 8px 15px; border-radius: 12px; display: inline-block; margin-bottom: 15px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+        .nav-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--card-bg); padding: 10px 20px; border-radius: 35px; display: flex; gap: 15px; width: 90%; justify-content: space-around; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; }
+        .nav-item { font-size: 20px; color: #bbb; cursor: pointer; }
+        .nav-item.active { color: var(--primary); transform: scale(1.2); }
+
+        .float-btn { position: fixed; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; }
+        #theme-btn { bottom: 140px; right: 20px; background: #ff9f43; }
+        #music-btn { bottom: 85px; right: 20px; background: var(--primary); }
+
+        .absurd-box { background: #ff4757; color: white; padding: 15px; border-radius: 20px; text-align: center; margin-bottom: 15px; display: none; border: 2px solid white; animation: shake 0.3s infinite; }
+        @keyframes shake { 0% { transform: rotate(0); } 50% { transform: rotate(1deg); } 100% { transform: rotate(0); } }
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="loader-logo">SCI_XENCETWO</div>
+    <div class="loader-bar"><div class="loader-progress"></div></div>
+    <p style="font-size: 10px; color: white; margin-top: 10px; opacity: 0.5;">MEMBUKA SISTEM...</p>
+</div>
+
+<div class="container" id="main-content">
+    <div id="home" class="page active">
+        <header>
+            <h1>SCI_XENCETWO</h1>
+            <div class="date-display" id="real-date"></div>
+        </header>
+        <div class="hero-box"><img src="img/sekelas.jpg" onerror="this.src='https://via.placeholder.com/400x200?text=FOTO+KELAS+XI+B'"></div>
+        <div class="grid-menu">
+            <div class="card" onclick="showPage('absen')">📝<h3>Absensi</h3></div>
+            <div class="card" onclick="showPage('jadwal')">📅<h3>Jadwal</h3></div>
+            <div class="card" onclick="showPage('piket')">🧹<h3>Piket</h3></div>
+            <div class="card" onclick="showPage('siswa')">🎓<h3>Siswa</h3></div>
+            <div class="card" onclick="showPage('galeri')">🖼️<h3>Galeri</h3></div>
+            <div class="card" onclick="showPage('anggota')">👥<h3>Struktur</h3></div>
+        </div>
+    </div>
+
+    <div id="absen" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Absensi & Ramalan</h2>
+        <button onclick="ramalAbsen()" style="background:#ffa502; color:white; padding:12px; border-radius:15px; border:none; width:100%; font-weight:bold; margin-bottom:15px; cursor:pointer;">🔮 RAMAL NASIB BESOK</button>
+        <div id="ramalan-display" class="absurd-box"></div>
+        <div class="list-box" id="absen-list"></div>
+    </div>
+
+    <div id="jadwal" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Jadwal Pelajaran</h2>
+        <div class="list-box">
+            <div class="item"><span>Senin</span><b>MTK, BIN, FIS</b></div>
+            <div class="item"><span>Selasa</span><b>KIM, BIO, ING</b></div>
+        </div>
+    </div>
+
+    <div id="siswa" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Daftar Siswa</h2>
+        <div class="list-box" id="siswa-list"></div>
+    </div>
+
+    <div id="piket" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Jadwal Piket</h2>
+        <div class="list-box"><div class="item"><span>Senin</span><b>Kelompok 1</b></div></div>
+    </div>
+
+    <div id="galeri" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Galeri</h2>
+        <div class="list-box">FOTO NYUSUL</div>
+    </div>
+
+    <div id="anggota" class="page">
+        <div class="btn-kembali" onclick="showPage('home')">← Kembali</div>
+        <h2>Struktur</h2>
+        <div class="list-box"><div class="item"><span>Ketua</span><b>AHMAD RAFI</b></div></div>
+    </div>
+
+    <footer style="margin-top:30px; padding-bottom:120px; text-align:center; opacity:0.6; font-size:12px;">DESIGNED BY A.ZAINAL BAGUS M</footer>
+</div>
+
+<div id="theme-btn" class="float-btn" onclick="toggleTheme()">🌓</div>
+<div id="music-btn" class="float-btn" onclick="toggleMusic()">🎵</div>
+<audio id="myAudio" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
+
+<div class="nav-bar">
+    <div class="nav-item active" id="nav-home" onclick="showPage('home')">🏠</div>
+    <div class="nav-item" id="nav-absen" onclick="showPage('absen')">📝</div>
+    <div class="nav-item" id="nav-siswa" onclick="showPage('siswa')">🎓</div>
+</div>
+
+<script>
+    // FIX: AUTO CLOSE LOADER AFTER 1.8 SECONDS NO MATTER WHAT
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            const main = document.getElementById('main-content');
+            loader.style.opacity = '0';
+            setTimeout(() => { 
+                loader.style.display = 'none'; 
+                main.classList.add('show');
+            }, 800);
+        }, 1800); 
+    });
+
+    const dataSiswa = Array.from({length: 35}, (_, i) => ({
+        n: i === 0 ? "A.ZAINAL BAGUS M" : i === 1 ? "AHMAD RAFI" : "MURID " + (i+1),
+        a: (i + 1).toString().padStart(2, '0'),
+        f: `img/${i + 1}.jpg`
+    }));
+
+    function ramalAbsen() {
+        const box = document.getElementById('ramalan-display');
+        const s = dataSiswa[Math.floor(Math.random() * dataSiswa.length)];
+        box.style.display = "block";
+        box.innerHTML = `<strong>🔮 RAMALAN GHOIB 🔮</strong><br>${s.n}<br>Besok: <strong>ALPA</strong><br>Sebab: Kebanyakan mabar!`;
+    }
+
+    function renderAbsensi() {
+        let h = "";
+        dataSiswa.forEach(s => {
+            h += `<div class="item"><span>${s.a}. ${s.n}</span><select class="status-select bg-masuk" onchange="this.className='status-select bg-'+this.value.toLowerCase()"><option value="Masuk">MASUK</option><option value="Sakit">SAKIT</option><option value="Izin">IZIN</option><option value="Alpa">ALPA</option></select></div>`;
+        });
+        document.getElementById('absen-list').innerHTML = h;
+    }
+
+    function renderSiswa() {
+        let h = "";
+        dataSiswa.forEach(s => {
+            h += `<div style="display:flex; align-items:center; margin-bottom:10px;"><img src="${s.f}" onerror="this.src='https://via.placeholder.com/40'" style="width:40px; height:40px; border-radius:50%; margin-right:15px; border:2px solid var(--primary);"><div><h4>${s.n}</h4><p style="font-size:10px; opacity:0.6">Absen: ${s.a}</p></div></div>`;
+        });
+        document.getElementById('siswa-list').innerHTML = h;
+    }
+
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(ni => ni.classList.remove('active'));
+        if(id === 'absen') renderAbsensi();
+        if(id === 'siswa') renderSiswa();
+        window.scrollTo(0,0);
+    }
+
+    function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+    function toggleMusic() { const a = document.getElementById("myAudio"); a.paused ? a.play().catch(()=>{}):a.pause(); }
+
+    const opt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('real-date').innerText = new Date().toLocaleDateString('id-ID', opt);
+</script>
+</body>
+</html>
