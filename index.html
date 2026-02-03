@@ -6,45 +6,45 @@
     <title>SCI_XENCETWO | XI B</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00d2ff; --bg-dark: #0f2027; }
+        :root { --primary: #00d2ff; --card: rgba(255, 255, 255, 0.1); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; min-height: 100vh; overflow-x: hidden; }
         
-        /* LOADER ANTI-STUCK */
+        /* LOADER */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0f2027; z-index: 9999; display: flex; flex-direction: column; 
             align-items: center; justify-content: center;
         }
         .bar { width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
-        .progress { width: 0%; height: 100%; background: var(--primary); animation: load 2.5s forwards; }
+        .progress { width: 0%; height: 100%; background: var(--primary); animation: load 2s forwards; }
         @keyframes load { to { width: 100%; } }
 
-        /* TAMPILAN UTAMA */
+        /* CONTENT */
         #main-content { display: none; padding: 20px; max-width: 500px; margin: auto; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        header { text-align: center; margin-bottom: 30px; margin-top: 20px; }
+        header { text-align: center; margin: 20px 0 30px 0; }
         header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 24px; letter-spacing: 2px; }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: rgba(255, 255, 255, 0.1); padding: 30px 10px; border-radius: 20px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
+        .card { background: var(--card); padding: 25px 10px; border-radius: 20px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
         .card:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.2); }
-        .card span { font-size: 40px; display: block; margin-bottom: 10px; }
-        .card h3 { font-size: 14px; text-transform: uppercase; }
+        .card span { font-size: 30px; display: block; margin-bottom: 8px; }
+        .card h3 { font-size: 12px; text-transform: uppercase; }
         
         .page { display: none; }
         .page.active { display: block; }
         
         .list-box { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; }
-        .btn-back { background: var(--primary); color: white; padding: 10px 20px; border-radius: 12px; display: inline-block; margin-bottom: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,210,255,0.3); }
+        .btn-back { background: var(--primary); color: white; padding: 10px 20px; border-radius: 12px; display: inline-block; margin-bottom: 20px; font-weight: bold; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div style="font-family:'Orbitron'; color:var(--primary); font-size:20px; letter-spacing:3px;">XI SCIENCE 2</div>
+    <div style="font-family:'Orbitron'; color:var(--primary); font-size:20px;">XI SCIENCE 2</div>
     <div class="bar"><div class="progress"></div></div>
 </div>
 
@@ -52,25 +52,53 @@
     <div id="home" class="page active">
         <header>
             <h1>SCI_XENCETWO</h1>
-            <p style="font-size:10px; opacity:0.6; margin-top:5px;">Aplikasi Resmi Kelas XI B</p>
+            <p style="font-size:10px; opacity:0.6;">Aplikasi Resmi Kelas XI B</p>
         </header>
         <div class="grid">
             <div class="card" onclick="nav('absen')"><span>📝</span><h3>Absensi</h3></div>
             <div class="card" onclick="nav('siswa')"><span>🎓</span><h3>Siswa</h3></div>
+            <div class="card" onclick="nav('jadwal')"><span>📅</span><h3>Jadwal</h3></div>
+            <div class="card" onclick="nav('piket')"><span>🧹</span><h3>Piket</h3></div>
+            <div class="card" onclick="nav('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
+            <div class="card" onclick="nav('struktur')"><span>👥</span><h3>Struktur</h3></div>
         </div>
         <footer style="text-align:center; margin-top:50px; opacity:0.3; font-size:9px;">&copy; 2024 BY A. ZAINAL BAGUS M.</footer>
     </div>
 
     <div id="absen" class="page">
         <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; font-size:18px; color:var(--primary);">SISTEM ABSENSI</h2>
+        <h2>ABSENSI</h2>
         <div class="list-box" id="isi-absen"></div>
     </div>
 
     <div id="siswa" class="page">
         <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; font-size:18px; color:var(--primary);">DATA SISWA</h2>
+        <h2>DATA SISWA</h2>
         <div class="list-box" id="isi-siswa"></div>
+    </div>
+
+    <div id="jadwal" class="page">
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2>JADWAL PELAJARAN</h2>
+        <div class="list-box">Isi jadwal menyusul...</div>
+    </div>
+
+    <div id="piket" class="page">
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2>JADWAL PIKET</h2>
+        <div class="list-box">Isi piket menyusul...</div>
+    </div>
+
+    <div id="galeri" class="page">
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2>GALERI KELAS</h2>
+        <div class="list-box">Belum ada foto.</div>
+    </div>
+
+    <div id="struktur" class="page">
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2>STRUKTUR ORGANISASI</h2>
+        <div class="list-box">Ketua: M. RAFI ZAIDAAN M.</div>
     </div>
 </div>
 
@@ -98,27 +126,22 @@
         window.scrollTo(0,0);
     }
 
-    function render(targetId, pakaiselect) {
-        let html = "";
+    function render(targetId, isAbsen) {
+        let h = "";
         murid.forEach((nama, i) => {
             let no = (i + 1).toString().padStart(2, '0');
-            html += `<div class="item"><span>${no}. ${nama}</span>`;
-            if(pakaiselect) {
-                html += `<select style="font-size:10px; background:var(--primary); color:white; border:none; border-radius:5px; padding:2px 5px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select>`;
-            } else {
-                html += `<span style="opacity:0.4">XI SCIENCE 2</span>`;
-            }
-            html += `</div>`;
+            h += `<div class="item"><span>${no}. ${nama}</span>`;
+            if(isAbsen) h += `<select style="font-size:10px; background:var(--primary); color:white; border:none; border-radius:5px; padding:2px 5px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select>`;
+            h += `</div>`;
         });
-        document.getElementById(targetId).innerHTML = html;
+        document.getElementById(targetId).innerHTML = h;
     }
 
-    // Fungsi Paksa Muncul (Biar gak stuck)
     window.onload = function() {
         setTimeout(function() {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-        }, 3000); // 3 detik loading
+        }, 2500);
     };
 </script>
 </body>
