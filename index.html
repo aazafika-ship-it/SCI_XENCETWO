@@ -4,122 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCI_XENCETWO | XI B</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: linear-gradient(135deg, #1e3c72, #2a5298); --card-bg: white; --text-main: #333; --primary: #00d2ff; }
-        .dark-mode { --bg: linear-gradient(135deg, #0f2027, #2c5364); --card-bg: #1e1e1e; --text-main: #f1f1f1; }
+        :root { --primary: #00d2ff; --bg-dark: #0f2027; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); background-attachment: fixed; color: white; min-height: 100vh; transition: 0.3s; overflow-x: hidden; }
+        body { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; min-height: 100vh; overflow-x: hidden; }
         
         /* LOADER ANTI-STUCK */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f2027; z-index: 99999; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; transition: 0.5s;
+            background: #0f2027; z-index: 9999; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center;
         }
-        .loader-bar { width: 160px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
-        .loader-progress { width: 0%; height: 100%; background: var(--primary); animation: load 3s forwards; }
+        .bar { width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
+        .progress { width: 0%; height: 100%; background: var(--primary); animation: load 2.5s forwards; }
         @keyframes load { to { width: 100%; } }
 
-        .container { max-width: 500px; margin: auto; padding: 20px; display: none; }
-        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 20px; letter-spacing: 2px; }
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 20px; color: var(--text-main); text-align: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .page { display: none; animation: fadeIn 0.5s; } .page.active { display: block; }
+        /* TAMPILAN UTAMA */
+        #main-content { display: none; padding: 20px; max-width: 500px; margin: auto; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .list-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; }
-        .btn-back { background: var(--primary); color: white; padding: 8px 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; cursor: pointer; font-size: 12px; font-weight: bold; }
+
+        header { text-align: center; margin-bottom: 30px; margin-top: 20px; }
+        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 24px; letter-spacing: 2px; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: rgba(255, 255, 255, 0.1); padding: 30px 10px; border-radius: 20px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.2); }
+        .card span { font-size: 40px; display: block; margin-bottom: 10px; }
+        .card h3 { font-size: 14px; text-transform: uppercase; }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        .list-box { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; }
+        .btn-back { background: var(--primary); color: white; padding: 10px 20px; border-radius: 12px; display: inline-block; margin-bottom: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,210,255,0.3); }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <img src="img/logo.png" style="width:100px;" onerror="this.src='https://via.placeholder.com/100?text=XI+B'">
-    <div class="loader-bar"><div class="loader-progress"></div></div>
-    <p style="font-family:'Orbitron'; font-size:10px; margin-top:10px; color: #00d2ff;">LOADING XI SCIENCE 2...</p>
+    <div style="font-family:'Orbitron'; color:var(--primary); font-size:20px; letter-spacing:3px;">XI SCIENCE 2</div>
+    <div class="bar"><div class="progress"></div></div>
 </div>
 
-<div class="container" id="main-content">
+<div id="main-content">
     <div id="home" class="page active">
-        <header><h1>SCI_XENCETWO</h1><p id="real-date" style="font-size:10px; opacity: 0.7;"></p></header>
-        <div class="grid-menu">
-            <div class="card" onclick="showPage('absen')"><span>📝</span><h3>Absensi</h3></div>
-            <div class="card" onclick="showPage('siswa')"><span>🎓</span><h3>Siswa</h3></div>
+        <header>
+            <h1>SCI_XENCETWO</h1>
+            <p style="font-size:10px; opacity:0.6; margin-top:5px;">Aplikasi Resmi Kelas XI B</p>
+        </header>
+        <div class="grid">
+            <div class="card" onclick="nav('absen')"><span>📝</span><h3>Absensi</h3></div>
+            <div class="card" onclick="nav('siswa')"><span>🎓</span><h3>Siswa</h3></div>
         </div>
+        <footer style="text-align:center; margin-top:50px; opacity:0.3; font-size:9px;">&copy; 2024 BY A. ZAINAL BAGUS M.</footer>
     </div>
 
     <div id="absen" class="page">
-        <div class="btn-back" onclick="showPage('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; font-size: 18px;">ABSENSI KELAS</h2>
-        <div class="list-box" id="absen-list"></div>
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2 style="font-family:'Orbitron'; font-size:18px; color:var(--primary);">SISTEM ABSENSI</h2>
+        <div class="list-box" id="isi-absen"></div>
     </div>
 
     <div id="siswa" class="page">
-        <div class="btn-back" onclick="showPage('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; font-size: 18px;">DATABASE SISWA</h2>
-        <div class="list-box" id="siswa-list"></div>
+        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
+        <h2 style="font-family:'Orbitron'; font-size:18px; color:var(--primary);">DATA SISWA</h2>
+        <div class="list-box" id="isi-siswa"></div>
     </div>
 </div>
 
 <script>
-    const daftarSiswa = [
-        {no:"01", nama:"ADITYA PUTRA KUSUMA"}, {no:"02", nama:"AHMAD ZAINAL BAGUS M."},
-        {no:"03", nama:"ALYA SAFFANAH ZAHRA"}, {no:"04", nama:"ANDINA PUTRI CAHYANI"},
-        {no:"05", nama:"AURA TAHTA ALFINA"}, {no:"06", nama:"AYYESA FANNY ZAHRA Z."},
-        {no:"07", nama:"DIAN FATIKHASARI"}, {no:"08", nama:"DINDA AYU MONICA"},
-        {no:"09", nama:"DIVA ANGGRAINI MAGHFIROH"}, {no:"10", nama:"ELVIA ADINSA JULYSTA"},
-        {no:"11", nama:"ESA ROSITA"}, {no:"12", nama:"FADHKAMIL HARITS ALGHANY H."},
-        {no:"13", nama:"FALENTINA JIHAN TRISNAWATI"}, {no:"14", nama:"ISTIK FEBRIANA"},
-        {no:"15", nama:"M. RAFI ZAIDAAN M."}, {no:"16", nama:"MOCH. SAMSUL WAHYUDI"},
-        {no:"17", nama:"MUFIDATUL ISNA"}, {no:"18", nama:"MUHAMMAD RIFKI"},
-        {no:"19", nama:"MUKHAMAD SANDY ABDUL HADI"}, {no:"20", nama:"MUSTIKATUN NISA"},
-        {no:"21", nama:"NADIA ZULFA ANDIN NUR AINI"}, {no:"22", nama:"NADIN RAMADANI ISMAIL"},
-        {no:"23", nama:"NAZZILATUR RAHMANIA"}, {no:"24", nama:"OLIVIA FITRI AL ZAHRA"},
-        {no:"25", nama:"RADITYA YOGA PRIMATAMA"}, {no:"26", nama:"SALSABILA PUTRI"},
-        {no:"27", nama:"SELVIA MIRDA ALESIA"}, {no:"28", nama:"SHAKIYA AURA PRADITHA"},
-        {no:"29", nama:"SINDY AMEYLIA PUTRI"}, {no:"30", nama:"TRI BAYU MAULANA"},
-        {no:"31", nama:"VALLENTINO ZULNANDA P."}, {no:"32", nama:"WAHYU JATMIKO"},
-        {no:"33", nama:"WISNU BAGUS SAJIWO"}, {no:"34", nama:"PUTRI DWI ARISTA"},
-        {no:"35", nama:"MUHAMMAD ZABRIAN A."}
+    const murid = [
+        "ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA",
+        "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.",
+        "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH",
+        "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.",
+        "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.",
+        "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI",
+        "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI",
+        "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA",
+        "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA",
+        "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA",
+        "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO",
+        "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."
     ];
 
-    function showPage(id) {
+    function nav(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        if(id === 'absen') renderAbsen();
-        if(id === 'siswa') renderSiswa();
+        if(id === 'absen') render('isi-absen', true);
+        if(id === 'siswa') render('isi-siswa', false);
         window.scrollTo(0,0);
     }
 
-    function renderAbsen() {
-        let h = ""; 
-        daftarSiswa.forEach(s => { 
-            h += `<div class="item"><span>${s.no}. ${s.nama}</span><select style="background: #00d2ff; border:none; border-radius:5px; color:white; font-size:10px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`; 
+    function render(targetId, pakaiselect) {
+        let html = "";
+        murid.forEach((nama, i) => {
+            let no = (i + 1).toString().padStart(2, '0');
+            html += `<div class="item"><span>${no}. ${nama}</span>`;
+            if(pakaiselect) {
+                html += `<select style="font-size:10px; background:var(--primary); color:white; border:none; border-radius:5px; padding:2px 5px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select>`;
+            } else {
+                html += `<span style="opacity:0.4">XI SCIENCE 2</span>`;
+            }
+            html += `</div>`;
         });
-        document.getElementById('absen-list').innerHTML = h;
+        document.getElementById(targetId).innerHTML = html;
     }
 
-    function renderSiswa() {
-        let h = ""; 
-        daftarSiswa.forEach(s => { 
-            h += `<div class="item"><span>${s.no}. ${s.nama}</span><span style="opacity:0.5">XI SCIENCE 2</span></div>`; 
-        });
-        document.getElementById('siswa-list').innerHTML = h;
-    }
-
-    // AUTO-KILL LOADER (Anti-Stuck)
-    window.onload = () => { 
-        setTimeout(() => { 
-            document.getElementById('loader').style.opacity='0';
-            setTimeout(() => {
-                document.getElementById('loader').style.display='none'; 
-                document.getElementById('main-content').style.display='block';
-            }, 500);
-        }, 3000); 
+    // Fungsi Paksa Muncul (Biar gak stuck)
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }, 3000); // 3 detik loading
     };
-    
-    document.getElementById('real-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 </script>
 </body>
 </html>
