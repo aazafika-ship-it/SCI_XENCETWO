@@ -4,88 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCI_XENCETWO | XI B</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00d2ff; --bg: #0f2027; --glass: rgba(255, 255, 255, 0.1); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; min-height: 100vh; overflow-x: hidden; padding-bottom: 80px; }
+        :root { --primary: #00d2ff; --glass: rgba(255, 255, 255, 0.1); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        body { 
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
+            color: white; min-height: 100vh; overflow-x: hidden; padding-bottom: 100px;
+        }
+
+        /* ANIMASI HALUS (SMOOTH TRANSITION) */
+        .page { 
+            display: none; 
+            opacity: 0; 
+            transform: translateY(15px) scale(0.98);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .page.active { 
+            display: block; 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+        }
+
         /* LOADER */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0f2027; z-index: 9999; display: flex; flex-direction: column; 
             align-items: center; justify-content: center;
         }
-        .progress-bar { width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
-        .progress-fill { width: 0%; height: 100%; background: var(--primary); animation: load 2s forwards; }
-        @keyframes load { to { width: 100%; } }
+        .loader-logo { width: 80px; animation: pulse 2s infinite ease-in-out; margin-bottom: 20px; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        /* MAIN CONTENT */
-        #main-content { display: none; padding: 20px; max-width: 500px; margin: auto; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* HEADER & FOTO SEKELAS */
+        #main-content { display: none; max-width: 500px; margin: auto; padding: 20px; }
+        header { margin-bottom: 20px; }
+        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 22px; letter-spacing: 2px; }
+        .dev-name { font-size: 9px; letter-spacing: 3px; opacity: 0.7; color: #fff; text-transform: uppercase; }
 
-        header { text-align: center; margin-bottom: 25px; margin-top: 10px; }
-        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 24px; letter-spacing: 2px; }
-        
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: var(--glass); padding: 25px 10px; border-radius: 20px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-        .card span { font-size: 30px; display: block; margin-bottom: 8px; }
-        .card h3 { font-size: 11px; text-transform: uppercase; }
-        
-        .page { display: none; }
-        .page.active { display: block; }
-        
-        .list-box { background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 20px; margin-top: 15px; }
+        .hero-img { 
+            width: 100%; height: 200px; border-radius: 25px; object-fit: cover;
+            margin-bottom: 25px; border: 2px solid var(--glass);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        /* MENU GRID */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { 
+            background: var(--glass); padding: 25px 10px; border-radius: 24px; 
+            text-align: center; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+        .card span { font-size: 32px; display: block; margin-bottom: 10px; }
+        .card h3 { font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+
+        /* LIST & ITEMS */
+        .list-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 25px; border: 1px solid var(--glass); }
         .item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .profil-img { width: 40px; height: 40px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); object-fit: cover; }
-        
-        /* BOTTOM NAV */
-        .nav-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); width: 85%; padding: 15px; border-radius: 30px; display: flex; justify-content: space-around; border: 1px solid rgba(255,255,255,0.2); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .nav-btn { font-size: 22px; color: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
-        .nav-btn.active { color: var(--primary); transform: scale(1.2); }
+        .profil-img { width: 42px; height: 42px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); }
 
-        .btn-back { background: var(--primary); color: white; padding: 8px 15px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-bottom: 15px; cursor: pointer; display: inline-block; }
+        /* BOTTOM NAV */
+        .nav-bar { 
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); 
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(25px); 
+            width: 85%; padding: 12px; border-radius: 35px; display: flex; 
+            justify-content: space-around; border: 1px solid rgba(255,255,255,0.2); 
+            z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .nav-btn { font-size: 22px; opacity: 0.4; transition: 0.4s; cursor: pointer; }
+        .nav-btn.active { opacity: 1; color: var(--primary); transform: translateY(-5px); }
+
+        .btn-back { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 15px; font-size: 11px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div style="font-family:'Orbitron'; color:var(--primary); font-size:18px;">XI SCIENCE 2</div>
-    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <img src="img/logo.png" class="loader-logo" onerror="this.src='https://via.placeholder.com/80?text=XI+B'">
+    <div style="font-family:'Orbitron'; color:var(--primary); font-size:14px; letter-spacing:5px;">LOADING</div>
 </div>
 
 <div id="main-content">
     <div id="home" class="page active">
         <header>
+            <p class="dev-name">Developed by A. Zainal Bagus M.</p>
             <h1>SCI_XENCETWO</h1>
-            <p style="font-size:10px; opacity:0.6;">DASHBOARD KELAS XI B</p>
         </header>
+        
+        <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/500x300?text=FOTO+XI+SCIENCE+2'">
+
         <div class="grid">
-            <div class="card" onclick="nav('absen')"><span>📝</span><h3>Absensi</h3></div>
-            <div class="card" onclick="nav('siswa')"><span>🎓</span><h3>Siswa</h3></div>
-            <div class="card" onclick="nav('jadwal')"><span>📅</span><h3>Jadwal</h3></div>
-            <div class="card" onclick="nav('piket')"><span>🧹</span><h3>Piket</h3></div>
-            <div class="card" onclick="nav('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
-            <div class="card" onclick="nav('struktur')"><span>👥</span><h3>Struktur</h3></div>
+            <div class="card" onclick="nav('absen')"><span>📝</span><h3>ABSENSI</h3></div>
+            <div class="card" onclick="nav('siswa')"><span>🎓</span><h3>SISWA</h3></div>
+            <div class="card" onclick="nav('jadwal')"><span>📅</span><h3>JADWAL</h3></div>
+            <div class="card" onclick="nav('piket')"><span>🧹</span><h3>PIKET</h3></div>
+            <div class="card" onclick="nav('galeri')"><span>🖼️</span><h3>GALERI</h3></div>
+            <div class="card" onclick="nav('struktur')"><span>👥</span><h3>STRUKTUR</h3></div>
         </div>
     </div>
 
     <div id="absen" class="page">
         <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2>ABSENSI</h2>
+        <h2 style="font-family:'Orbitron'; margin-bottom:15px;">ABSENSI</h2>
         <div class="list-box" id="isi-absen"></div>
     </div>
 
     <div id="siswa" class="page">
         <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2>DATABASE SISWA</h2>
+        <h2 style="font-family:'Orbitron'; margin-bottom:15px;">DATA SISWA</h2>
         <div class="list-box" id="isi-siswa"></div>
     </div>
 
-    <div id="jadwal" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>JADWAL</h2><div class="list-box">Senin: Upacara, Fisika, MTK...</div></div>
-    <div id="piket" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>PIKET</h2><div class="list-box">Senin: Aditya, Ahmad, Alya...</div></div>
-    <div id="galeri" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>GALERI</h2><div class="list-box">Belum ada foto kegiatan.</div></div>
-    <div id="struktur" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>STRUKTUR</h2><div class="list-box">Ketua Kelas: M. RAFI ZAIDAAN M.</div></div>
+    <div id="jadwal" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>JADWAL</h2><div class="list-box">Senin: Fisika, Kimia, MTK.</div></div>
+    <div id="piket" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>PIKET</h2><div class="list-box">Cek daftar piket harian di sini.</div></div>
+    <div id="galeri" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>GALERI</h2><div class="list-box">Memori XI Science 2.</div></div>
+    <div id="struktur" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>STRUKTUR</h2><div class="list-box">Ketua: M. RAFI ZAIDAAN M.</div></div>
 </div>
 
 <div class="nav-bar">
@@ -111,45 +145,47 @@
     ];
 
     function nav(id) {
-        // Halaman aktif
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
         
-        // Nav bawah aktif
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if(id === 'home') document.getElementById('n-home').classList.add('active');
-        if(id === 'absen') document.getElementById('n-absen').classList.add('active');
-        if(id === 'siswa') document.getElementById('n-siswa').classList.add('active');
+        const target = document.getElementById(id);
+        target.style.display = 'block';
+        setTimeout(() => target.classList.add('active'), 50);
 
-        if(id === 'absen') renderAbsen();
-        if(id === 'siswa') renderSiswa();
-        window.scrollTo(0,0);
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if(id==='home') document.getElementById('n-home').classList.add('active');
+        if(id==='absen') document.getElementById('n-absen').classList.add('active');
+        if(id==='siswa') document.getElementById('n-siswa').classList.add('active');
+
+        if(id === 'absen') renderA();
+        if(id === 'siswa') renderS();
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function renderAbsen() {
-        let h = "";
-        murid.forEach((n, i) => {
+    function renderA() {
+        let h = ""; murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            h += `<div class="item"><span style="flex:1; font-size:11px;">${no}. ${n}</span><select style="background:var(--primary); color:white; border:none; border-radius:5px; font-size:10px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`;
+            h += `<div class="item"><span style="flex:1; font-size:11px;">${no}. ${n}</span><select style="background:var(--primary); border:none; border-radius:5px; font-size:10px; padding:3px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`;
         });
         document.getElementById('isi-absen').innerHTML = h;
     }
 
-    function renderSiswa() {
-        let h = "";
-        murid.forEach((n, i) => {
+    function renderS() {
+        let h = ""; murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            // Ganti 'img/' dengan folder tempat lo simpen foto
             h += `<div class="item"><img src="img/${no}.jpg" class="profil-img" onerror="this.src='https://via.placeholder.com/40/00d2ff/ffffff?text=${no}'"><div><p style="font-size:12px; font-weight:600;">${n}</p><p style="font-size:9px; opacity:0.5;">Absen: ${no}</p></div></div>`;
         });
         document.getElementById('isi-siswa').innerHTML = h;
     }
 
-    window.onload = function() {
-        setTimeout(function() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        }, 2500);
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 500);
+        }, 2000);
     };
 </script>
 </body>
