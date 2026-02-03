@@ -9,7 +9,7 @@
         :root { --bg: linear-gradient(135deg, #1e3c72, #2a5298); --card-bg: white; --text-main: #333; --primary: #00d2ff; }
         .dark-mode { --bg: linear-gradient(135deg, #0f2027, #2c5364); --card-bg: #1e1e1e; --text-main: #f1f1f1; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); background-attachment: fixed; color: white; min-height: 100vh; transition: 0.3s; }
+        body { background: var(--bg); background-attachment: fixed; color: white; min-height: 100vh; transition: 0.3s; overflow-x: hidden; }
         
         /* LOADER ANTI-STUCK */
         #loader {
@@ -22,13 +22,14 @@
         @keyframes load { to { width: 100%; } }
 
         .container { max-width: 500px; margin: auto; padding: 20px; display: none; }
-        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 20px; }
+        header h1 { font-family: 'Orbitron'; color: var(--primary); font-size: 20px; letter-spacing: 2px; }
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 20px; color: var(--text-main); text-align: center; cursor: pointer; }
-        .page { display: none; } .page.active { display: block; }
-        .list-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 20px; margin-top: 15px; }
-        .item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 12px; }
-        .btn-back { background: var(--primary); color: white; padding: 8px 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; cursor: pointer; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 20px; color: var(--text-main); text-align: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .page { display: none; animation: fadeIn 0.5s; } .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .list-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 20px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; }
+        .btn-back { background: var(--primary); color: white; padding: 8px 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; cursor: pointer; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -36,12 +37,12 @@
 <div id="loader">
     <img src="img/logo.png" style="width:100px;" onerror="this.src='https://via.placeholder.com/100?text=XI+B'">
     <div class="loader-bar"><div class="loader-progress"></div></div>
-    <p style="font-family:'Orbitron'; font-size:10px; margin-top:10px;">LOADING XI SCIENCE 2...</p>
+    <p style="font-family:'Orbitron'; font-size:10px; margin-top:10px; color: #00d2ff;">LOADING XI SCIENCE 2...</p>
 </div>
 
 <div class="container" id="main-content">
     <div id="home" class="page active">
-        <header><h1>SCI_XENCETWO</h1><p id="real-date" style="font-size:10px;"></p></header>
+        <header><h1>SCI_XENCETWO</h1><p id="real-date" style="font-size:10px; opacity: 0.7;"></p></header>
         <div class="grid-menu">
             <div class="card" onclick="showPage('absen')"><span>📝</span><h3>Absensi</h3></div>
             <div class="card" onclick="showPage('siswa')"><span>🎓</span><h3>Siswa</h3></div>
@@ -50,13 +51,13 @@
 
     <div id="absen" class="page">
         <div class="btn-back" onclick="showPage('home')">← KEMBALI</div>
-        <h2>DAFTAR ABSENSI</h2>
+        <h2 style="font-family:'Orbitron'; font-size: 18px;">ABSENSI KELAS</h2>
         <div class="list-box" id="absen-list"></div>
     </div>
 
     <div id="siswa" class="page">
         <div class="btn-back" onclick="showPage('home')">← KEMBALI</div>
-        <h2>DATABASE SISWA</h2>
+        <h2 style="font-family:'Orbitron'; font-size: 18px;">DATABASE SISWA</h2>
         <div class="list-box" id="siswa-list"></div>
     </div>
 </div>
@@ -88,23 +89,35 @@
         document.getElementById(id).classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
+        window.scrollTo(0,0);
     }
 
     function renderAbsen() {
-        let h = ""; daftarSiswa.forEach(s => { h += `<div class="item"><span>${s.no}. ${s.nama}</span><select><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`; });
+        let h = ""; 
+        daftarSiswa.forEach(s => { 
+            h += `<div class="item"><span>${s.no}. ${s.nama}</span><select style="background: #00d2ff; border:none; border-radius:5px; color:white; font-size:10px;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`; 
+        });
         document.getElementById('absen-list').innerHTML = h;
     }
 
     function renderSiswa() {
-        let h = ""; daftarSiswa.forEach(s => { h += `<div class="item"><span>${s.no}. ${s.nama}</span><span>XI SCIENCE 2</span></div>`; });
+        let h = ""; 
+        daftarSiswa.forEach(s => { 
+            h += `<div class="item"><span>${s.no}. ${s.nama}</span><span style="opacity:0.5">XI SCIENCE 2</span></div>`; 
+        });
         document.getElementById('siswa-list').innerHTML = h;
     }
 
-    // AUTO-KILL LOADER (Biar gak stuck)
-    window.onload = () => { setTimeout(() => { 
-        document.getElementById('loader').style.display='none'; 
-        document.getElementById('main-content').style.display='block';
-    }, 3500); };
+    // AUTO-KILL LOADER (Anti-Stuck)
+    window.onload = () => { 
+        setTimeout(() => { 
+            document.getElementById('loader').style.opacity='0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display='none'; 
+                document.getElementById('main-content').style.display='block';
+            }, 500);
+        }, 3000); 
+    };
     
     document.getElementById('real-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 </script>
