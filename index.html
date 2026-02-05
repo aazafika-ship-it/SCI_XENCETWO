@@ -6,112 +6,110 @@
     <title>SCI_XENCETWO OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* VARIABLE WARNA */
         :root {
             --bg: #0b141a;
             --primary: #00d2ff;
             --card-bg: rgba(255, 255, 255, 0.05);
             --text: #f1f1f1;
-            --neon-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            --nav-bg: rgba(11, 20, 26, 0.95);
+        }
+
+        /* VARIABLE LIGHT MODE */
+        .light-theme {
+            --bg: #f5f6f7;
+            --primary: #007bff;
+            --card-bg: #ffffff;
+            --text: #333;
+            --nav-bg: rgba(255, 255, 255, 0.95);
         }
 
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             font-family: 'Poppins', sans-serif; 
+            transition: background 0.3s, color 0.3s;
             -webkit-tap-highlight-color: transparent; 
         }
         
-        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        /* LOADER */
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0b141a; z-index: 9999; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center;
+        /* HEADER & TOGGLE */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .theme-btn { 
+            background: var(--card-bg); border: 1px solid var(--primary); 
+            color: var(--primary); padding: 5px 12px; border-radius: 20px; 
+            font-size: 10px; font-weight: bold; cursor: pointer;
         }
-        .loader-logo { width: 120px; filter: drop-shadow(0 0 10px var(--primary)); animation: pulse 2s infinite; }
-        .loader-txt { font-family: 'Orbitron'; font-size: 10px; color: var(--primary); margin-top: 20px; letter-spacing: 3px; }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
         /* MAIN APP */
-        #app { display: none; padding: 20px; padding-bottom: 100px; }
-        header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); text-shadow: var(--neon-shadow); }
-        .dev { font-size: 9px; opacity: 0.6; letter-spacing: 1px; color: var(--primary); }
+        #app { padding: 20px; padding-bottom: 100px; }
+        header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); }
+        .dev { font-size: 9px; opacity: 0.6; color: var(--primary); }
 
-        .hero-box { width: 100%; height: 180px; border-radius: 20px; overflow: hidden; margin: 20px 0; border: 1px solid var(--primary); }
+        .hero-box { width: 100%; height: 180px; border-radius: 20px; overflow: hidden; margin: 15px 0; border: 1px solid var(--primary); }
         .hero-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* MENU GRID */
+        /* GRID MENU */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
             background: var(--card-bg); padding: 20px 10px; border-radius: 15px; 
-            text-align: center; border: 1px solid rgba(255,255,255,0.1); 
-            transition: 0.3s;
+            text-align: center; border: 1px solid rgba(128,128,128,0.2); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .card:active { background: var(--primary); transform: scale(0.95); }
         .card span { font-size: 28px; display: block; margin-bottom: 5px; }
         .card h3 { font-size: 10px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
 
         /* PAGES */
         .page { display: none; animation: slideUp 0.4s ease; }
         .page.active { display: block; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .list { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 15px; margin-top: 15px; }
-        .item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .list { background: var(--card-bg); border-radius: 20px; padding: 15px; margin-top: 15px; border: 1px solid rgba(128,128,128,0.1); }
+        .item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(128,128,128,0.1); }
         .p-img { width: 45px; height: 45px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); object-fit: cover; }
 
         /* NAV BAR */
         .nav { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            width: 90%; background: rgba(11, 20, 26, 0.95); backdrop-filter: blur(10px); 
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); 
+            width: 90%; background: var(--nav-bg); backdrop-filter: blur(10px); 
             padding: 12px; border-radius: 30px; display: flex; justify-content: space-around; 
             border: 1px solid var(--primary); z-index: 1000; 
         }
-        .nav-btn { font-size: 22px; color: #555; cursor: pointer; }
-        .nav-btn.active { color: var(--primary); text-shadow: var(--neon-shadow); }
+        .nav-btn { font-size: 22px; color: #888; cursor: pointer; }
+        .nav-btn.active { color: var(--primary); }
 
+        /* FLOAT MUSIC */
         .float-music { 
-            position: fixed; right: 20px; bottom: 90px; width: 45px; height: 45px; 
-            border-radius: 50%; background: var(--primary); color: #000; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: var(--neon-shadow); z-index: 999; 
+            position: fixed; right: 20px; bottom: 85px; width: 45px; height: 45px; 
+            border-radius: 50%; background: var(--primary); color: #fff; 
+            display: flex; align-items: center; justify-content: center; z-index: 999; 
+            box-shadow: 0 4px 15px rgba(0,210,255,0.4);
         }
         
-        .back-btn { 
-            background: var(--primary); color: #000; padding: 6px 12px; 
-            border-radius: 8px; font-size: 10px; font-weight: bold; 
-            margin-bottom: 15px; display: inline-block; cursor: pointer;
-        }
+        .back-btn { background: var(--primary); color: #fff; padding: 6px 15px; border-radius: 10px; font-size: 10px; font-weight: bold; margin-bottom: 15px; display: inline-block; cursor: pointer; }
 
-        .admin-status {
-            background: var(--card-bg); padding: 12px; border-radius: 15px; 
-            text-align: center; margin-bottom: 15px; border: 1px dashed var(--primary); 
-            font-size: 11px; color: var(--primary); cursor: pointer;
-        }
-
+        .admin-status { background: var(--card-bg); padding: 12px; border-radius: 15px; text-align: center; margin-bottom: 15px; border: 1px dashed var(--primary); font-size: 11px; color: var(--primary); cursor: pointer; }
         .galeri-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .galeri-grid img { width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); object-fit: cover; height: 120px; }
+        .galeri-grid img { width: 100%; border-radius: 12px; border: 1px solid rgba(128,128,128,0.2); object-fit: cover; height: 120px; }
     </style>
 </head>
 <body>
-
-<div id="loader">
-    <img src="img/logo.png" class="loader-logo" onerror="this.src='https://api.api-ninjas.com/v1/logo?name=atom'">
-    <div class="loader-txt">LOADING SYSTEM...</div>
-</div>
 
 <div class="float-music" onclick="playMusic()">🎵</div>
 <audio id="audioPlayer" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
 
 <div id="app">
+    <div class="top-bar">
+        <p class="dev">A. Zainal Bagus M.</p>
+        <div class="theme-btn" onclick="toggleTheme()">🌓 MODE</div>
+    </div>
+
     <div id="home" class="page active">
         <header>
-            <p class="dev">A. Zainal Bagus M.</p>
             <h1>SCI_XENCETWO</h1>
         </header>
         <div class="hero-box">
-            <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400/0b141a/00d2ff?text=XI+SCIENCE+2'">
+            <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400?text=FOTO+SEKELAS'">
         </div>
         <div class="grid">
             <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
@@ -122,20 +120,20 @@
     </div>
 
     <div id="absen" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <div class="back-btn" onclick="move('home')">← KEMBALI</div>
         <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">LIST ABSENSI</h2>
         <div id="isi-absen"></div>
     </div>
 
     <div id="siswa" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
-        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">DATABASE SISWA</h2>
+        <div class="back-btn" onclick="move('home')">← KEMBALI</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">DATA SISWA</h2>
         <div class="list" id="isi-siswa"></div>
     </div>
 
     <div id="galeri" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
-        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">GALERI KELAS</h2>
+        <div class="back-btn" onclick="move('home')">← KEMBALI</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">GALERI</h2>
         <div class="galeri-grid">
             <img src="img/g01.jpg" onerror="this.style.display='none'">
             <img src="img/g02.jpg" onerror="this.style.display='none'">
@@ -145,9 +143,9 @@
     </div>
 
     <div id="jadwal" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <div class="back-btn" onclick="move('home')">← KEMBALI</div>
         <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">JADWAL</h2>
-        <div class="list">Belum ada jadwal yang diinput.</div>
+        <div class="list">Jadwal belum diupdate oleh admin.</div>
     </div>
 </div>
 
@@ -163,6 +161,11 @@
 
     let isAdmin = false;
 
+    // FITUR TOGGLE THEME
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+    }
+
     function move(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -170,6 +173,7 @@
         if(document.getElementById('btn-'+id)) document.getElementById('btn-'+id).classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
+        window.scrollTo(0,0);
     }
 
     function loginAdmin() {
@@ -178,7 +182,7 @@
         if(pass === "7anhidup") {
             isAdmin = true;
             renderAbsen();
-            alert("Mode Admin Aktif!");
+            alert("Akses Diterima!");
         } else {
             alert("Password Salah!");
         }
@@ -186,22 +190,21 @@
 
     function renderAbsen() {
         let h = `<div class="admin-status" onclick="loginAdmin()">
-                    ${isAdmin ? '🔓 AKSES ADMIN TERBUKA' : '🔒 MODE LIHAT (KLIK UNTUK ABSEN)'}
+                    ${isAdmin ? '🔓 ADMIN AKTIF' : '🔒 MODE LIHAT (KLIK UNTUK ABSEN)'}
                  </div><div class="list">`;
-        
         murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
             let kunci = isAdmin ? "" : "disabled";
             h += `<div class="item">
                     <span style="flex:1; font-size:11px;">${no}. ${n}</span>
-                    <select id="status-${no}" ${kunci} style="background:${isAdmin ? 'var(--primary)' : '#222'}; color:${isAdmin ? '#000' : '#888'}; border:none; border-radius:5px; padding:3px; font-size:10px; font-weight:bold; outline:none;">
+                    <select id="status-${no}" ${kunci} style="background:var(--primary); color:#fff; border:none; border-radius:5px; padding:3px; font-size:10px; font-weight:bold;">
                         <option>HADIR</option><option>IZIN</option><option>ALPA</option>
                     </select>
                   </div>`;
         });
         h += `</div>`;
         if(isAdmin) {
-            h += `<button onclick="kirimRekap()" style="width:100%; background:var(--primary); color:#000; border:none; padding:15px; border-radius:12px; margin-top:15px; font-weight:bold; font-family:'Orbitron'; font-size:11px;">KIRIM REKAP KE WA</button>`;
+            h += `<button onclick="kirimRekap()" style="width:100%; background:var(--primary); color:#fff; border:none; padding:15px; border-radius:12px; margin-top:15px; font-weight:bold;">KIRIM REKAP WA</button>`;
         }
         document.getElementById('isi-absen').innerHTML = h;
     }
@@ -209,7 +212,7 @@
     function renderSiswa() {
         let h = ""; murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            h += `<div class="item"><img src="img/${no}.jpg" class="p-img" onerror="this.src='https://via.placeholder.com/50/222/00d2ff?text=${no}'"><div><p style="font-size:12px; font-weight:bold;">${n}</p><p style="font-size:9px; opacity:0.5;">Absen: ${no}</p></div></div>`;
+            h += `<div class="item"><img src="img/${no}.jpg" class="p-img" onerror="this.src='https://via.placeholder.com/50?text=${no}'"><div><p style="font-size:12px; font-weight:bold;">${n}</p><p style="font-size:9px; opacity:0.6;">Siswa SCI_XENCETWO</p></div></div>`;
         });
         document.getElementById('isi-siswa').innerHTML = h;
     }
@@ -221,19 +224,13 @@
             let stat = document.getElementById('status-'+no).value;
             teks += `${no}. ${n}: *${stat}*%0A`;
         });
-        let nomorWA = "628123456789"; // GANTI NOMOR WA LO DI SINI
-        window.open(`https://wa.me/${nomorWA}?text=${teks}`, '_blank');
+        window.open(`https://wa.me/628123456789?text=${teks}`, '_blank');
     }
 
     function playMusic() {
         const a = document.getElementById("audioPlayer");
-        (a.paused) ? a.play() : a.pause();
+        (a.paused) ? a.play().catch(()=>alert("Interaksi dulu!")) : a.pause();
     }
-
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-    }, 2000);
 </script>
 </body>
 </html>
