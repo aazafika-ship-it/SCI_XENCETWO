@@ -24,61 +24,72 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        /* LOADER ANIMASI PECAH NYATU */
+        /* LOADER PECAH NYATU */
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
         .logo-container { position: relative; width: 120px; height: 120px; margin-bottom: 20px; }
-        
-        .loader-logo { 
-            width: 100%; 
-            filter: drop-shadow(var(--neon));
-            animation: assemble 2.5s ease-in-out infinite;
-        }
-
-        /* Efek Glitch/Pecah */
+        .loader-logo { width: 100%; filter: drop-shadow(var(--neon)); animation: assemble 2.5s ease-in-out infinite; }
         @keyframes assemble {
             0% { transform: scale(0.5); opacity: 0; filter: blur(20px) brightness(2); }
             30% { transform: scale(1.2) skewX(20deg); opacity: 0.5; filter: blur(5px); }
             50% { transform: scale(1) skewX(0deg); opacity: 1; filter: blur(0px); }
-            70% { transform: scale(1.05); filter: drop-shadow(0 0 20px var(--primary)); }
             100% { transform: scale(1); opacity: 1; }
         }
-
-        .loader-txt { font-family: 'Orbitron'; font-size: 10px; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px; text-shadow: var(--neon); }
+        .loader-txt { font-family: 'Orbitron'; font-size: 10px; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px; }
         .created-by { font-size: 9px; font-family: 'Orbitron'; color: var(--primary); letter-spacing: 2px; overflow: hidden; border-right: 2px solid var(--primary); white-space: nowrap; margin: 0 auto; animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite; max-width: fit-content; }
-
         @keyframes typing { from { width: 0 } to { width: 100% } }
         @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--primary); } }
 
-        /* APP MAIN */
-        #app { display: none; padding: 15px; padding-bottom: 120px; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        header h1 { font-family: 'Orbitron'; font-size: 24px; color: var(--primary); text-shadow: var(--neon); }
-        .auth-status { font-size: 8px; color: var(--primary); font-family: 'Orbitron'; letter-spacing: 1px; }
+        /* ANIMASI MASUK WEB (CONTENT REVEAL) */
+        #app { 
+            display: none; 
+            padding: 15px; 
+            padding-bottom: 120px;
+            animation: webEnter 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
 
-        /* HERO BOX (FULL KE BAWAH) */
-        .hero-box { width: 100%; border-radius: 15px; overflow: hidden; margin: 15px 0; border: 2px solid rgba(0, 210, 255, 0.4); box-shadow: var(--neon); }
+        @keyframes webEnter {
+            0% { opacity: 0; transform: translateY(50px) scale(0.95); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+        }
+
+        /* TOP BAR ANIMASI */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; animation: slideDown 0.8s ease-out 0.5s backwards; }
+        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* HERO BOX & TITLE */
+        header h1 { font-family: 'Orbitron'; font-size: 24px; color: var(--primary); text-shadow: var(--neon); text-align: center; }
+        .hero-box { width: 100%; border-radius: 15px; overflow: hidden; margin: 15px 0; border: 2px solid rgba(0, 210, 255, 0.4); box-shadow: var(--neon); animation: heroZoom 1.5s ease-out 0.8s backwards; }
+        @keyframes heroZoom { from { transform: scale(1.1); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .hero-img { width: 100%; height: auto; display: block; }
 
-        /* GRID MENU */
+        /* GRID MENU ANIMASI MUNCUL SATU-SATU */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card { background: var(--card-bg); padding: 25px 10px; border-radius: 15px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.2); transition: 0.3s; animation: fadeInScale 0.6s ease backwards; }
-        .card:active { transform: scale(0.95); background: rgba(0, 210, 255, 0.2); }
+        .card { background: var(--card-bg); padding: 25px 10px; border-radius: 15px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.2); transition: 0.3s; animation: cardIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards; }
+        .card:active { transform: scale(0.9); background: rgba(0, 210, 255, 0.2); box-shadow: var(--neon); }
         .card span { font-size: 28px; display: block; margin-bottom: 8px; }
         .card h3 { font-size: 10px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        /* Delay Animasi Tiap Card */
+        .card:nth-child(1) { animation-delay: 1s; }
+        .card:nth-child(2) { animation-delay: 1.1s; }
+        .card:nth-child(3) { animation-delay: 1.2s; }
+        .card:nth-child(4) { animation-delay: 1.3s; }
+        .card:nth-child(5) { animation-delay: 1.4s; }
+        .card:nth-child(6) { animation-delay: 1.5s; }
 
-        /* NAV & MUSIC */
-        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; background: var(--nav-bg); backdrop-filter: blur(15px); padding: 15px; border-radius: 40px; display: flex; justify-content: space-around; border: 1.5px solid var(--primary); z-index: 1000; box-shadow: var(--neon); }
+        @keyframes cardIn { from { opacity: 0; transform: translateY(30px) rotate(-5deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+
+        /* NAVIGATION & MUSIC */
+        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; background: var(--nav-bg); backdrop-filter: blur(15px); padding: 15px; border-radius: 40px; display: flex; justify-content: space-around; border: 1.5px solid var(--primary); z-index: 1000; box-shadow: var(--neon); animation: navIn 1s ease-out 1.8s backwards; }
+        @keyframes navIn { from { bottom: -100px; } to { bottom: 20px; } }
         .nav-btn { font-size: 24px; color: #555; cursor: pointer; transition: 0.3s; }
         .nav-btn.active { color: var(--primary); transform: translateY(-5px); }
         .float-music { position: fixed; right: 20px; bottom: 100px; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; z-index: 999; box-shadow: var(--neon); cursor: pointer; }
 
-        /* PAGES */
-        .page { display: none; animation: slideUp 0.4s ease; }
+        /* PAGES STYLE */
+        .page { display: none; animation: slideUp 0.5s ease-out; }
         .page.active { display: block; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .list { background: var(--card-bg); border-radius: 15px; padding: 12px; margin-top: 15px; border: 1px solid rgba(128,128,128,0.1); }
         .item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(128,128,128,0.1); }
         .box-info { background: var(--primary); color: #000; padding: 20px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; }
@@ -100,7 +111,7 @@
 
 <div id="app">
     <div class="top-bar">
-        <p class="auth-status" id="auth-txt" onclick="loginAdmin()">SYSTEM_STATUS: ONLINE</p>
+        <p style="font-size: 8px; color: var(--primary); font-family: 'Orbitron';" onclick="loginAdmin()">SYSTEM_STATUS: ONLINE</p>
         <div style="background: var(--card-bg); border: 1px solid var(--primary); color: var(--primary); padding: 4px 10px; border-radius: 15px; font-size: 8px; font-weight: bold;" onclick="document.body.classList.toggle('light-theme')">🌓 MODE</div>
     </div>
 
@@ -115,7 +126,7 @@
             <div class="card" onclick="move('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
             <div class="card" onclick="move('jadwal')"><span>📚</span><h3>Mapel</h3></div>
             <div class="card" onclick="move('piket')"><span>🧹</span><h3>Piket</h3></div>
-            <div class="card" onclick="alert('Module Encrypted')"><span>⚙️</span><h3>Extra</h3></div>
+            <div class="card" onclick="alert('Module Locked')"><span>⚙️</span><h3>Extra</h3></div>
         </div>
     </div>
 
@@ -154,13 +165,13 @@
 
 <script>
     const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
-    const nomorWA = "6282229315510";
+    const nomorWA = "6287790421235";
     let isAdmin = false;
 
     setTimeout(() => {
         document.getElementById('loader').style.display = 'none';
         document.getElementById('app').style.display = 'block';
-    }, 4000); // 4 detik biar animasinya kerasa
+    }, 4000);
 
     function move(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -187,7 +198,7 @@
 
     function loginAdmin() {
         let p = prompt("ACCESS CODE:");
-        if(p === "7anhidup") { isAdmin = true; document.getElementById('auth-txt').innerText = "ADMIN_AUTHORIZED: YES"; renderAbsen(); }
+        if(p === "7anhidup") { isAdmin = true; renderAbsen(); alert("ACCESS GRANTED"); }
     }
 
     function renderAbsen() {
@@ -199,7 +210,7 @@
                   <option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`;
         });
         h += `</div>`;
-        if(isAdmin) h += `<button onclick="kirimWA()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:10px; margin-top:15px; font-weight:bold; font-family:'Orbitron';">SEND REKAP</button>`;
+        if(isAdmin) h += `<button onclick="kirimWA()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:10px; margin-top:15px; font-weight:bold; font-family:'Orbitron';">KIRIM REKAP</button>`;
         document.getElementById('isi-absen').innerHTML = h;
     }
 
