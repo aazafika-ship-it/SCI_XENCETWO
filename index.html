@@ -3,211 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI_XENCETWO | XI B</title>
+    <title>SCI_XENCETWO OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --bg: #0b141a;
             --primary: #00d2ff;
-            --glass: rgba(255, 255, 255, 0.1);
-            --text-main: #f1f1f1;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #f1f1f1;
+            --neon-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
         }
 
-        .light-mode {
-            --bg: linear-gradient(135deg, #1e3c72, #2a5298);
-            --text-main: #333;
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
         }
+        
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { background: var(--bg); background-attachment: fixed; color: white; min-height: 100vh; overflow-x: hidden; padding-bottom: 100px; }
-
-        /* LOADER SESUAI DESAIN LOGO */
+        /* LOADER */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0b141a; z-index: 9999; display: flex; flex-direction: column; 
             align-items: center; justify-content: center;
         }
-        .loader-logo { 
-            width: 180px; 
-            height: auto; 
-            filter: drop-shadow(0 0 15px var(--primary));
-            animation: pulse 2s infinite ease-in-out;
-            margin-bottom: 40px;
-        }
-        .loader-bar-container {
-            width: 250px;
-            height: 18px;
-            border: 2px solid var(--primary);
-            padding: 2px;
-            border-radius: 4px;
-            position: relative;
-        }
-        .loader-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-            animation: fillBar 2.5s forwards cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .loader-text {
-            font-family: 'Orbitron';
-            color: var(--primary);
-            font-size: 14px;
-            margin-top: 15px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--primary)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 25px var(--primary)); } }
-        @keyframes fillBar { to { width: 100%; } }
+        .loader-logo { width: 120px; filter: drop-shadow(0 0 10px var(--primary)); animation: pulse 2s infinite; }
+        .loader-txt { font-family: 'Orbitron'; font-size: 10px; color: var(--primary); margin-top: 20px; letter-spacing: 3px; }
 
-        /* MAIN CONTENT */
-        #main-content { display: none; max-width: 500px; margin: auto; padding: 20px; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        header { margin-bottom: 25px; }
-        .dev-tag { font-size: 8px; letter-spacing: 2px; opacity: 0.6; text-transform: uppercase; }
-        header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); }
+        /* MAIN APP */
+        #app { display: none; padding: 20px; padding-bottom: 100px; }
+        header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); text-shadow: var(--neon-shadow); }
+        .dev { font-size: 9px; opacity: 0.6; letter-spacing: 1px; color: var(--primary); }
 
-        .hero-img { width: 100%; height: 200px; border-radius: 25px; object-fit: cover; margin-bottom: 25px; border: 2px solid var(--glass); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .hero-box { width: 100%; height: 180px; border-radius: 20px; overflow: hidden; margin: 20px 0; border: 1px solid var(--primary); }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* GRID MENU */
+        /* MENU GRID */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 25px 10px; border-radius: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-        .card:active { transform: scale(0.9); }
-        .card span { font-size: 30px; display: block; margin-bottom: 8px; }
-        .card h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--primary); }
+        .card { 
+            background: var(--card-bg); padding: 20px 10px; border-radius: 15px; 
+            text-align: center; border: 1px solid rgba(255,255,255,0.1); 
+            transition: 0.3s;
+        }
+        .card:active { background: var(--primary); transform: scale(0.95); }
+        .card span { font-size: 28px; display: block; margin-bottom: 5px; }
+        .card h3 { font-size: 10px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
 
         /* PAGES */
-        .page { display: none; }
+        .page { display: none; animation: slideUp 0.4s ease; }
         .page.active { display: block; }
-        .list-box { background: var(--glass); padding: 15px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
-        .item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .p-img { width: 42px; height: 42px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* FLOAT & NAV */
-        .float-btn { position: fixed; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; border: 1px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        #theme-btn { bottom: 150px; right: 20px; background: #ff9f43; }
-        #music-btn { bottom: 95px; right: 20px; background: var(--primary); }
+        .list { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 15px; margin-top: 15px; }
+        .item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .p-img { width: 45px; height: 45px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); object-fit: cover; }
 
-        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); padding: 12px; border-radius: 35px; display: flex; justify-content: space-around; width: 85%; border: 1px solid rgba(255,255,255,0.2); z-index: 999; }
-        .nav-btn { font-size: 22px; color: #888; cursor: pointer; }
-        .nav-btn.active { color: var(--primary); transform: scale(1.2); }
-        .btn-back { background: var(--primary); color: #000; padding: 8px 15px; border-radius: 12px; font-size: 10px; font-weight: bold; margin-bottom: 15px; display: inline-block; cursor: pointer; }
+        /* NAV BAR */
+        .nav { 
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            width: 90%; background: rgba(11, 20, 26, 0.95); backdrop-filter: blur(10px); 
+            padding: 12px; border-radius: 30px; display: flex; justify-content: space-around; 
+            border: 1px solid var(--primary); z-index: 1000; 
+        }
+        .nav-btn { font-size: 22px; color: #555; cursor: pointer; }
+        .nav-btn.active { color: var(--primary); text-shadow: var(--neon-shadow); }
+
+        .float-music { 
+            position: fixed; right: 20px; bottom: 90px; width: 45px; height: 45px; 
+            border-radius: 50%; background: var(--primary); color: #000; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: var(--neon-shadow); z-index: 999; 
+        }
+        
+        .back-btn { 
+            background: var(--primary); color: #000; padding: 6px 12px; 
+            border-radius: 8px; font-size: 10px; font-weight: bold; 
+            margin-bottom: 15px; display: inline-block; cursor: pointer;
+        }
+
+        .admin-status {
+            background: var(--card-bg); padding: 12px; border-radius: 15px; 
+            text-align: center; margin-bottom: 15px; border: 1px dashed var(--primary); 
+            font-size: 11px; color: var(--primary); cursor: pointer;
+        }
+
+        .galeri-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .galeri-grid img { width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); object-fit: cover; height: 120px; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <img src="img/logo.png" class="loader-logo" onerror="this.src='https://via.placeholder.com/150/00d2ff/ffffff?text=XI+B'">
-    <div class="loader-bar-container">
-        <div class="loader-fill"></div>
-    </div>
-    <div class="loader-text">Initializing System...</div>
+    <img src="img/logo.png" class="loader-logo" onerror="this.src='https://api.api-ninjas.com/v1/logo?name=atom'">
+    <div class="loader-txt">LOADING SYSTEM...</div>
 </div>
 
-<div id="theme-btn" class="float-btn" onclick="toggleTheme()">🌓</div>
-<div id="music-btn" class="float-btn" onclick="toggleMusic()">🎵</div>
-<audio id="myAudio" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
+<div class="float-music" onclick="playMusic()">🎵</div>
+<audio id="audioPlayer" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
 
-<div id="main-content">
+<div id="app">
     <div id="home" class="page active">
         <header>
-            <p class="dev-tag">Developed by A. Zainal Bagus M.</p>
+            <p class="dev">A. Zainal Bagus M.</p>
             <h1>SCI_XENCETWO</h1>
         </header>
-        <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/400x200?text=XI+SCIENCE+2'">
+        <div class="hero-box">
+            <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400/0b141a/00d2ff?text=XI+SCIENCE+2'">
+        </div>
         <div class="grid">
-            <div class="card" onclick="nav('absen')"><span>📝</span><h3>Absensi</h3></div>
-            <div class="card" onclick="nav('siswa')"><span>🎓</span><h3>Siswa</h3></div>
-            <div class="card" onclick="nav('jadwal')"><span>📅</span><h3>Jadwal</h3></div>
-            <div class="card" onclick="nav('piket')"><span>🧹</span><h3>Piket</h3></div>
-            <div class="card" onclick="nav('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
-            <div class="card" onclick="nav('struktur')"><span>👥</span><h3>Struktur</h3></div>
+            <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
+            <div class="card" onclick="move('siswa')"><span>🎓</span><h3>Siswa</h3></div>
+            <div class="card" onclick="move('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
+            <div class="card" onclick="move('jadwal')"><span>📅</span><h3>Jadwal</h3></div>
         </div>
     </div>
 
     <div id="absen" class="page">
-        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; margin-bottom:15px; font-size: 18px;">SISTEM ABSENSI</h2>
-        <div class="list-box" id="isi-absen"></div>
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">LIST ABSENSI</h2>
+        <div id="isi-absen"></div>
     </div>
 
     <div id="siswa" class="page">
-        <div class="btn-back" onclick="nav('home')">← KEMBALI</div>
-        <h2 style="font-family:'Orbitron'; margin-bottom:15px; font-size: 18px;">DATABASE SISWA</h2>
-        <div class="list-box" id="isi-siswa"></div>
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">DATABASE SISWA</h2>
+        <div class="list" id="isi-siswa"></div>
     </div>
 
-    <div id="jadwal" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>JADWAL</h2><div class="list-box">COMING SOON</div></div>
-    <div id="piket" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>PIKET</h2><div class="list-box">COMING SOON</div></div>
-    <div id="galeri" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>GALERI</h2><div class="list-box">NO PHOTOS YET</div></div>
-    <div id="struktur" class="page"><div class="btn-back" onclick="nav('home')">← KEMBALI</div><h2>STRUKTUR</h2><div class="list-box">KETUA: M. RAFI ZAIDAAN M.</div></div>
+    <div id="galeri" class="page">
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">GALERI KELAS</h2>
+        <div class="galeri-grid">
+            <img src="img/g01.jpg" onerror="this.style.display='none'">
+            <img src="img/g02.jpg" onerror="this.style.display='none'">
+            <img src="img/g03.jpg" onerror="this.style.display='none'">
+            <img src="img/g04.jpg" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <div id="jadwal" class="page">
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <h2 style="color:var(--primary); font-family:'Orbitron'; font-size:18px;">JADWAL</h2>
+        <div class="list">Belum ada jadwal yang diinput.</div>
+    </div>
 </div>
 
 <div class="nav">
-    <div class="nav-btn active" id="n-home" onclick="nav('home')">🏠</div>
-    <div class="nav-btn" id="n-absen" onclick="nav('absen')">📝</div>
-    <div class="nav-btn" id="n-siswa" onclick="nav('siswa')">🎓</div>
+    <div class="nav-btn active" id="btn-home" onclick="move('home')">🏠</div>
+    <div class="nav-btn" id="btn-absen" onclick="move('absen')">📝</div>
+    <div class="nav-btn" id="btn-siswa" onclick="move('siswa')">🎓</div>
+    <div class="nav-btn" id="btn-galeri" onclick="move('galeri')">🖼️</div>
 </div>
 
 <script>
-    const murid = [
-        "ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA",
-        "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.",
-        "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH",
-        "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.",
-        "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.",
-        "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI",
-        "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI",
-        "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA",
-        "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA",
-        "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA",
-        "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO",
-        "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."
-    ];
+    const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
 
-    function nav(id) {
+    let isAdmin = false;
+
+    function move(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if(id === 'home' || id === 'absen' || id === 'siswa') document.getElementById('n-'+id).classList.add('active');
+        if(document.getElementById('btn-'+id)) document.getElementById('btn-'+id).classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
-        window.scrollTo(0,0);
+    }
+
+    function loginAdmin() {
+        if(isAdmin) return;
+        let pass = prompt("Masukkan Password Admin:");
+        if(pass === "7anhidup") {
+            isAdmin = true;
+            renderAbsen();
+            alert("Mode Admin Aktif!");
+        } else {
+            alert("Password Salah!");
+        }
     }
 
     function renderAbsen() {
-        let h = ""; murid.forEach((n, i) => {
+        let h = `<div class="admin-status" onclick="loginAdmin()">
+                    ${isAdmin ? '🔓 AKSES ADMIN TERBUKA' : '🔒 MODE LIHAT (KLIK UNTUK ABSEN)'}
+                 </div><div class="list">`;
+        
+        murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            h += `<div class="item"><span style="flex:1; font-size:11px;">${no}. ${n}</span><select style="background:var(--primary); color:#000; border:none; border-radius:5px; font-size:10px; padding:3px; font-weight:bold;"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`;
+            let kunci = isAdmin ? "" : "disabled";
+            h += `<div class="item">
+                    <span style="flex:1; font-size:11px;">${no}. ${n}</span>
+                    <select id="status-${no}" ${kunci} style="background:${isAdmin ? 'var(--primary)' : '#222'}; color:${isAdmin ? '#000' : '#888'}; border:none; border-radius:5px; padding:3px; font-size:10px; font-weight:bold; outline:none;">
+                        <option>HADIR</option><option>IZIN</option><option>ALPA</option>
+                    </select>
+                  </div>`;
         });
+        h += `</div>`;
+        if(isAdmin) {
+            h += `<button onclick="kirimRekap()" style="width:100%; background:var(--primary); color:#000; border:none; padding:15px; border-radius:12px; margin-top:15px; font-weight:bold; font-family:'Orbitron'; font-size:11px;">KIRIM REKAP KE WA</button>`;
+        }
         document.getElementById('isi-absen').innerHTML = h;
     }
 
     function renderSiswa() {
         let h = ""; murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            h += `<div class="item"><img src="img/${no}.jpg" class="p-img" onerror="this.src='https://via.placeholder.com/40/00d2ff/000?text=${no}'"><div><p style="font-size:12px; font-weight:600;">${n}</p><p style="font-size:9px; opacity:0.5;">Absen: ${no}</p></div></div>`;
+            h += `<div class="item"><img src="img/${no}.jpg" class="p-img" onerror="this.src='https://via.placeholder.com/50/222/00d2ff?text=${no}'"><div><p style="font-size:12px; font-weight:bold;">${n}</p><p style="font-size:9px; opacity:0.5;">Absen: ${no}</p></div></div>`;
         });
         document.getElementById('isi-siswa').innerHTML = h;
     }
 
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
-    function toggleMusic() { 
-        const a = document.getElementById("myAudio"); 
-        if(a.paused) a.play().catch(e => alert("Ketuk layar dulu baru musik jalan!")); 
-        else a.pause(); 
+    function kirimRekap() {
+        let teks = "*LAPORAN ABSENSI SCI_XENCETWO*%0A--------------------------%0A";
+        murid.forEach((n, i) => {
+            let no = (i+1).toString().padStart(2, '0');
+            let stat = document.getElementById('status-'+no).value;
+            teks += `${no}. ${n}: *${stat}*%0A`;
+        });
+        let nomorWA = "628123456789"; // GANTI NOMOR WA LO DI SINI
+        window.open(`https://wa.me/${nomorWA}?text=${teks}`, '_blank');
     }
 
-    // FORCE OPEN SETELAH ANIMASI BAR SELESAI
+    function playMusic() {
+        const a = document.getElementById("audioPlayer");
+        (a.paused) ? a.play() : a.pause();
+    }
+
     setTimeout(() => {
-        document.getElementById('loader').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        }, 500);
-    }, 2800);
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+    }, 2000);
 </script>
 </body>
 </html>
-
