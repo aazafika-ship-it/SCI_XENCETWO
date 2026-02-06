@@ -3,243 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XENCETWO | OVERLORD_OS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <title>XENCETWO | THE ABSOLUTE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000000;
-            --primary: #00ffcc; /* Cyan Neon */
-            --secondary: #7000ff; /* Purple Neon */
+            --neon: #00f2ff;
+            --bg: #050505;
             --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(0, 242, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh;
-            background-image: 
-                linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh; }
 
-        /* OVERLORD LOADER */
+        /* MATRIX PARTICLE BACKGROUND */
+        #bg-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.4; }
+
+        /* LOADING: QUANTUM SYNC */
         #loader {
             position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .loader-hex {
-            width: 60px; height: 60px; border: 2px solid var(--primary);
-            animation: morph 2s ease-in-out infinite; box-shadow: 0 0 30px var(--primary);
+        .quantum-ring {
+            width: 80px; height: 80px; border: 2px solid transparent;
+            border-top: 2px solid var(--neon); border-radius: 50%;
+            animation: spin 0.8s linear infinite; box-shadow: 0 0 20px var(--neon);
         }
-        @keyframes morph {
-            0%, 100% { border-radius: 50% 0 50% 0; transform: rotate(0deg); }
-            50% { border-radius: 0 50% 0 50%; transform: rotate(180deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* APP REVEAL */
-        #app { display: none; padding: 25px; opacity: 0; filter: brightness(2); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        .active-os { opacity: 1 !important; filter: brightness(1) !important; }
-
-        /* THE TITLES */
-        header { margin-bottom: 40px; position: relative; }
-        .os-ver { font-size: 8px; letter-spacing: 4px; color: var(--primary); font-family: 'Syncopate'; }
-        header h1 { font-family: 'Syncopate'; font-size: 28px; letter-spacing: -2px; margin-top: 5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* BENTO GLASS SYSTEM */
-        .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; }
-        .bento-item {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 24px;
-            backdrop-filter: blur(10px); position: relative; overflow: hidden;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .bento-item:active { transform: scale(0.95); border-color: var(--primary); background: rgba(0, 255, 204, 0.05); }
-
-        .hero { grid-column: span 6; height: 200px; }
-        .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        /* CONTENT WRAPPER */
+        #app { display: none; padding: 25px; transition: 0.5s; }
         
-        .main-btn { grid-column: span 3; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .small-btn { grid-column: span 2; padding: 20px; text-align: center; }
+        /* HEADER: BOLD & FUTURISTIC */
+        header { margin-top: 20px; margin-bottom: 40px; }
+        .glitch-text {
+            font-family: 'Syncopate'; font-size: 30px; letter-spacing: -2px;
+            text-transform: uppercase; position: relative;
+            background: linear-gradient(to right, #fff, var(--neon));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
-        .icon-box { font-size: 32px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
-        .btn-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,0.5); }
+        /* BENTO BOX 2.0: INTERACTIVE GLASS */
+        .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .hero-bento { 
+            grid-column: span 2; height: 220px; border-radius: 30px; 
+            overflow: hidden; border: 1px solid var(--border); position: relative;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+        }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) brightness(0.8); }
 
-        /* NEON DECORATION */
-        .glow-line { position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); animation: scanLine 3s linear infinite; }
-        @keyframes scanLine { 0% { transform: translateY(-100px); } 100% { transform: translateY(300px); } }
+        .card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 25px; padding: 25px; border: 1px solid var(--border);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+        .card:active { transform: scale(0.9) translateY(5px); background: rgba(0, 242, 255, 0.1); }
+        .card i { font-size: 30px; display: block; margin-bottom: 12px; }
+        .card h3 { font-size: 11px; letter-spacing: 2px; font-weight: 900; color: var(--neon); opacity: 0.8; }
 
-        /* DOCK INTERFACE */
-        .dock-container {
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* FLOATING DOCK: CYBERPUNK STYLE */
+        .dock {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; height: 70px;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
-            border-radius: 35px; border: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
+            width: 80%; max-width: 350px; background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px); border-radius: 40px; padding: 15px;
+            display: flex; justify-content: space-around; border: 1px solid var(--border);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8); z-index: 1000;
         }
-        .dock-link { font-size: 24px; opacity: 0.3; transition: 0.3s; }
-        .dock-link.active { opacity: 1; color: var(--primary); transform: translateY(-5px); }
+        .dock-btn { font-size: 24px; color: rgba(255,255,255,0.3); transition: 0.3s; }
+        .dock-btn.active { color: var(--neon); transform: translateY(-8px); filter: drop-shadow(0 0 10px var(--neon)); }
 
-        /* PAGE OVERLAY */
+        /* PAGE SYSTEM WITH GLITCH EFFECT */
         .page { 
-            position: fixed; inset: 0; background: #000; z-index: 2000; 
+            position: fixed; inset: 0; background: var(--bg); z-index: 2000; 
             display: none; padding: 30px; overflow-y: auto;
-            animation: zoomIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
-        @keyframes zoomIn { from { transform: scale(1.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .close-os { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
+        .page.active { display: block; animation: glitchOpen 0.3s ease-out; }
+        @keyframes glitchOpen {
+            0% { clip-path: inset(50% 0 50% 0); transform: scale(1.1); }
+            100% { clip-path: inset(0 0 0 0); transform: scale(1); }
+        }
 
-        /* LIST STYLE */
-        .os-card { background: var(--glass); border-radius: 20px; border: 1px solid var(--border); padding: 15px; margin-bottom: 10px; display: flex; align-items: center; }
-        .status-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; margin-right: 15px; box-shadow: 0 0 10px var(--primary); }
+        .back-btn { 
+            width: 50px; height: 50px; border: 1px solid var(--border); 
+            border-radius: 15px; display: flex; align-items: center; 
+            justify-content: center; margin-bottom: 30px; font-weight: bold;
+        }
 
-        .music-orb {
-            position: fixed; top: 25px; right: 25px; width: 40px; height: 40px;
-            background: var(--glass); border: 1px solid var(--border); border-radius: 50%;
+        /* LISTS */
+        .os-row {
+            background: var(--glass); padding: 18px; border-radius: 20px;
+            margin-bottom: 12px; border: 1px solid var(--border);
+            display: flex; align-items: center; animation: fadeInUp 0.4s ease-out;
+        }
+
+        .music-btn {
+            position: fixed; top: 30px; right: 25px; width: 45px; height: 45px;
+            border-radius: 50%; background: var(--glass); border: 1px solid var(--border);
             display: flex; align-items: center; justify-content: center; z-index: 5000;
         }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="loader-hex"></div></div>
+<canvas id="bg-canvas"></canvas>
 
-<div class="music-orb" onclick="toggleM()">🛰️</div>
+<div id="loader">
+    <div class="quantum-ring"></div>
+    <div style="margin-top: 20px; font-family: 'Syncopate'; font-size: 8px; letter-spacing: 4px; color: var(--neon);">BOOTING_ABSOLUTE_OS</div>
+</div>
+
+<div class="music-btn" onclick="toggleM()">💿</div>
 <audio id="player" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
 
 <div id="app">
     <header>
-        <div class="os-ver">SYSTEM VERSION 4.0.1</div>
-        <h1>XENCETWO</h1>
+        <p style="font-size: 9px; letter-spacing: 5px; color: var(--neon); font-weight: 900;">CONNECTED_XI_SCIENCE_2</p>
+        <h1 class="glitch-text">XENCETWO</h1>
     </header>
 
     <div class="bento-grid">
-        <div class="bento-item hero">
-            <div class="glow-line"></div>
-            <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000'">
-            <div style="position:absolute; bottom:20px; left:20px; font-size:10px; font-weight:bold; color:var(--primary);">S/N: 2024-X2-SCI</div>
+        <div class="hero-bento">
+            <img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000'">
+            <div style="position:absolute; inset:0; background:linear-gradient(transparent, rgba(0,0,0,0.8));"></div>
+            <p style="position:absolute; bottom:20px; left:25px; font-size:10px; font-weight:900;">DATABASE_SECURED // 2026</p>
         </div>
 
-        <div class="bento-item main-btn" onclick="openPage('absen')">
-            <div class="icon-box">📋</div>
-            <div class="btn-label">ATTENDANCE</div>
-        </div>
-
-        <div class="bento-item main-btn" onclick="openPage('siswa')">
-            <div class="icon-box">👤</div>
-            <div class="btn-label">DATABASE</div>
-        </div>
-
-        <div class="bento-item small-btn" onclick="openPage('jadwal')">
-            <div class="icon-box" style="font-size:20px;">📅</div>
-            <div class="btn-label">LOGS</div>
-        </div>
-
-        <div class="bento-item small-btn" onclick="openPage('piket')">
-            <div class="icon-box" style="font-size:20px;">🧹</div>
-            <div class="btn-label">CREW</div>
-        </div>
-
-        <div class="bento-item small-btn" onclick="alert('ENCRYPTED')">
-            <div class="icon-box" style="font-size:20px;">🔒</div>
-            <div class="btn-label">SECURE</div>
-        </div>
+        <div class="card" onclick="openPage('absen')"><i>📋</i><h3>ABSENCE</h3></div>
+        <div class="card" onclick="openPage('siswa')"><i>👥</i><h3>STUDENTS</h3></div>
+        <div class="card" onclick="openPage('jadwal')"><i>📅</i><h3>LOGS</h3></div>
+        <div class="card" onclick="openPage('piket')"><i>🧹</i><h3>PIKET</h3></div>
+        <div class="card" style="grid-column: span 2;" onclick="alert('ENCRYPTED_DATA')"><i>🛡️</i><h3>SECURE_STORAGE</h3></div>
     </div>
 </div>
 
 <div id="p-absen" class="page">
-    <div class="close-os" onclick="closePage()">✕</div>
-    <h2 style="font-family:Syncopate; font-size:14px; margin-bottom:25px;">ABSENCE_SYNC</h2>
+    <div class="back-btn" onclick="closePage()">✕</div>
+    <h2 style="font-family:Syncopate; font-size:16px; margin-bottom:30px; color:var(--neon);">ATTENDANCE_PROTOCOL</h2>
     <div id="isi-absen"></div>
 </div>
 
 <div id="p-siswa" class="page">
-    <div class="close-os" onclick="closePage()">✕</div>
-    <h2 style="font-family:Syncopate; font-size:14px; margin-bottom:25px;">STUDENT_RECORDS</h2>
+    <div class="back-btn" onclick="closePage()">✕</div>
+    <h2 style="font-family:Syncopate; font-size:16px; margin-bottom:30px; color:var(--neon);">STUDENT_INDEX</h2>
     <div id="isi-siswa"></div>
 </div>
 
-<div id="p-jadwal" class="page">
-    <div class="close-os" onclick="closePage()">✕</div>
-    <h2 style="font-family:Syncopate; font-size:14px; margin-bottom:25px;">MAPEL_LOG</h2>
-    <div id="isi-mapel"></div>
-</div>
-
-<div id="p-piket" class="page">
-    <div class="close-os" onclick="closePage()">✕</div>
-    <h2 style="font-family:Syncopate; font-size:14px; margin-bottom:25px;">CLEAN_PROTOCOL</h2>
-    <div id="isi-piket"></div>
-</div>
-
-<div class="dock-container">
-    <div class="dock-link active" onclick="closePage()">🏠</div>
-    <div class="dock-link" onclick="openPage('absen')">📋</div>
-    <div class="dock-link" onclick="openPage('siswa')">👤</div>
-    <div class="dock-link" onclick="alert('STORAGE_OFFLINE')">📡</div>
+<div class="dock">
+    <div class="dock-btn active" onclick="closePage()">🏠</div>
+    <div class="dock-btn" onclick="openPage('absen')">📋</div>
+    <div class="dock-btn" onclick="openPage('siswa')">👥</div>
+    <div class="dock-btn" onclick="alert('CLOUD_SYNCING')">🛰️</div>
 </div>
 
 <script>
-    const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
-    const wa = "6282229315510";
+    // CANVAS BACKGROUND EFFECT
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = [];
 
-    window.onload = () => {
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            const app = document.getElementById('app');
-            app.style.display = 'block';
-            setTimeout(() => app.classList.add('active-os'), 50);
-        }, 3000);
-    };
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speedY = Math.random() * 1 + 0.5;
+        }
+        update() {
+            this.y += this.speedY;
+            if (this.y > canvas.height) this.y = 0;
+        }
+        draw() {
+            ctx.fillStyle = '#00f2ff';
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
+    }
+
+    function init() {
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
+    init(); animate();
+
+    // APP LOGIC
+    const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
+
+    setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        const app = document.getElementById('app');
+        app.style.display = 'block';
+    }, 2500);
 
     function openPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById('p-' + id).style.display = 'block';
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p-' + id).classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
-        if(id === 'jadwal') renderMapel();
-        if(id === 'piket') renderPiket();
     }
 
     function closePage() {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     }
 
     function renderAbsen() {
         let h = '';
         murid.forEach((n, i) => {
-            h += `<div class="os-card">
-                    <div class="status-dot"></div>
-                    <span style="flex:1; font-size:12px; font-weight:500;">${n}</span>
-                    <select id="s-${i}" style="background:transparent; color:var(--primary); border:none; font-size:11px; font-weight:700;">
+            h += `<div class="os-row">
+                    <span style="flex:1; font-size:12px; font-weight:600;">${n}</span>
+                    <select id="s-${i}" style="background:transparent; color:var(--neon); border:1px solid var(--border); padding:5px; border-radius:10px; font-size:10px;">
                         <option>HADIR</option><option>IZIN</option><option>ALPA</option>
                     </select>
                   </div>`;
         });
-        h += `<button onclick="send()" style="width:100%; padding:20px; border-radius:15px; background:var(--primary); color:#000; border:none; font-weight:900; letter-spacing:2px; margin-top:20px;">UPLOAD_TO_CLOUD</button>`;
+        h += `<button onclick="send()" style="width:100%; padding:20px; background:var(--neon); color:#000; border:none; border-radius:20px; font-weight:900; margin-top:20px;">PUSH_DATA_TO_CLOUD</button>`;
         document.getElementById('isi-absen').innerHTML = h;
     }
 
     function renderSiswa() {
         let h = '';
         murid.forEach(n => {
-            h += `<div class="os-card"><div class="status-dot"></div><span style="font-size:12px;">${n}</span></div>`;
+            h += `<div class="os-row"><span style="font-size:12px;">${n}</span></div>`;
         });
         document.getElementById('isi-siswa').innerHTML = h;
     }
 
-    function renderMapel() {
-        document.getElementById('isi-mapel').innerHTML = `<div class="os-card" style="display:block;"><p style="color:var(--primary); font-weight:bold; margin-bottom:10px;">> MONDAY_ROUTINE</p><p style="opacity:0.6; font-size:12px; line-height:2;">- Mathematics<br>- Physics<br>- Biology</p></div>`;
-    }
-
-    function renderPiket() {
-        document.getElementById('isi-piket').innerHTML = `<div class="os-card" style="display:block;"><p style="color:var(--primary); font-weight:bold; margin-bottom:10px;">> CREW_ON_STATION</p><p style="opacity:0.6; font-size:12px; line-height:2;">Aditya, Zainal, Alya, Andina</p></div>`;
-    }
-
     function send() {
-        let t = "*OVERLORD_REPORT_LOG*%0A";
+        let t = "*XENCETWO_ABSOLUTE_LOG*%0A";
         murid.forEach((n, i) => { t += `${i+1}. ${n}: ${document.getElementById('s-'+i).value}%0A`; });
-        window.open(`https://wa.me/${wa}?text=${t}`);
+        window.open(`https://wa.me/6282229315510?text=${t}`);
     }
 
     function toggleM() {
