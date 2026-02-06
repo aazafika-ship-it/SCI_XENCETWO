@@ -3,44 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XENCETWO | SYSTEM_DEITY</title>
+    <title>XENCETWO | SYSTEM_FIX</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000; --primary: #00ff88; --danger: #ff0033; --surface: rgba(15,15,15,0.95); }
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Space Grotesk', sans-serif; }
+        :root { --bg: #000; --primary: #00ff88; --danger: #ff0033; --surface: rgba(20,20,20,0.95); }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh; }
 
-        /* ANIMASI KETIKAN KODE (BREACH) */
+        /* BREACH OVERLAY - FIX CLIKABLE */
         #breach-overlay {
             position: fixed; inset: 0; background: #000; z-index: 99999;
             display: none; flex-direction: column; padding: 20px;
             font-family: 'Courier New', monospace; color: var(--danger); font-size: 10px; overflow: hidden;
+            pointer-events: all; /* Pastikan bisa diklik */
         }
-        .code-typing { white-space: pre-wrap; word-break: break-all; line-height: 1.2; }
+        #typing-area { white-space: pre-wrap; word-break: break-all; margin-top: 10px; }
 
-        /* HEADER & GRID */
-        #app { padding: 25px; padding-bottom: 110px; }
-        header { margin-bottom: 30px; border-left: 3px solid var(--primary); padding-left: 15px; }
-        header h1 { font-family: 'Syncopate'; font-size: 20px; }
+        #app { padding: 25px; padding-bottom: 110px; position: relative; z-index: 10; }
+        header { margin-bottom: 25px; border-left: 3px solid var(--primary); padding-left: 15px; }
+        header h1 { font-family: 'Syncopate'; font-size: 18px; letter-spacing: 2px; }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card-hero { grid-column: span 2; height: 180px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,255,136,0.2); }
+        .card-hero { grid-column: span 2; height: 160px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,255,136,0.2); margin-bottom: 5px; }
         .card-hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
         
-        .card { background: var(--surface); border: 1px solid rgba(0,255,136,0.1); border-radius: 15px; padding: 20px; text-align: center; }
-        .card h3 { font-size: 9px; font-family: 'Syncopate'; color: var(--primary); margin-top: 10px; }
+        .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px 10px; text-align: center; cursor: pointer; }
+        .card:active { transform: scale(0.95); background: #222; }
+        .card i { font-size: 24px; display: block; margin-bottom: 5px; }
+        .card h3 { font-size: 8px; font-family: 'Syncopate'; color: var(--primary); }
 
-        /* PAGE SYSTEM */
         .page { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; padding: 30px; overflow-y: auto; }
         .page.active { display: block; }
-        .btn-close { width: 40px; height: 40px; border: 1px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-        .row { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 8px; font-size: 11px; border-left: 2px solid var(--primary); }
-
-        .input-pass { background: #000; border: 1px solid var(--primary); color: var(--primary); padding: 12px; width: 100%; margin-bottom: 15px; text-align: center; border-radius: 5px; }
-        .btn-exe { width: 100%; padding: 15px; background: var(--primary); color: #000; border: none; font-weight: 900; font-family: 'Syncopate'; border-radius: 10px; }
+        .btn-close { width: 45px; height: 45px; border: 1px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--primary); font-weight: bold; }
         
-        /* DOCK */
-        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 65px; background: rgba(10,10,10,0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(10px); }
+        .row { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; border-left: 3px solid var(--primary); }
+        .input-pass { background: #111; border: 1px solid var(--primary); color: var(--primary); padding: 15px; width: 100%; margin-bottom: 15px; text-align: center; border-radius: 10px; font-size: 16px; }
+        .btn-exe { width: 100%; padding: 18px; background: var(--primary); color: #000; border: none; font-weight: 900; font-family: 'Syncopate'; border-radius: 15px; }
+        
+        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 65px; background: rgba(15,15,15,0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(15px); z-index: 1000; }
+        .dock-btn { font-size: 20px; padding: 10px; }
     </style>
 </head>
 <body>
@@ -48,14 +49,16 @@
 <audio id="leak-audio" loop><source src="https://files.catbox.moe/p9o487.mp3" type="audio/mpeg"></audio>
 
 <div id="breach-overlay" onclick="stopBreach()">
-    <div style="color: #fff; background: red; padding: 5px; font-weight: bold; margin-bottom: 10px; text-align: center;">CRITICAL_SYSTEM_FAILURE</div>
-    <div id="typing-area" class="code-typing"></div>
+    <div style="color: #fff; background: var(--danger); padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">SYSTEM_CRITICAL_FAILURE</div>
+    <div id="typing-area"></div>
+    <div style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 12px; border: 1px solid #fff; padding: 10px;">TAP TO ABORT</div>
 </div>
 
 <div id="app">
-    <header><p style="font-size: 8px; color: var(--primary);">AUTHORITY: DEITY</p><h1>XENCETWO</h1></header>
+    <header><p style="font-size: 8px; color: var(--primary); letter-spacing: 2px;">DEITY_CONTROL_V2</p><h1>XENCETWO</h1></header>
+    
     <div class="grid">
-        <div class="card-hero"><img src="img/sekelas.jpg" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000'"></div>
+        <div class="card-hero"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000"></div>
         <div class="card" onclick="navPage('absen')"><i>📝</i><h3>ABSENSI</h3></div>
         <div class="card" onclick="navPage('siswa')"><i>🎓</i><h3>SISWA</h3></div>
         <div class="card" onclick="navPage('vault')"><i>🔐</i><h3>VAULT</h3></div>
@@ -68,21 +71,21 @@
 
 <div id="p-vault" class="page">
     <div class="btn-close" onclick="closePage()">✕</div>
-    <h2 style="font-size:12px; margin-bottom:20px;">>> DEITY_VAULT</h2>
+    <h2 style="font-size:12px; margin-bottom:20px; color:var(--primary);">>> ENCRYPTED_VAULT</h2>
     <input type="password" id="pass-field" class="input-pass" placeholder="PASSWORD">
     <button onclick="unlockVault()" class="btn-exe">LOGIN</button>
 </div>
 
 <div id="p-logs" class="page">
     <div class="btn-close" onclick="closePage()">✕</div>
-    <h2 style="font-size:12px; margin-bottom:20px; color: var(--danger);">>> INTRUSION_DETECTION_LOGS</h2>
+    <h2 style="font-size:12px; margin-bottom:20px; color: var(--danger);">>> INTRUSION_LOGS</h2>
     <div id="log-list"></div>
 </div>
 
 <div class="dock">
-    <div onclick="closePage()">🏠</div>
-    <div onclick="navPage('absen')">📝</div>
-    <div onclick="navPage('vault')">🔐</div>
+    <div class="dock-btn" onclick="closePage()">🏠</div>
+    <div class="dock-btn" onclick="navPage('absen')">📝</div>
+    <div class="dock-btn" onclick="navPage('vault')">🔐</div>
 </div>
 
 <script>
@@ -90,32 +93,33 @@
 
     function navPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('p-' + id).classList.add('active');
+        const target = document.getElementById('p-' + id);
+        if(target) target.classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
         if(id === 'logs') renderLogs();
     }
 
-    function closePage() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+    function closePage() { 
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+    }
 
-    // LOGIKA KETIKAN KODE
     const hackScripts = [
-        "IMPORT_PROTOCOL_EXPLOIT...\n", "ACCESSING_KERNEL_MEMORY...\n", "OVERRIDING_ENCRYPTION_KEY_0x992...\n",
-        "WIPING_USER_DATA_CACHED...\n", "BROADCASTING_IP_TO_SERVER...\n", "SYSTEM_FAILURE_DETECTED!\n",
-        "HP_LU_KEDETEC_KING_JANGAN_MACEM2...\n", "DOWNLOADING_BIOMETRIC_DATA...\n"
+        "DECRYPTING_BIOS...\n", "FETCHING_LOCAL_DB...\n", "UPLOADING_FILES_TO_CLOUD...\n",
+        "INJECTING_PAYLOAD_0x22...\n", "BYPASSING_ROOT_ACCESS...\n", "HP_LU_KEDETEC_KING!\n",
+        "KERJA_BAGUS_ADMIN_XENCETWO\n", "WARNING:__DATA_LEAK__\n"
     ];
 
     function unlockVault() {
         const p = document.getElementById('pass-field').value;
         if(p === 'admin123') {
-            alert("WELCOME DEITY");
+            alert("ACCESS GRANTED, DEITY.");
+            navPage('logs'); // Masuk langsung ke logs kalo bener
         } else {
             // CATAT LOG
-            const logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
+            let logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
             logs.push({ t: new Date().toLocaleTimeString(), p: p });
             localStorage.setItem('hLogs', JSON.stringify(logs));
-
-            // MULAI ANIMASI BREACH
             startBreach();
         }
     }
@@ -126,13 +130,14 @@
         const area = document.getElementById('typing-area');
         const audio = document.getElementById('leak-audio');
         overlay.style.display = 'flex';
-        audio.play();
+        audio.play().catch(e => console.log("Audio play blocked"));
         
         breachInterval = setInterval(() => {
             area.innerText += hackScripts[Math.floor(Math.random() * hackScripts.length)];
-            window.scrollTo(0, document.body.scrollHeight);
-            if(navigator.vibrate) navigator.vibrate(50);
-        }, 80;
+            // Auto scroll ke bawah
+            overlay.scrollTop = overlay.scrollHeight;
+            if(navigator.vibrate) navigator.vibrate(40);
+        }, 100); // Kecepatan ngetik
     }
 
     function stopBreach() {
@@ -145,11 +150,11 @@
 
     function renderLogs() {
         const logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
-        let h = '';
+        let h = '<div style="margin-bottom:20px;">Menampilkan jejak user iseng:</div>';
         logs.reverse().forEach(l => {
-            h += `<div class="row"><b style="color:red;">[!] INTRUSION</b><br>Time: ${l.t}<br>Attempt: "${l.p}"</div>`;
+            h += `<div class="row"><b style="color:red;">[INTRUDER]</b><br>Time: ${l.t}<br>Attempt: "${l.p}"</div>`;
         });
-        document.getElementById('log-list').innerHTML = h || 'No logs found.';
+        document.getElementById('log-list').innerHTML = h || 'No intrusion detected yet.';
     }
 
     function renderAbsen() {
