@@ -3,178 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XENCETWO | DEITY_AUTHORITY</title>
+    <title>XENCETWO | SUPREME_ADMIN</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000; --p: #00ff88; --d: #ff0033; --s: rgba(20,20,20,0.95); }
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh; }
-
-        /* OVERLAY KIAMAT */
-        #breach-overlay {
-            position: fixed; inset: 0; background: #000; z-index: 99999;
-            display: none; flex-direction: column; padding: 25px;
-            font-family: 'Courier New', monospace; color: var(--d);
+        :root {
+            --bg: #000000;
+            --surface: rgba(15, 15, 15, 0.9);
+            --primary: #00ff88;
+            --border: rgba(0, 255, 136, 0.2);
+            --text: #f0f0f0;
         }
-        #countdown { font-family: 'Syncopate'; font-size: 75px; color: #fff; text-shadow: 0 0 20px red; margin: 15px 0; animation: pulse 1s infinite; text-align: center; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); color: var(--d); } }
-        #typing-area { font-size: 11px; white-space: pre-wrap; opacity: 0.8; height: 130px; overflow: hidden; margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
 
-        /* UI UTAMA */
-        #app { padding: 25px; padding-bottom: 110px; }
-        header { border-left: 4px solid var(--p); padding-left: 15px; margin-bottom: 25px; }
-        header h1 { font-family: 'Syncopate'; font-size: 18px; letter-spacing: 2px; color: #fff; }
+        .theme-red { --primary: #ff0055; --border: rgba(255, 0, 85, 0.2); }
+        .theme-blue { --primary: #00d2ff; --border: rgba(0, 210, 255, 0.2); }
+        .theme-gold { --primary: #ffcc00; --border: rgba(255, 204, 0, 0.2); }
+        .theme-purple { --primary: #bc13fe; --border: rgba(188, 19, 254, 0.2); }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card-hero { grid-column: span 2; height: 160px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,255,136,0.2); margin-bottom: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; transition: 0.5s; }
+
+        /* HUD SCANLINE */
+        body::after {
+            content: " "; position: fixed; inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 9999; background-size: 100% 3px, 3px 100%; pointer-events: none; opacity: 0.3;
+        }
+
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-3px, 1px); } 100% { transform: translate(0); } }
+        .glitch-active { animation: glitch 0.25s linear both; }
+
+        /* LOADER & TERMINAL */
+        #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loader-box { width: 55px; height: 55px; border: 2px solid var(--primary); animation: spin 1s infinite linear; box-shadow: 0 0 15px var(--primary); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #terminal-overlay { position: fixed; inset: 0; background: #000; color: var(--primary); font-family: monospace; font-size: 11px; padding: 30px; z-index: 9998; display: none; line-height: 1.8; }
+
+        /* MAIN APP */
+        #app { display: none; padding: 25px; padding-bottom: 110px; opacity: 0; transition: 1s; }
+        header { margin-bottom: 30px; border-left: 3px solid var(--primary); padding-left: 15px; }
+        header h1 { font-family: 'Syncopate'; font-size: 22px; }
+
+        /* BENTO GRID */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .card-hero { grid-column: span 2; height: 170px; border-radius: 25px; overflow: hidden; position: relative; border: 1px solid var(--border); }
         .card-hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
-        .card { background: var(--s); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 10px; text-align: center; transition: 0.3s; }
-        .card:active { background: #1a1a1a; transform: scale(0.95); border-color: var(--p); }
-        .card i { font-size: 26px; display: block; margin-bottom: 8px; color: var(--p); }
-        .card h3 { font-size: 9px; font-family: 'Syncopate'; color: var(--p); letter-spacing: 1px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 22px 10px; text-align: center; backdrop-filter: blur(10px); transition: 0.2s; }
+        .card:active { transform: scale(0.93); border-color: var(--primary); }
+        .card i { font-size: 26px; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--primary)); }
+        .card h3 { font-size: 9px; font-family: 'Syncopate'; color: var(--primary); }
 
-        /* PAGES */
+        /* PAGE SYSTEM */
         .page { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; padding: 30px; overflow-y: auto; }
-        .page.active { display: block; animation: fIn 0.3s; }
-        @keyframes fIn { from { opacity: 0; } to { opacity: 1; } }
-        .btn-close { width: 45px; height: 45px; border: 1px solid var(--p); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--p); font-size: 20px; }
-        .row { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid var(--p); font-size: 11px; display: flex; align-items: center; justify-content: space-between; }
+        .page.active { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .btn-close { width: 45px; height: 45px; border: 1px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--primary); }
+        .row { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: center; font-size: 11px; }
 
-        .input-pass { background: #0a0a0a; border: 1px solid var(--p); color: var(--p); padding: 15px; width: 100%; margin-bottom: 15px; text-align: center; border-radius: 10px; font-size: 18px; outline: none; }
-        .btn-exe { width: 100%; padding: 18px; background: var(--p); color: #000; border: none; font-weight: 900; font-family: 'Syncopate'; border-radius: 15px; cursor: pointer; }
+        /* VAULT & PASS */
+        .input-pass { background: #000; border: 1px solid var(--primary); color: var(--primary); padding: 12px; width: 100%; margin-bottom: 15px; text-align: center; border-radius: 10px; outline: none; }
+        .btn-execute { width: 100%; padding: 18px; background: var(--primary); color: #000; border: none; border-radius: 15px; font-family: 'Syncopate'; font-weight: 900; }
 
-        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 65px; background: rgba(10,10,10,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(15px); z-index: 1000; }
-        .dock i { font-size: 20px; color: rgba(255,255,255,0.3); }
+        /* HACKER ALERT OVERLAY */
+        .hacker-warning {
+            position: fixed; inset: 0; background: rgba(255, 0, 0, 0.9); z-index: 20000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            color: white; text-align: center; font-family: monospace; animation: pulse-red 0.1s infinite;
+        }
+        @keyframes pulse-red { 0%, 100% { background: rgba(200, 0, 0, 0.9); } 50% { background: rgba(50, 0, 0, 1); } }
+
+        /* DOCK */
+        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: rgba(10, 10, 10, 0.95); border: 1px solid var(--border); border-radius: 25px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; backdrop-filter: blur(20px); }
+        .dock-item { font-size: 22px; color: rgba(255,255,255,0.2); transition: 0.3s; }
+        .dock-item.active { color: var(--primary); }
     </style>
 </head>
-<body>
+<body id="main-body">
 
-<audio id="leak-audio" loop><source src="https://files.catbox.moe/p9o487.mp3" type="audio/mpeg"></audio>
+<div id="loader"><div class="loader-box"></div></div>
+<div id="terminal-overlay"><div id="term-content"></div></div>
 
-<div id="breach-overlay" onclick="stopBreach()">
-    <div style="background: var(--d); color: white; padding: 10px; font-weight: bold; text-align: center; font-size: 12px; letter-spacing: 1px;">CRITICAL_SECURITY_BREACH</div>
-    <div id="countdown">10</div>
-    <p style="font-weight: bold; letter-spacing: 2px; color: #fff; font-size: 11px; text-align: center;">TERMINATING_ALL_PROCESSES...</p>
-    <div id="typing-area"></div>
-    <div style="position: absolute; bottom: 40px; width: 85%; left: 7.5%; border: 1px solid rgba(255,255,255,0.3); padding: 12px; text-align: center; font-size: 10px; color: #666;">AUTHORIZATION REQUIRED TO ABORT</div>
+<div id="hacker-alert" class="hacker-warning" onclick="stopAlert()">
+    <h1 style="font-size: 40px; font-family:Syncopate;">⚠️ WARNING ⚠️</h1>
+    <p id="warning-msg" style="padding: 20px; font-weight: bold; font-size: 18px;"></p>
+    <p style="font-size: 10px; opacity: 0.7;">[ SYSTEM_FAILURE: UNAUTHORIZED_ACCESS ]</p>
+    <div style="margin-top: 40px; border: 1px solid white; padding: 10px; font-size: 12px;">TAP TO ABORT PROCES</div>
 </div>
 
 <div id="app">
-    <header><p style="font-size: 8px; color: var(--p);">SYSTEM_STATUS: SECURED</p><h1>XENCETWO</h1></header>
+    <header><p style="font-size: 8px; color: var(--primary); letter-spacing: 2px;">AUTHORITY_V6.0</p><h1>XENCETWO</h1></header>
     
     <div class="grid">
-        <div class="card-hero"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000"></div>
+        <div class="card-hero" onclick="glitchEffect()"><img src="img/sekelas.jpg" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000'"></div>
         <div class="card" onclick="navPage('absen')"><i>📝</i><h3>ABSENSI</h3></div>
         <div class="card" onclick="navPage('siswa')"><i>🎓</i><h3>SISWA</h3></div>
         <div class="card" onclick="navPage('jadwal')"><i>📅</i><h3>JADWAL</h3></div>
         <div class="card" onclick="navPage('piket')"><i>🧹</i><h3>PIKET</h3></div>
+        <div class="card" onclick="changeTheme()"><i>🎨</i><h3>SKINS</h3></div>
         <div class="card" onclick="navPage('vault')"><i>🔐</i><h3>VAULT</h3></div>
-        <div class="card" onclick="navPage('logs')"><i>📂</i><h3>LOGS</h3></div>
     </div>
 </div>
 
-<div id="p-absen" class="page"><div class="btn-close" onclick="closePage()">✕</div><div id="isi-absen"></div></div>
-<div id="p-siswa" class="page"><div class="btn-close" onclick="closePage()">✕</div><div id="isi-siswa"></div></div>
-<div id="p-jadwal" class="page"><div class="btn-close" onclick="closePage()">✕</div><div class="row">Senin: MTK, Fisika, B.Indo</div><div class="row">Selasa: Olahraga, Sejarah</div></div>
-<div id="p-piket" class="page"><div class="btn-close" onclick="closePage()">✕</div><div class="row">Senin: Aditya, Ahmad, Alya</div><div class="row">Selasa: Andina, Aura, Ayyesa</div></div>
+<div id="p-absen" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="color:var(--primary); font-size:12px; margin-bottom:20px;">>> ATTENDANCE_SYNC</h2><div id="isi-absen"></div></div>
+<div id="p-siswa" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="color:var(--primary); font-size:12px; margin-bottom:20px;">>> STUDENT_DATABASE</h2><div id="isi-siswa"></div></div>
+<div id="p-jadwal" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="color:var(--primary); font-size:12px; margin-bottom:20px;">>> TIMETABLE</h2><div class="row">Senin: MTK, Fisika, B.Indo</div><div class="row">Selasa: Kimia, Inggris, Olahraga</div></div>
+<div id="p-piket" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="color:var(--primary); font-size:12px; margin-bottom:20px;">>> DUTY_ROSTER</h2><div class="row">Senin: Aditya, Ahmad, Alya</div><div class="row">Selasa: Andina, Aura, Ayyesa</div></div>
 
 <div id="p-vault" class="page">
     <div class="btn-close" onclick="closePage()">✕</div>
-    <h2 style="font-size:12px; margin-bottom:20px; color: var(--p);">>> CORE_DECRYPTOR</h2>
-    <input type="password" id="pass-field" class="input-pass" placeholder="ENTER CORE CODE">
-    <button onclick="unlockVault()" class="btn-exe">EXECUTE</button>
+    <h2 style="color:var(--primary); font-size:12px; margin-bottom:20px;">>> SECURED_VAULT</h2>
+    <div id="vault-auth">
+        <p style="font-size: 9px; margin-bottom: 15px; text-align: center; color:var(--primary);">ENCRYPTED BY ADMIN</p>
+        <input type="password" id="pass-field" class="input-pass" placeholder="ENTER ACCESS CODE">
+        <button onclick="unlockVault()" class="btn-execute">UNSEAL VAULT</button>
+    </div>
+    <div id="vault-data" style="display:none;">
+        <div class="row">📁 Database Aib Kelas</div>
+        <div class="row">📁 Kunci Jawaban Tugas</div>
+        <div class="row">📁 Saldo Kas Rahasia</div>
+    </div>
 </div>
 
-<div id="p-logs" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="font-size:12px; margin-bottom:20px; color:var(--d);">>> SECURITY_HISTORY</h2><div id="log-list"></div></div>
-
 <div class="dock">
-    <div onclick="closePage()">🏠</div>
-    <div onclick="navPage('absen')">📝</div>
-    <div onclick="navPage('vault')">🔐</div>
+    <div class="dock-item active" onclick="closePage()">🏠</div>
+    <div class="dock-item" onclick="navPage('absen')">📝</div>
+    <div class="dock-item" onclick="navPage('siswa')">🎓</div>
+    <div class="dock-item" onclick="glitchEffect()">⚡</div>
 </div>
 
 <script>
     const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
 
+    let currentTheme = 0;
+    const themes = ['', 'theme-red', 'theme-blue', 'theme-gold', 'theme-purple'];
+    function changeTheme() { glitchEffect(); currentTheme = (currentTheme + 1) % themes.length; document.body.className = themes[currentTheme]; }
+
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; startTerminal(); }, 500);
+        }, 1200);
+    };
+
+    function startTerminal() {
+        const o = document.getElementById('terminal-overlay');
+        const c = document.getElementById('term-content');
+        o.style.display = 'block';
+        const logs = ["> INIT_XENCETWO...", "> SCANNING_DEVICE...", "> AUTH_ADMIN...", "> ACCESS_GRANTED."];
+        let i = 0;
+        const itv = setInterval(() => {
+            c.innerHTML += `<p>> ${logs[i]}</p>`; i++;
+            if(i >= logs.length) {
+                clearInterval(itv);
+                setTimeout(() => {
+                    o.style.opacity = '0';
+                    setTimeout(() => { o.style.display = 'none'; showApp(); }, 400);
+                }, 600);
+            }
+        }, 300);
+    }
+
+    function showApp() {
+        const a = document.getElementById('app');
+        a.style.display = 'block';
+        setTimeout(() => a.style.opacity = '1', 50);
+    }
+
     function navPage(id) {
+        glitchEffect();
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('p-' + id).classList.add('active');
         if(id === 'absen') renderAbsen();
         if(id === 'siswa') renderSiswa();
-        if(id === 'logs') renderLogs();
-    }
-    function closePage() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
-
-    const scripts = ["OVERRIDING_ENCRYPTION...\n", "WIPING_USER_CACHED_FILES...\n", "EXTRACTING_WHATSAPP_DAT...\n", "UPLOADING_CREDENTIALS...\n", "DELETING_SYSTEM_32_LOGS...\n", "LOCKING_HARDWARE_ID...\n"];
-
-    function unlockVault() {
-        const p = document.getElementById('pass-field').value;
-        if(p === 'admin123') { alert("Welcome, Deity."); navPage('logs'); }
-        else {
-            let logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
-            logs.push({ t: new Date().toLocaleTimeString(), p: p });
-            localStorage.setItem('hLogs', JSON.stringify(logs));
-            startDoomsday();
-        }
     }
 
-    let timer, bInterval;
-    function startDoomsday() {
-        const overlay = document.getElementById('breach-overlay');
-        const countTxt = document.getElementById('countdown');
-        const area = document.getElementById('typing-area');
-        const audio = document.getElementById('leak-audio');
-        let count = 10;
-        overlay.style.display = 'flex';
-        audio.play().catch(e => {});
-
-        timer = setInterval(() => {
-            count--;
-            countTxt.innerText = count;
-            if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
-            if(count <= 0) {
-                clearInterval(timer); clearInterval(bInterval);
-                // GANTI LAYAR JADI HITAM DINGIN
-                document.body.innerHTML = `
-                    <div style="background:#000; height:100vh; width:100vw; display:flex; flex-direction:column; align-items:center; justify-content:center; color:red; font-family:monospace; text-align:center; padding:20px;">
-                        <h1 style="font-size:30px; margin-bottom:15px; border:2px solid red; padding:10px;">DEVICE_LOCKED</h1>
-                        <p style="color:#666; font-size:12px;">UNAUTHORIZED ACCESS DETECTED.<br>YOUR DATA HAS BEEN ENCRYPTED AND SENT TO SERVER.</p>
-                        <p style="margin-top:50px; color:#333; font-size:10px;">OMNI_DEITY_PROTECTION_V2</p>
-                    </div>`;
-                setTimeout(() => location.reload(), 5000);
-            }
-        }, 1000);
-
-        bInterval = setInterval(() => {
-            area.innerText += scripts[Math.floor(Math.random() * scripts.length)];
-            overlay.scrollTop = overlay.scrollHeight;
-        }, 120);
-    }
-
-    function stopBreach() {
-        clearInterval(timer); clearInterval(bInterval);
-        document.getElementById('breach-overlay').style.display = 'none';
-        document.getElementById('typing-area').innerText = '';
-        document.getElementById('leak-audio').pause();
+    function closePage() {
+        glitchEffect();
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('vault-auth').style.display = 'block';
+        document.getElementById('vault-data').style.display = 'none';
         document.getElementById('pass-field').value = '';
     }
 
+    function unlockVault() {
+        const p = document.getElementById('pass-field').value;
+        if(p === 'admin123') { // GANTI PASSWORD DI SINI
+            glitchEffect();
+            document.getElementById('vault-auth').style.display = 'none';
+            document.getElementById('vault-data').style.display = 'block';
+        } else {
+            const alertBox = document.getElementById('hacker-alert');
+            const msgBox = document.getElementById('warning-msg');
+            msgBox.innerText = "HP LU UDAH KEDETEC KING! KELUAR APA GUA HACK HP LU SEKARANG JUGA?!";
+            alertBox.style.display = 'flex';
+            if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
+        }
+    }
+
+    function stopAlert() { document.getElementById('hacker-alert').style.display = 'none'; document.getElementById('pass-field').value = ''; }
+
     function renderAbsen() {
-        let h = '<h2 style="font-size:12px; margin-bottom:20px;">>> ATTENDANCE</h2>';
-        murid.forEach(n => h += `<div class="row"><span>${n}</span><span style="color:var(--p)">[CHECK]</span></div>`);
+        let h = '';
+        murid.forEach((n, i) => { h += `<div class="row"><span style="flex:1;">${n}</span><select id="s-${i}"><option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`; });
+        h += `<button onclick="send()" class="btn-execute">EXECUTE REKAP</button>`;
         document.getElementById('isi-absen').innerHTML = h;
     }
+
     function renderSiswa() {
-        let h = '<h2 style="font-size:12px; margin-bottom:20px;">>> DATABASE</h2>';
-        murid.forEach(n => h += `<div class="row"><span>${n}</span></div>`);
+        let h = '';
+        murid.forEach(n => { h += `<div class="row"><span>${n}</span></div>`; });
         document.getElementById('isi-siswa').innerHTML = h;
     }
-    function renderLogs() {
-        const logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
-        let h = '';
-        logs.reverse().forEach(l => h += `<div class="row"><b style="color:red;">[DETEKSI]</b> Time: ${l.t}<br>Input: "${l.p}"</div>`);
-        document.getElementById('log-list').innerHTML = h || 'No intrusion logs found.';
+
+    function send() {
+        let t = "*XENCETWO_REPORT*%0A";
+        murid.forEach((n, i) => { t += `${i+1}. ${n}: ${document.getElementById('s-'+i).value}%0A`; });
+        window.open(`https://wa.me/6282229315510?text=${t}`);
+    }
+
+    function glitchEffect() {
+        document.getElementById('main-body').classList.add('glitch-active');
+        setTimeout(() => document.getElementById('main-body').classList.remove('glitch-active'), 300);
     }
 </script>
 </body>
