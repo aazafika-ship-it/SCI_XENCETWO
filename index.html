@@ -2,68 +2,180 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XENCETWO | OVERLORD_OS</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XENCETWO | DEITY_AUTHORITY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Singkat biar langsung kelihatan hasilnya */
-        body { background: #111; color: white; font-family: sans-serif; text-align: center; }
-        .container { padding: 20px; }
-        .card { background: #222; margin: 10px; padding: 15px; border-radius: 10px; border: 1px solid #444; }
-        .hidden { display: none; }
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; 
-                   display: flex; align-items: center; justify-content: center; z-index: 99; cursor: pointer; }
+        :root { --bg: #000; --p: #00ff88; --d: #ff0033; --s: rgba(20,20,20,0.95); }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh; }
+
+        /* OVERLAY KIAMAT */
+        #breach-overlay {
+            position: fixed; inset: 0; background: #000; z-index: 99999;
+            display: none; flex-direction: column; padding: 25px;
+            font-family: 'Courier New', monospace; color: var(--d);
+        }
+        #countdown { font-family: 'Syncopate'; font-size: 75px; color: #fff; text-shadow: 0 0 20px red; margin: 15px 0; animation: pulse 1s infinite; text-align: center; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); color: var(--d); } }
+        #typing-area { font-size: 11px; white-space: pre-wrap; opacity: 0.8; height: 130px; overflow: hidden; margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
+
+        /* UI UTAMA */
+        #app { padding: 25px; padding-bottom: 110px; }
+        header { border-left: 4px solid var(--p); padding-left: 15px; margin-bottom: 25px; }
+        header h1 { font-family: 'Syncopate'; font-size: 18px; letter-spacing: 2px; color: #fff; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card-hero { grid-column: span 2; height: 160px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,255,136,0.2); margin-bottom: 5px; }
+        .card-hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+
+        .card { background: var(--s); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 10px; text-align: center; transition: 0.3s; }
+        .card:active { background: #1a1a1a; transform: scale(0.95); border-color: var(--p); }
+        .card i { font-size: 26px; display: block; margin-bottom: 8px; color: var(--p); }
+        .card h3 { font-size: 9px; font-family: 'Syncopate'; color: var(--p); letter-spacing: 1px; }
+
+        /* PAGES */
+        .page { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; padding: 30px; overflow-y: auto; }
+        .page.active { display: block; animation: fIn 0.3s; }
+        @keyframes fIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-close { width: 45px; height: 45px; border: 1px solid var(--p); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--p); font-size: 20px; }
+        .row { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid var(--p); font-size: 11px; display: flex; align-items: center; justify-content: space-between; }
+
+        .input-pass { background: #0a0a0a; border: 1px solid var(--p); color: var(--p); padding: 15px; width: 100%; margin-bottom: 15px; text-align: center; border-radius: 10px; font-size: 18px; outline: none; }
+        .btn-exe { width: 100%; padding: 18px; background: var(--p); color: #000; border: none; font-weight: 900; font-family: 'Syncopate'; border-radius: 15px; cursor: pointer; }
+
+        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 65px; background: rgba(10,10,10,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(15px); z-index: 1000; }
+        .dock i { font-size: 20px; color: rgba(255,255,255,0.3); }
     </style>
 </head>
 <body>
 
-    <div id="overlay" onclick="bukaWeb()">
-        <h1>KLIK UNTUK MASUK OVERLORD_OS</h1>
+<audio id="leak-audio" loop><source src="https://files.catbox.moe/p9o487.mp3" type="audio/mpeg"></audio>
+
+<div id="breach-overlay" onclick="stopBreach()">
+    <div style="background: var(--d); color: white; padding: 10px; font-weight: bold; text-align: center; font-size: 12px; letter-spacing: 1px;">CRITICAL_SECURITY_BREACH</div>
+    <div id="countdown">10</div>
+    <p style="font-weight: bold; letter-spacing: 2px; color: #fff; font-size: 11px; text-align: center;">TERMINATING_ALL_PROCESSES...</p>
+    <div id="typing-area"></div>
+    <div style="position: absolute; bottom: 40px; width: 85%; left: 7.5%; border: 1px solid rgba(255,255,255,0.3); padding: 12px; text-align: center; font-size: 10px; color: #666;">AUTHORIZATION REQUIRED TO ABORT</div>
+</div>
+
+<div id="app">
+    <header><p style="font-size: 8px; color: var(--p);">SYSTEM_STATUS: SECURED</p><h1>XENCETWO</h1></header>
+    
+    <div class="grid">
+        <div class="card-hero"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000"></div>
+        <div class="card" onclick="navPage('absen')"><i>📝</i><h3>ABSENSI</h3></div>
+        <div class="card" onclick="navPage('siswa')"><i>🎓</i><h3>SISWA</h3></div>
+        <div class="card" onclick="navPage('jadwal')"><i>📅</i><h3>JADWAL</h3></div>
+        <div class="card" onclick="navPage('piket')"><i>🧹</i><h3>PIKET</h3></div>
+        <div class="card" onclick="navPage('vault')"><i>🔐</i><h3>VAULT</h3></div>
+        <div class="card" onclick="navPage('logs')"><i>📂</i><h3>LOGS</h3></div>
     </div>
+</div>
 
-    <div class="container">
-        <h1>🚀 XENCETWO - OVERLORD_OS</h1>
-        
-        <div class="card">
-            <h3>📸 Galeri Foto Sekelas</h3>
-            <img src="foto_sekelas.jpg" alt="Foto Belum Ada" style="width:100%; border-radius:10px;">
-        </div>
+<div id="p-absen" class="page"><div class="btn-close" onclick="closePage()">✕</div><div id="isi-absen"></div></div>
+<div id="p-siswa" class="page"><div class="btn-close" onclick="closePage()">✕</div><div id="isi-siswa"></div></div>
+<div id="p-jadwal" class="page"><div class="btn-close" onclick="closePage()">✕</div><div class="row">Senin: MTK, Fisika, B.Indo</div><div class="row">Selasa: Olahraga, Sejarah</div></div>
+<div id="p-piket" class="page"><div class="btn-close" onclick="closePage()">✕</div><div class="row">Senin: Aditya, Ahmad, Alya</div><div class="row">Selasa: Andina, Aura, Ayyesa</div></div>
 
-        <div class="card">
-            <h3>📚 Jadwal Pelajaran</h3>
-            <p>Senin: MTK, B.Indo, Fisika</p>
-            <p>Selasa: Olahraga, Agama, Sejarah</p>
-            </div>
+<div id="p-vault" class="page">
+    <div class="btn-close" onclick="closePage()">✕</div>
+    <h2 style="font-size:12px; margin-bottom:20px; color: var(--p);">>> CORE_DECRYPTOR</h2>
+    <input type="password" id="pass-field" class="input-pass" placeholder="ENTER CORE CODE">
+    <button onclick="unlockVault()" class="btn-exe">EXECUTE</button>
+</div>
 
-        <div class="card">
-            <h3>🧹 Daftar Piket</h3>
-            <ul>
-                <li>Senin: Budi, Siti, Agus</li>
-                <li>Selasa: Rendi, Maya, Eko</li>
-            </ul>
-        </div>
-    </div>
+<div id="p-logs" class="page"><div class="btn-close" onclick="closePage()">✕</div><h2 style="font-size:12px; margin-bottom:20px; color:var(--d);">>> SECURITY_HISTORY</h2><div id="log-list"></div></div>
 
-    <audio id="laguKu" loop>
-        <source src="lagu.mp3" type="audio/mpeg">
-    </audio>
+<div class="dock">
+    <div onclick="closePage()">🏠</div>
+    <div onclick="navPage('absen')">📝</div>
+    <div onclick="navPage('vault')">🔐</div>
+</div>
 
-    <script>
-        function bukaWeb() {
-            // Hilangkan overlay
-            document.getElementById('overlay').style.display = 'none';
-            // Putar lagu
-            var audio = document.getElementById('laguKu');
-            audio.play();
+<script>
+    const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
+
+    function navPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p-' + id).classList.add('active');
+        if(id === 'absen') renderAbsen();
+        if(id === 'siswa') renderSiswa();
+        if(id === 'logs') renderLogs();
+    }
+    function closePage() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+
+    const scripts = ["OVERRIDING_ENCRYPTION...\n", "WIPING_USER_CACHED_FILES...\n", "EXTRACTING_WHATSAPP_DAT...\n", "UPLOADING_CREDENTIALS...\n", "DELETING_SYSTEM_32_LOGS...\n", "LOCKING_HARDWARE_ID...\n"];
+
+    function unlockVault() {
+        const p = document.getElementById('pass-field').value;
+        if(p === 'admin123') { alert("Welcome, Deity."); navPage('logs'); }
+        else {
+            let logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
+            logs.push({ t: new Date().toLocaleTimeString(), p: p });
+            localStorage.setItem('hLogs', JSON.stringify(logs));
+            startDoomsday();
         }
-    </script>
+    }
+
+    let timer, bInterval;
+    function startDoomsday() {
+        const overlay = document.getElementById('breach-overlay');
+        const countTxt = document.getElementById('countdown');
+        const area = document.getElementById('typing-area');
+        const audio = document.getElementById('leak-audio');
+        let count = 10;
+        overlay.style.display = 'flex';
+        audio.play().catch(e => {});
+
+        timer = setInterval(() => {
+            count--;
+            countTxt.innerText = count;
+            if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
+            if(count <= 0) {
+                clearInterval(timer); clearInterval(bInterval);
+                // GANTI LAYAR JADI HITAM DINGIN
+                document.body.innerHTML = `
+                    <div style="background:#000; height:100vh; width:100vw; display:flex; flex-direction:column; align-items:center; justify-content:center; color:red; font-family:monospace; text-align:center; padding:20px;">
+                        <h1 style="font-size:30px; margin-bottom:15px; border:2px solid red; padding:10px;">DEVICE_LOCKED</h1>
+                        <p style="color:#666; font-size:12px;">UNAUTHORIZED ACCESS DETECTED.<br>YOUR DATA HAS BEEN ENCRYPTED AND SENT TO SERVER.</p>
+                        <p style="margin-top:50px; color:#333; font-size:10px;">OMNI_DEITY_PROTECTION_V2</p>
+                    </div>`;
+                setTimeout(() => location.reload(), 5000);
+            }
+        }, 1000);
+
+        bInterval = setInterval(() => {
+            area.innerText += scripts[Math.floor(Math.random() * scripts.length)];
+            overlay.scrollTop = overlay.scrollHeight;
+        }, 120);
+    }
+
+    function stopBreach() {
+        clearInterval(timer); clearInterval(bInterval);
+        document.getElementById('breach-overlay').style.display = 'none';
+        document.getElementById('typing-area').innerText = '';
+        document.getElementById('leak-audio').pause();
+        document.getElementById('pass-field').value = '';
+    }
+
+    function renderAbsen() {
+        let h = '<h2 style="font-size:12px; margin-bottom:20px;">>> ATTENDANCE</h2>';
+        murid.forEach(n => h += `<div class="row"><span>${n}</span><span style="color:var(--p)">[CHECK]</span></div>`);
+        document.getElementById('isi-absen').innerHTML = h;
+    }
+    function renderSiswa() {
+        let h = '<h2 style="font-size:12px; margin-bottom:20px;">>> DATABASE</h2>';
+        murid.forEach(n => h += `<div class="row"><span>${n}</span></div>`);
+        document.getElementById('isi-siswa').innerHTML = h;
+    }
+    function renderLogs() {
+        const logs = JSON.parse(localStorage.getItem('hLogs') || '[]');
+        let h = '';
+        logs.reverse().forEach(l => h += `<div class="row"><b style="color:red;">[DETEKSI]</b> Time: ${l.t}<br>Input: "${l.p}"</div>`);
+        document.getElementById('log-list').innerHTML = h || 'No intrusion logs found.';
+    }
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
