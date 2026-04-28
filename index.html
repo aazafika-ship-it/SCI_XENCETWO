@@ -75,11 +75,11 @@
         .list { background: var(--card-bg); border-radius: 15px; padding: 12px; margin-top: 15px; border: 1px solid var(--border); }
         .item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border); }
         .box-info { background: var(--primary); color: #fff; padding: 25px; border-radius: 15px; font-weight: 800; font-family: 'Orbitron'; font-size: 12px; line-height: 1.6; }
-        .back-btn { background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 10px; font-weight: 900; margin-bottom: 25px; display: inline-block; font-family: 'Orbitron'; }
+        .back-btn { background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 10px; font-weight: 900; margin-bottom: 25px; display: inline-block; font-family: 'Orbitron'; cursor: pointer; }
 
         /* NAV */
         .nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--nav-bg); backdrop-filter: blur(20px); padding: 18px; border-radius: 50px; display: flex; justify-content: space-around; border: 1.5px solid var(--primary); z-index: 1000; box-shadow: var(--neon); }
-        .nav-btn { font-size: 24px; color: #888; transition: 0.3s; }
+        .nav-btn { font-size: 24px; color: #888; transition: 0.3s; cursor: pointer; }
         .nav-btn.active { color: var(--primary); filter: drop-shadow(0 0 5px var(--primary)); }
         
         /* FOOTER */
@@ -92,14 +92,18 @@
         }
         .copyright { text-align: center; font-family: 'Orbitron'; font-size: 8px; color: var(--primary); margin-top: 15px; opacity: 0.7; }
 
-        .float-music { position: fixed; left: 20px; bottom: 120px; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999; box-shadow: var(--neon); font-size: 20px; }
+        .float-music { position: fixed; left: 20px; bottom: 120px; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999; box-shadow: var(--neon); font-size: 20px; cursor: pointer; }
+        
+        /* Select Styling */
+        select { outline: none; cursor: pointer; }
+        select:disabled { opacity: 1; color: var(--primary) !important; background: rgba(255,255,255,0.05) !important; }
     </style>
 </head>
 <body onclick="initAudio()">
 
 <div id="loader">
     <img src="img/logo.png" class="loader-logo" onerror="this.src='https://api.api-ninjas.com/v1/logo?name=atom'">
-    <div style="font-family:'Orbitron'; color:#00d2ff; margin-top:15px; font-size:10px; letter-spacing:2px;">INIT_SYSTEM_2025...</div>
+    <div style="font-family:'Orbitron'; color:#00d2ff; margin-top:15px; font-size:10px; letter-spacing:2px;">INIT_SYSTEM_2026...</div>
 </div>
 
 <div class="theme-switch" onclick="toggleTheme()" id="themeBtn">🌙</div>
@@ -150,9 +154,9 @@
 
     <footer>
         <div class="marquee">
-            <p>DESIGNED AND CODED BY A. ZAINAL BAGUS M. — SCI_XENCETWO AUTHORITY — ACCESS GRANTED — SYSTEM STABLE — 2025 — </p>
+            <p>DESIGNED AND CODED BY A. ZAINAL BAGUS M. — SCI_XENCETWO AUTHORITY — ACCESS GRANTED — SYSTEM STABLE — 2026 — </p>
         </div>
-        <div class="copyright">© 2025 SCI_XENCETWO OFFICIAL</div>
+        <div class="copyright">© 2026 SCI_XENCETWO OFFICIAL</div>
     </footer>
 </div>
 
@@ -180,17 +184,14 @@
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
         const btn = document.getElementById('themeBtn');
-        if (document.body.classList.contains('light-mode')) {
-            btn.innerText = '☀️';
-        } else {
-            btn.innerText = '🌙';
-        }
+        btn.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
     }
 
     function move(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        
         if(id === 'home') document.getElementById('btn-home').classList.add('active');
         if(id === 'absen') { document.getElementById('btn-absen').classList.add('active'); renderAbsen(); }
         if(id === 'siswa') { document.getElementById('btn-siswa').classList.add('active'); renderSiswa(); }
@@ -204,12 +205,23 @@
         let h = `<div class="list">`;
         murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            h += `<div class="item"><span style="flex:1; font-size:11px; font-weight:bold;">${no}. ${n}</span>
-                  <select id="stat-${no}" ${isAdmin ? '' : 'disabled'} style="background:var(--primary); color:white; border:none; border-radius:5px; font-size:10px; font-weight:bold; padding:4px 8px;">
-                  <option>HADIR</option><option>IZIN</option><option>ALPA</option></select></div>`;
+            h += `<div class="item" style="justify-content:space-between">
+                    <span style="flex:1; font-size:11px; font-weight:bold;">${no}. ${n}</span>
+                    <select id="stat-${no}" ${isAdmin ? '' : 'disabled'} 
+                        style="background:var(--primary); color:white; border:none; border-radius:5px; font-size:10px; font-weight:bold; padding:4px 8px;">
+                        <option value="HADIR">HADIR</option>
+                        <option value="IZIN">IZIN</option>
+                        <option value="SAKIT">SAKIT</option>
+                        <option value="ALPA">ALPA</option>
+                    </select>
+                  </div>`;
         });
         h += `</div>`;
-        if(isAdmin) h += `<button onclick="kirimWA()" style="width:100%; background:var(--primary); color:white; padding:18px; border:none; border-radius:15px; margin-top:20px; font-weight:bold; font-family:'Orbitron'; letter-spacing:2px; box-shadow:var(--neon);">EXECUTE REKAP</button>`;
+        if(isAdmin) {
+            h += `<button onclick="kirimWA()" style="width:100%; background:var(--primary); color:white; padding:18px; border:none; border-radius:15px; margin-top:20px; font-weight:bold; font-family:'Orbitron'; letter-spacing:2px; box-shadow:var(--neon);">EXECUTE REKAP</button>`;
+        } else {
+            h += `<p style="text-align:center; font-size:9px; color:var(--primary); margin-top:15px; font-family:'Orbitron'; opacity:0.6;">MODE_VIEW: ACCESS_LOCKED</p>`;
+        }
         document.getElementById('isi-absen').innerHTML = h;
     }
 
@@ -222,13 +234,29 @@
     }
 
     function renderMapel() {
-        const h = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
-        document.getElementById('isi-mapel').innerHTML = `<div class="box-info">>> SYSTEM_LOG: ${h.toUpperCase()}<br>--------------------------<br>01. MATEMATIKA<br>02. B. INDONESIA<br>03. FISIKA</div>`;
+        const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+        const jadwal = {
+            'Senin': ['Matematika', 'B. Indonesia', 'Fisika', 'Kimia'],
+            'Selasa': ['Biologi', 'Sejarah', 'B. Inggris', 'Olahraga'],
+            'Rabu': ['Sosiologi', 'Ekonomi', 'Geografi', 'Seni'],
+            'Kamis': ['PKN', 'TIK', 'PAI', 'Matematika'],
+            'Jumat': ['B. Arab', 'Fisika', 'Kebersihan']
+        };
+        let list = jadwal[hari] ? jadwal[hari].map((m, i) => `${(i+1).toString().padStart(2,'0')}. ${m}`).join('<br>') : "HARI_LIBUR_SYSTEM";
+        document.getElementById('isi-mapel').innerHTML = `<div class="box-info">>> SYSTEM_LOG: ${hari.toUpperCase()}<br>--------------------------<br>${list}</div>`;
     }
 
     function renderPiket() {
-        const h = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
-        document.getElementById('isi-piket').innerHTML = `<div class="box-info" style="background:transparent; border:1.5px solid var(--primary); color:var(--primary);">>> PIKET_ROSTER: ${h.toUpperCase()}<br>--------------------------<br>ADIT, ZAINAL, ALYA, ANDINA</div>`;
+        const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+        const regu = {
+            'Senin': 'ADIT, ZAINAL, ALYA, ANDINA',
+            'Selasa': 'AURA, AYYESA, DIAN, DINDA',
+            'Rabu': 'DIVA, ELVIA, ESA, FADHKAMIL',
+            'Kamis': 'JIHAN, ISTIK, RAFI, SAMSUL',
+            'Jumat': 'MUFIDA, RIFKI, SANDY, NISA'
+        };
+        let person = regu[hari] || "NO_DATA_FOUND";
+        document.getElementById('isi-piket').innerHTML = `<div class="box-info" style="background:transparent; border:1.5px solid var(--primary); color:var(--primary);">>> PIKET_ROSTER: ${hari.toUpperCase()}<br>--------------------------<br>${person}</div>`;
     }
 
     function loginAdmin() {
@@ -249,9 +277,11 @@
 
     function kirimWA() {
         let teks = "*REPORT ABSENSI XENCETWO*%0A";
+        teks += "Tanggal: " + new Date().toLocaleDateString('id-ID') + "%0A%0A";
         murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            teks += `${no}. ${n}: ${document.getElementById('stat-'+no).value}%0A`;
+            let stat = document.getElementById('stat-'+no).value;
+            teks += `${no}. ${n}: *${stat}*%0A`;
         });
         window.open(`https://wa.me/${nomorWA}?text=${teks}`);
     }
