@@ -6,7 +6,6 @@
     <title>SCI_XENCETWO OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* CORE VARIABLES */
         :root {
             --bg: #0b141a;
             --primary: #00d2ff;
@@ -30,16 +29,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        /* LOADING ANIMATION */
+        /* LOADER */
         #loader { position: fixed; inset: 0; background: #0b141a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loader-logo { width: 100px; filter: drop-shadow(var(--neon)); animation: pulse 2s infinite; }
+        .loader-logo { width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(var(--neon)); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        /* THEME & MUSIC FLOATING */
+        /* TOOLS */
         .theme-switch { position: fixed; top: 20px; right: 20px; z-index: 1001; width: 45px; height: 45px; background: var(--card-bg); border: 1.5px solid var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: var(--neon); cursor: pointer; }
         .float-music { position: fixed; left: 20px; bottom: 120px; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999; box-shadow: var(--neon); cursor: pointer; }
 
-        /* MAIN CONTENT */
         #app { display: none; padding: 15px; padding-bottom: 150px; opacity: 0; }
         .enter-active { animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -48,31 +46,26 @@
         .hero-box { width: 100%; border-radius: 20px; overflow: hidden; border: 2px solid var(--border); box-shadow: var(--neon); margin-bottom: 25px; }
         .hero-img { width: 100%; height: auto; display: block; }
 
-        /* GRID SYSTEM */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { background: var(--card-bg); padding: 25px 10px; border-radius: 18px; text-align: center; border: 1px solid var(--border); backdrop-filter: blur(10px); cursor: pointer; }
-        .card:active { transform: scale(0.95); }
         .card span { font-size: 30px; display: block; margin-bottom: 8px; }
         .card h3 { font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* PAGES & LISTS */
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .list { background: var(--card-bg); border-radius: 20px; padding: 15px; margin-top: 15px; border: 1px solid var(--border); }
-        .item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 15px 10px; border-bottom: 1px solid var(--border); }
         .item:last-child { border-bottom: none; }
 
-        .box-info { background: var(--primary); color: #fff; padding: 20px; border-radius: 15px; font-weight: bold; font-family: 'Orbitron'; font-size: 12px; line-height: 1.8; box-shadow: var(--neon); }
+        .box-info { background: var(--primary); color: #fff; padding: 20px; border-radius: 15px; font-weight: bold; font-family: 'Orbitron'; font-size: 12px; line-height: 1.8; }
         .back-btn { background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 10px; font-weight: 900; margin-bottom: 20px; display: inline-block; font-family: 'Orbitron'; cursor: pointer; }
 
-        /* NAVIGATION BAR */
         .nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--nav-bg); backdrop-filter: blur(20px); padding: 15px; border-radius: 40px; display: flex; justify-content: space-around; border: 1.5px solid var(--primary); z-index: 1000; box-shadow: var(--neon); }
         .nav-btn { font-size: 22px; color: #666; cursor: pointer; }
         .nav-btn.active { color: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
 
-        /* SELECT STYLING */
         select { background: var(--primary); color: white; border: none; border-radius: 6px; padding: 5px 10px; font-weight: bold; font-size: 10px; outline: none; }
         select:disabled { opacity: 1; background: rgba(255,255,255,0.1); color: var(--primary); -webkit-text-fill-color: var(--primary); }
 
@@ -82,8 +75,8 @@
 <body onclick="initAudio()">
 
 <div id="loader">
-    <img src="https://api.api-ninjas.com/v1/logo?name=atom" class="loader-logo">
-    <p style="font-family:'Orbitron'; color:#00d2ff; margin-top:20px; font-size:10px; letter-spacing:3px;">SYSTEM_BOOT_2026</p>
+    <img src="./img/logo.png" class="loader-logo" onerror="this.src='https://api.api-ninjas.com/v1/logo?name=atom'">
+    <p style="font-family:'Orbitron'; color:#00d2ff; margin-top:20px; font-size:10px; letter-spacing:3px;">SYSTEM_XENCETWO_READY</p>
 </div>
 
 <div class="theme-switch" onclick="toggleTheme()" id="themeBtn">🌙</div>
@@ -93,7 +86,9 @@
 <div id="app">
     <div id="home" class="page active">
         <header><h1>SCI_XENCETWO</h1></header>
-        <div class="hero-box"><img src="img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400/0b141a/00d2ff?text=XI+SCIENCE+2'"></div>
+        <div class="hero-box">
+            <img src="./img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400/0b141a/00d2ff?text=IMAGE_NOT_FOUND'">
+        </div>
         <div class="grid">
             <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
             <div class="card" onclick="move('siswa')"><span>🎓</span><h3>Siswa</h3></div>
@@ -114,24 +109,11 @@
         <div class="list" id="isi-siswa"></div>
     </div>
 
-    <div id="galeri" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
-        <div class="list" style="text-align:center; padding:100px 0; color:var(--primary); font-family:'Orbitron'; font-size:10px;">ENCRYPTED_DATABASE: 0%</div>
-    </div>
+    <div id="jadwal" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-mapel"></div></div>
+    <div id="piket" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-piket"></div></div>
+    <div id="galeri" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div class="list" style="text-align:center; padding:100px 0; color:var(--primary); font-family:'Orbitron'; font-size:10px;">ENCRYPTED_DATABASE: 0%</div></div>
 
-    <div id="jadwal" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
-        <div id="isi-mapel"></div>
-    </div>
-
-    <div id="piket" class="page">
-        <div class="back-btn" onclick="move('home')">← BACK</div>
-        <div id="isi-piket"></div>
-    </div>
-
-    <footer>
-        <p>© 2026 SCI_XENCETWO AUTHORITY<br>CODED BY A. ZAINAL BAGUS M.</p>
-    </footer>
+    <footer><p>© 2026 SCI_XENCETWO AUTHORITY<br>DEVELOPED BY A. ZAINAL BAGUS M.</p></footer>
 </div>
 
 <div class="nav">
@@ -146,109 +128,98 @@
     const nomorWA = "6287790421235";
     let isAdmin = false;
 
-    // LOCAL STORAGE SYSTEM
-    let dataAbsen = JSON.parse(localStorage.getItem('db_absen_xencetwo')) || {};
+    // LOCAL STORAGE
+    let dataAbsen = JSON.parse(localStorage.getItem('db_xencetwo_2026')) || {};
     
-    function initData() {
-        if (Object.keys(dataAbsen).length === 0) {
-            murid.forEach((n, i) => {
-                dataAbsen[(i+1).toString().padStart(2, '0')] = "HADIR";
-            });
-            saveToLocal();
-        }
+    function syncData() {
+        murid.forEach((n, i) => {
+            let no = (i+1).toString().padStart(2, '0');
+            if(!dataAbsen[no]) dataAbsen[no] = "HADIR";
+        });
+        localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen));
     }
 
-    function saveToLocal() {
-        localStorage.setItem('db_absen_xencetwo', JSON.stringify(dataAbsen));
-    }
-
-    // BOOT SYSTEM
+    // APP START
     setTimeout(() => {
         document.getElementById('loader').style.display = 'none';
-        const app = document.getElementById('app');
-        app.style.display = 'block';
-        app.classList.add('enter-active');
-        initData();
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('app').classList.add('enter-active');
+        syncData();
     }, 2500);
 
     function move(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        
         if(id === 'home') document.getElementById('btn-home').classList.add('active');
         if(id === 'absen') { document.getElementById('btn-absen').classList.add('active'); renderAbsen(); }
         if(id === 'siswa') { document.getElementById('btn-siswa').classList.add('active'); renderSiswa(); }
-        if(id === 'galeri') document.getElementById('btn-galeri').classList.add('active');
         if(id === 'jadwal') renderMapel();
         if(id === 'piket') renderPiket();
         window.scrollTo(0,0);
     }
 
     function renderAbsen() {
-        let h = `<div class="list">`;
+        const d = new Date();
+        const hari = d.toLocaleDateString('id-ID', { weekday: 'long' });
+        const tgl = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+        
+        let h = `<div style="margin-bottom: 20px; padding: 15px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 15px; text-align: center;">
+                    <p style="font-family: 'Orbitron'; font-size: 10px; color: var(--primary); letter-spacing: 1px;">SYSTEM_DATE_ACTIVE</p>
+                    <h2 style="font-size: 16px; margin-top: 5px;">${hari.toUpperCase()}, ${tgl.toUpperCase()}</h2>
+                 </div>`;
+        
+        h += `<div class="list">`;
         murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
-            let statSekarang = dataAbsen[no] || "HADIR";
+            let stat = dataAbsen[no] || "HADIR";
             h += `<div class="item">
-                    <span style="flex:1; font-size:11px; font-weight:bold;">${no}. ${n}</span>
-                    <select id="stat-${no}" onchange="updateStat('${no}', this.value)" ${isAdmin ? '' : 'disabled'}>
-                        <option value="HADIR" ${statSekarang === 'HADIR' ? 'selected' : ''}>HADIR</option>
-                        <option value="IZIN" ${statSekarang === 'IZIN' ? 'selected' : ''}>IZIN</option>
-                        <option value="SAKIT" ${statSekarang === 'SAKIT' ? 'selected' : ''}>SAKIT</option>
-                        <option value="ALPA" ${statSekarang === 'ALPA' ? 'selected' : ''}>ALPA</option>
-                    </select>
+                    <span style="flex:1; font-size:11px; font-weight:bold;">${n}</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <select id="stat-${no}" onchange="updateStat('${no}', this.value)" ${isAdmin ? '' : 'disabled'}>
+                            <option value="HADIR" ${stat === 'HADIR' ? 'selected' : ''}>HADIR</option>
+                            <option value="IZIN" ${stat === 'IZIN' ? 'selected' : ''}>IZIN</option>
+                            <option value="SAKIT" ${stat === 'SAKIT' ? 'selected' : ''}>SAKIT</option>
+                            <option value="ALPA" ${stat === 'ALPA' ? 'selected' : ''}>ALPA</option>
+                        </select>
+                        <div style="width:25px; height:25px; border-radius:5px; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:9px; font-family:'Orbitron';">${no}</div>
+                    </div>
                   </div>`;
         });
         h += `</div>`;
+
         if(isAdmin) {
             h += `<button onclick="kirimWA()" style="width:100%; background:var(--primary); color:white; padding:18px; border:none; border-radius:15px; margin-top:20px; font-weight:bold; font-family:'Orbitron'; box-shadow:var(--neon);">EXECUTE_REKAP</button>`;
-            h += `<p onclick="resetData()" style="text-align:center; color:#ff4444; font-size:10px; margin-top:15px; cursor:pointer;">[!] RESET_ALL_DATA</p>`;
-        } else {
-            h += `<p style="text-align:center; font-size:9px; color:var(--primary); margin-top:15px; font-family:'Orbitron'; opacity:0.5;">DATABASE_MODE: PERSISTENT</p>`;
+            h += `<p onclick="resetData()" style="text-align:center; color:#ff4444; font-size:10px; margin-top:15px; cursor:pointer; font-family:'Orbitron';">[!] RESET_SYSTEM</p>`;
         }
         document.getElementById('isi-absen').innerHTML = h;
-    }
-
-    function updateStat(no, val) {
-        dataAbsen[no] = val;
-        saveToLocal();
-    }
-
-    function resetData() {
-        if(confirm("Hapus rekap hari ini?")) {
-            localStorage.removeItem('db_absen_xencetwo');
-            dataAbsen = {};
-            initData();
-            renderAbsen();
-        }
     }
 
     function renderSiswa() {
         let h = "";
         murid.forEach((n, i) => {
-            h += `<div class="item"><div style="width:30px; height:30px; border-radius:8px; background:var(--primary); margin-right:15px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:10px; font-family:'Orbitron';">${i+1}</div><p style="font-size:11px; font-weight:bold;">${n}</p></div>`;
+            h += `<div class="item">
+                    <p style="font-size:11px; font-weight:bold; flex:1; text-transform: uppercase;">${n}</p>
+                    <div style="width:30px; height:30px; border-radius:8px; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:10px; font-family:'Orbitron'; margin-left:15px; box-shadow: var(--neon);">${i+1}</div>
+                  </div>`;
         });
         document.getElementById('isi-siswa').innerHTML = h;
     }
 
+    function updateStat(no, val) { dataAbsen[no] = val; localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen)); }
+    function resetData() { if(confirm("Reset rekap hari ini?")) { dataAbsen = {}; syncData(); renderAbsen(); } }
+
     function renderMapel() {
         const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
-        const j = {
-            'Senin': ['Fisika', 'MTK Minat', 'B. Indonesia'],
-            'Selasa': ['Biologi', 'Kimia', 'PAI'],
-            'Rabu': ['B. Inggris', 'Sejarah', 'PKN'],
-            'Kamis': ['MTK Wajib', 'Penjas', 'Seni'],
-            'Jumat': ['B. Arab', 'Prakarya']
-        };
+        const j = { 'Senin': ['MTK', 'Fisika', 'B. Indo'], 'Selasa': ['Biologi', 'Kimia', 'PAI'], 'Rabu': ['Inggris', 'Sejarah', 'PKN'], 'Kamis': ['MTK', 'Penjas', 'Seni'], 'Jumat': ['B. Arab', 'Prakarya'] };
         let m = j[hari] ? j[hari].join('<br>') : "HARI_LIBUR";
-        document.getElementById('isi-mapel').innerHTML = `<div class="box-info">>> LOG: ${hari.toUpperCase()}<br>-------------------<br>${m}</div>`;
+        document.getElementById('isi-mapel').innerHTML = `<div class="box-info">>> LOG: ${hari.toUpperCase()}<br>---<br>${m}</div>`;
     }
 
     function renderPiket() {
         const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
         const p = { 'Senin': 'Regu A', 'Selasa': 'Regu B', 'Rabu': 'Regu C', 'Kamis': 'Regu D', 'Jumat': 'Regu E' };
-        document.getElementById('isi-piket').innerHTML = `<div class="box-info" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">>> PIKET: ${hari.toUpperCase()}<br>-------------------<br>${p[hari] || 'TIDAK_ADA'}</div>`;
+        document.getElementById('isi-piket').innerHTML = `<div class="box-info" style="background:transparent; border:1.5px solid var(--primary); color:var(--primary);">>> PIKET: ${hari.toUpperCase()}<br>---<br>${p[hari] || 'OFF'}</div>`;
     }
 
     function toggleTheme() {
@@ -257,20 +228,14 @@
     }
 
     function loginAdmin() {
-        if(prompt("ENTER_ACCESS_KEY:") === "7anhidup") { 
-            isAdmin = true; alert("ACCESS_GRANTED"); move('absen'); 
-        } else { alert("ACCESS_DENIED"); }
+        if(prompt("ACCESS_CODE:") === "7anhidup") { isAdmin = true; alert("GRANTED"); move('absen'); } else { alert("DENIED"); }
     }
 
-    function playMusic() {
-        const a = document.getElementById("audioPlayer");
-        a.paused ? a.play() : a.pause();
-    }
-
+    function playMusic() { const a = document.getElementById("audioPlayer"); a.paused ? a.play() : a.pause(); }
     function initAudio() { document.getElementById("audioPlayer").play().catch(() => {}); }
 
     function kirimWA() {
-        let t = "*REPORT ABSENSI SCI_XENCETWO*%0A" + new Date().toLocaleDateString('id-ID') + "%0A%0A";
+        let t = "*REPORT ABSENSI SCI_XENCETWO*%0A" + new Date().toLocaleDateString('id-ID', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }) + "%0A%0A";
         murid.forEach((n, i) => {
             let no = (i+1).toString().padStart(2, '0');
             t += `${no}. ${n}: *${dataAbsen[no]}*%0A`;
