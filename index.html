@@ -18,6 +18,15 @@
             --border: rgba(0, 210, 255, 0.2);
         }
 
+        /* LIGHT MODE THEME */
+        body.light-mode {
+            --bg: #f0f2f5;
+            --text: #1c1e21;
+            --card-bg: #ffffff;
+            --border: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.9);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
@@ -31,6 +40,10 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); text-shadow: var(--neon); text-align: center; margin: 20px 0; letter-spacing: 2px; }
+
+        /* --- AUDIO & THEME FLOATING --- */
+        .floating-ctrl { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 10px; }
+        .btn-round { width: 40px; height: 40px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--neon); font-size: 18px; }
 
         /* --- HERO & GRID --- */
         .hero-box { width: 100%; border-radius: 20px; overflow: hidden; border: 2px solid var(--border); box-shadow: var(--neon); margin-bottom: 20px; background: #111; position: relative; min-height: 180px; }
@@ -50,9 +63,6 @@
         .chalkboard-v2 { background: linear-gradient(180deg, rgba(255, 68, 68, 0.12) 0%, rgba(0, 0, 0, 0.6) 100%); border: 1px solid var(--alert); border-radius: 12px; padding: 12px; overflow: hidden; position: relative; }
         .chalkboard-v2 marquee { font-family: 'Orbitron'; font-size: 11px; color: var(--alert); font-weight: bold; text-shadow: 0 0 5px rgba(255,68,68,0.4); }
 
-        /* --- WIDGET NEXT CLASS --- */
-        .next-box { background: rgba(0, 210, 255, 0.05); border: 1px solid var(--primary); border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: var(--neon); }
-
         /* --- PAGES & LISTS --- */
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
@@ -62,21 +72,18 @@
         .item { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid var(--border); }
         .item:last-child { border-bottom: none; }
 
-        /* --- MAPEL & PIKET CARD --- */
-        .cyber-item { background: linear-gradient(90deg, rgba(0, 210, 255, 0.1), transparent); border-left: 3px solid var(--primary); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .piket-card { background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), transparent); border-left: 4px solid var(--secondary); padding: 20px; border-radius: 15px; text-align: center; }
+        .date-display { font-family: 'Orbitron'; font-size: 10px; color: var(--secondary); text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
+        .next-box { background: rgba(0, 210, 255, 0.05); border: 1px solid var(--primary); border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: var(--neon); }
 
         /* --- UI COMPONENTS --- */
         .back-btn { background: var(--primary); color: #000; padding: 8px 15px; border-radius: 10px; font-size: 9px; font-weight: 900; margin-bottom: 15px; display: inline-block; font-family: 'Orbitron'; }
         .admin-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--primary); background: rgba(0,210,255,0.05); color: white; margin-bottom: 10px; font-size: 11px; outline: none; }
-        .save-btn { background: var(--primary); color: #000; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; border: none; font-family: 'Orbitron'; font-size: 11px; }
+        .save-btn { background: var(--primary); color: #000; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; border: none; font-family: 'Orbitron'; font-size: 11px; margin-top: 10px; }
 
         /* --- NAVIGATION --- */
         .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--nav-bg); backdrop-filter: blur(15px); padding: 12px; border-radius: 30px; display: flex; justify-content: space-around; border: 1px solid var(--primary); z-index: 1000; box-shadow: var(--neon); }
         .nav-btn { font-size: 20px; color: #444; }
         .nav-btn.active { color: var(--primary); filter: drop-shadow(0 0 5px var(--primary)); }
-
-        .date-display { font-family: 'Orbitron'; font-size: 10px; color: var(--secondary); text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
 
         footer { text-align: center; padding: 30px 0; opacity: 0.5; font-family: 'Orbitron'; font-size: 7px; color: var(--primary); letter-spacing: 1px; }
     </style>
@@ -85,7 +92,11 @@
 
     <div id="loader">
         <div class="loader-ring"></div>
-        <p style="font-family:'Orbitron'; color:var(--primary); margin-top:20px; font-size:9px; letter-spacing:3px;">BOOTING_ZANZOS...</p>
+        <p style="font-family:'Orbitron'; color:var(--primary); margin-top:20px; font-size:10px; letter-spacing:3px;">IX IPA A2_BOOTING...</p>
+    </div>
+
+    <div class="floating-ctrl">
+        <div class="btn-round" onclick="toggleAudio()" id="audio-icon">🎵</div>
     </div>
 
     <div id="admin-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:none; align-items:center; justify-content:center; padding:20px;">
@@ -102,9 +113,8 @@
     <div id="app">
         <div id="home" class="page active">
             <header><h1>SCI_XENCETWO</h1></header>
-            
             <div id="current-date" class="date-display"></div>
-
+            
             <div class="hero-box">
                 <img src="./img/sekelas.jpg" class="hero-img" alt="CLASS_TEAM" onerror="this.src='https://via.placeholder.com/600x300/0b141a/00d2ff?text=FOTO_TIDAK_ADA'">
             </div>
@@ -124,7 +134,6 @@
                     <marquee id="marquee-info" scrollamount="5">>> SYSTEM_READY: WELCOME BACK AGENT BAGUS <<</marquee>
                 </div>
             </div>
-
             <div id="next-class-display"></div>
         </div>
 
@@ -154,13 +163,14 @@
             <div class="back-btn" onclick="move('home')">← EXIT_ADMIN</div>
             <h2 style="font-family:'Orbitron'; font-size:12px; color:var(--primary); margin-bottom:15px;">DASHBOARD_CONTROL</h2>
             <div class="list">
+                <button class="save-btn" onclick="toggleTheme()" style="margin-bottom: 15px;">TOGGLE_DARK_LIGHT</button>
                 <p style="font-size:9px; font-family:'Orbitron'; margin-bottom:10px;">EDIT_INFO_TEXT:</p>
                 <textarea id="input-chalkboard" class="admin-input" rows="3"></textarea>
                 <button class="save-btn" onclick="saveInfo()">UPDATE_SIGNAL</button>
             </div>
             <div class="list" style="margin-top: 20px;">
                 <p style="font-size:9px; font-family:'Orbitron'; margin-bottom:10px;">ATTENDANCE_MANAGER:</p>
-                <div id="admin-isi-absen"></div>
+                <div id="admin-isi-absen" style="max-height: 300px; overflow-y: auto;"></div>
             </div>
         </div>
 
@@ -189,6 +199,7 @@
         let dataAbsen = JSON.parse(localStorage.getItem('db_xencetwo_2026')) || {};
 
         function initApp() {
+            if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
@@ -203,6 +214,18 @@
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options).toUpperCase();
+        }
+
+        function toggleAudio() {
+            const audio = document.getElementById("audioPlayer");
+            const icon = document.getElementById("audio-icon");
+            if (audio.paused) { audio.play(); icon.innerText = "🔊"; } 
+            else { audio.pause(); icon.innerText = "🔇"; }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         }
 
         function checkSavedData() {
@@ -224,40 +247,13 @@
             window.scrollTo(0,0);
         }
 
-        function renderSiswa() {
-            let h = "";
-            murid.sort().forEach((n, i) => {
-                h += `<div class="item"><p style="font-size:11px; font-weight:bold;">${n}</p><span style="font-family:'Orbitron'; font-size:9px; color:var(--primary);">${(i+1).toString().padStart(2,'0')}</span></div>`;
-            });
-            document.getElementById('isi-siswa').innerHTML = h;
-        }
-
-        function renderMapel() {
-            const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
-            document.getElementById('hari-mapel').innerText = ">> SCHEDULE_" + hari.toUpperCase();
-            let h = "";
-            if(jadwalData[hari]) {
-                jadwalData[hari].forEach(j => {
-                    h += `<div class="cyber-item"><span>${j.m}</span><span class="time-badge" style="background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; font-size:9px; font-weight:bold;">${j.h}</span></div>`;
-                });
-            } else { h = "<p style='text-align:center; opacity:0.3;'>NO_DATA_AVAILABLE</p>"; }
-            document.getElementById('isi-mapel').innerHTML = h;
-        }
-
-        function renderPiket() {
-            const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
-            const regu = { 'Senin': 'Valentino, Nadin, Dian, Sindy, Humam, Shakiya, Rista', 'Selasa': 'Alya, Ayyesa, Sandy, Miko, Bagus, Tata, Zabrian', 'Rabu': 'Zainal, Falen, Rifki, Elsa, Salsa, Dinda, Olivia', 'Kamis': 'Tika, Isna, Andiina, Zila, Istik, Wahyu, Raditya', 'Jumat': 'Rafi, Bayu, Adit, Esa, Diva, Elvia, Andin' };
-            document.getElementById('isi-piket').innerHTML = `<div class="piket-card"><p style="font-family:'Orbitron'; font-size:9px; color:var(--secondary); margin-bottom:10px;">UNIT_${hari.toUpperCase()}:</p><p style="font-size:12px; font-weight:bold; line-height:1.6;">${regu[hari] || 'BASE_CLOSED'}</p></div>`;
-        }
-
         function renderAbsen() {
             let h = `<div class="list">`;
             murid.forEach((n, i) => {
                 let no = (i+1).toString().padStart(2, '0');
                 let stat = dataAbsen[no] || "HADIR";
                 let color = stat === "HADIR" ? "var(--secondary)" : "var(--alert)";
-                h += `<div class="item"><span style="font-size:10px; font-weight:bold;">${n}</span>
-                      <span style="font-family:'Orbitron'; font-size:9px; color:${color}; font-weight:bold;">${stat}</span></div>`;
+                h += `<div class="item"><span style="font-size:10px; font-weight:bold;">${n}</span><span style="font-family:'Orbitron'; font-size:9px; color:${color}; font-weight:bold;">${stat}</span></div>`;
             });
             document.getElementById('isi-absen').innerHTML = h + `</div>`;
         }
@@ -276,6 +272,32 @@
         }
 
         function updateStat(no, val) { dataAbsen[no] = val; localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen)); }
+
+        function renderSiswa() {
+            let h = "";
+            murid.sort().forEach((n, i) => {
+                h += `<div class="item"><p style="font-size:11px; font-weight:bold;">${n}</p><span style="font-family:'Orbitron'; font-size:9px; color:var(--primary);">${(i+1).toString().padStart(2,'0')}</span></div>`;
+            });
+            document.getElementById('isi-siswa').innerHTML = h;
+        }
+
+        function renderMapel() {
+            const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+            document.getElementById('hari-mapel').innerText = ">> SCHEDULE_" + hari.toUpperCase();
+            let h = "";
+            if(jadwalData[hari]) {
+                jadwalData[hari].forEach(j => {
+                    h += `<div style="background:linear-gradient(90deg, rgba(0, 210, 255, 0.1), transparent); border-left: 3px solid var(--primary); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><span>${j.m}</span><span style="background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; font-size:9px; font-weight:bold;">${j.h}</span></div>`;
+                });
+            } else { h = "<p style='text-align:center; opacity:0.3;'>NO_DATA_AVAILABLE</p>"; }
+            document.getElementById('isi-mapel').innerHTML = h;
+        }
+
+        function renderPiket() {
+            const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+            const regu = { 'Senin': 'Valentino, Nadin, Dian, Sindy, Humam, Shakiya, Rista', 'Selasa': 'Alya, Ayyesa, Sandy, Miko, Bagus, Tata, Zabrian', 'Rabu': 'Zainal, Falen, Rifki, Elsa, Salsa, Dinda, Olivia', 'Kamis': 'Tika, Isna, Andiina, Zila, Istik, Wahyu, Raditya', 'Jumat': 'Rafi, Bayu, Adit, Esa, Diva, Elvia, Andin' };
+            document.getElementById('isi-piket').innerHTML = `<div style="background:linear-gradient(135deg, rgba(0, 255, 136, 0.1), transparent); border-left: 4px solid var(--secondary); padding: 20px; border-radius: 15px; text-align: center;"><p style="font-family:'Orbitron'; font-size:9px; color:var(--secondary); margin-bottom:10px;">UNIT_${hari.toUpperCase()}:</p><p style="font-size:12px; font-weight:bold; line-height:1.6;">${regu[hari] || 'BASE_CLOSED'}</p></div>`;
+        }
 
         function filterSiswa() {
             let val = document.getElementById('searchSiswa').value.toUpperCase();
