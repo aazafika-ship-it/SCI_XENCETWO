@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI_XENCETWO | ZANZOS V1.2</title>
+    <title>SCI_XENCETWO OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0b141a;
             --primary: #00d2ff;
-            --secondary: #00ff88;
-            --alert: #ff4444;
             --card-bg: rgba(255, 255, 255, 0.05);
             --text: #f1f1f1;
             --nav-bg: rgba(11, 20, 26, 0.95);
@@ -18,225 +16,288 @@
             --border: rgba(0, 210, 255, 0.2);
         }
 
-        /* --- FIX LIGHT MODE --- */
-        body.light-mode {
-            --bg: #f5f6f7;
-            --text: #1a1a1a;
-            --card-bg: #ffffff;
-            --border: rgba(0, 210, 255, 0.3);
-            --nav-bg: rgba(255, 255, 255, 0.9);
-            --neon: 0 0 5px rgba(0, 210, 255, 0.3);
-        }
-        
-        body.light-mode .card, body.light-mode .list, body.light-mode .next-box {
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            color: #1a1a1a;
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        /* --- LOADER --- */
+        /* LOADER */
         #loader { position: fixed; inset: 0; background: #0b141a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loader-ring { width: 80px; height: 80px; border: 5px solid rgba(0, 210, 255, 0.1); border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-logo { width: 100px; height: 100px; filter: drop-shadow(var(--neon)); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        #app { display: none; padding: 15px; padding-bottom: 120px; opacity: 0; }
+        #app { display: none; padding: 15px; padding-bottom: 150px; opacity: 0; }
         .enter-active { animation: slideUp 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        header h1 { font-family: 'Orbitron'; font-size: 22px; color: var(--primary); text-shadow: var(--neon); text-align: center; margin: 20px 0; letter-spacing: 2px; }
+        header h1 { font-family: 'Orbitron'; font-size: 24px; color: var(--primary); text-shadow: var(--neon); text-align: center; margin: 25px 0; letter-spacing: 2px; }
 
-        /* --- CONTROL BUTTONS --- */
-        .floating-ctrl { position: fixed; top: 20px; right: 15px; z-index: 1001; display: flex; gap: 8px; }
-        .btn-round { width: 38px; height: 38px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--neon); font-size: 16px; }
+        /* HERO BOX */
+        .hero-box { width: 100%; border-radius: 20px; overflow: hidden; border: 2px solid var(--border); box-shadow: var(--neon); margin-bottom: 25px; }
+        .hero-img { width: 100%; height: auto; display: block; }
 
-        .hero-box { width: 100%; border-radius: 20px; overflow: hidden; border: 2px solid var(--border); box-shadow: var(--neon); margin-bottom: 20px; background: #111; min-height: 180px; }
-        .hero-img { width: 100%; height: auto; display: block; object-fit: cover; }
+        /* GRID SYSTEM */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .card { background: var(--card-bg); padding: 25px 10px; border-radius: 18px; text-align: center; border: 1px solid var(--border); backdrop-filter: blur(10px); cursor: pointer; }
+        .card:active { transform: scale(0.95); }
+        .card span { font-size: 30px; display: block; margin-bottom: 8px; }
+        .card h3 { font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .card { background: var(--card-bg); padding: 20px 10px; border-radius: 18px; text-align: center; border: 1px solid var(--border); backdrop-filter: blur(10px); }
-        .card h3 { font-size: 10px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        /* WIDGETS */
+        .next-class-box { background: var(--card-bg); border: 1.5px solid var(--primary); border-radius: 20px; padding: 20px; margin-top: 15px; display: flex; align-items: center; gap: 15px; box-shadow: var(--neon); }
+        .chalkboard { background: rgba(255, 50, 50, 0.1); border: 1px solid #ff4444; border-radius: 12px; padding: 10px; margin-top: 15px; overflow: hidden; }
+        .chalkboard marquee { font-family: 'Orbitron'; font-size: 10px; color: #ff4444; font-weight: bold; }
 
-        .date-display { font-family: 'Orbitron'; font-size: 10px; color: var(--secondary); text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
+        /* NEW CUSTOM LOGIN POPUP (MODAL) */
+        #admin-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.3s; }
+        .modal-content { background: #0b141a; width: 100%; max-width: 300px; padding: 30px; border-radius: 25px; border: 2px solid var(--primary); box-shadow: var(--neon); text-align: center; transform: translateY(20px); transition: 0.4s; }
+        #admin-modal.show { opacity: 1; display: flex; }
+        #admin-modal.show .modal-content { transform: translateY(0); }
+        
+        .modal-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: #fff; text-align: center; font-family: 'Orbitron'; letter-spacing: 5px; margin: 20px 0; outline: none; }
+        .modal-input:focus { border-color: var(--primary); box-shadow: var(--neon); }
 
+        /* PAGES */
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .list { background: var(--card-bg); border-radius: 15px; padding: 10px; margin-top: 10px; border: 1px solid var(--border); }
-        .item { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        .list { background: var(--card-bg); border-radius: 20px; padding: 15px; margin-top: 15px; border: 1px solid var(--border); }
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 15px 10px; border-bottom: 1px solid var(--border); }
+        
+        .admin-input { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--primary); background: rgba(0,210,255,0.1); color: white; margin-bottom: 15px; font-size: 11px; outline: none; }
+        .save-btn { background: var(--primary); color: #fff; width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; border: none; font-family: 'Orbitron'; cursor: pointer; box-shadow: var(--neon); }
+        .back-btn { background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 10px; font-weight: 900; margin-bottom: 20px; display: inline-block; font-family: 'Orbitron'; cursor: pointer; }
 
-        .admin-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--primary); background: rgba(0,210,255,0.05); color: var(--text); margin-bottom: 10px; font-size: 11px; outline: none; }
-        .save-btn { background: var(--primary); color: #000; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; border: none; font-family: 'Orbitron'; font-size: 10px; margin-top: 10px; cursor: pointer; }
+        /* NAVIGATION */
+        .nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--nav-bg); backdrop-filter: blur(20px); padding: 15px; border-radius: 40px; display: flex; justify-content: space-around; border: 1.5px solid var(--primary); z-index: 1000; box-shadow: var(--neon); }
+        .nav-btn { font-size: 22px; color: #444; }
+        .nav-btn.active { color: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
 
-        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--nav-bg); backdrop-filter: blur(15px); padding: 12px; border-radius: 30px; display: flex; justify-content: space-around; border: 1px solid var(--primary); z-index: 1000; }
-        .nav-btn { font-size: 20px; color: gray; }
-        .nav-btn.active { color: var(--primary); }
-
-        footer { text-align: center; padding: 30px 0; opacity: 0.5; font-family: 'Orbitron'; font-size: 7px; color: var(--primary); }
+        select { background: var(--primary); color: white; border: none; border-radius: 6px; padding: 5px 10px; font-size: 10px; }
+        footer { text-align: center; padding: 40px 0; opacity: 0.6; font-family: 'Orbitron'; font-size: 8px; color: var(--primary); }
     </style>
 </head>
-<body onload="initApp()">
+<body onload="checkSavedData()" onclick="initAudio()">
 
-    <div id="loader">
-        <div class="loader-ring"></div>
-        <p style="font-family:'Orbitron'; color:var(--primary); margin-top:20px; font-size:10px; letter-spacing:3px;">IX IPA A2_BOOTING...</p>
+<div id="admin-modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <p style="font-family:'Orbitron'; font-size:12px; color:var(--primary);">ACCESS_RESTRICTED</p>
+        <input type="password" id="admin-pass" class="modal-input" placeholder="****" maxlength="8">
+        <button class="save-btn" onclick="verifyAdmin()">LOGIN_SYSTEM</button>
+        <p id="error-msg" style="color:#ff4444; font-size:8px; margin-top:10px; font-family:'Orbitron'; display:none;">WRONG_PASSWORD!</p>
     </div>
+</div>
 
-    <div class="floating-ctrl">
-        <div class="btn-round" onclick="toggleTheme()" id="theme-icon">🌓</div>
-        <div class="btn-round" onclick="toggleAudio()" id="audio-icon">🔇</div>
-    </div>
+<div id="loader">
+    <img src="https://api.api-ninjas.com/v1/logo?name=atom" class="loader-logo">
+    <p style="font-family:'Orbitron'; color:#00d2ff; margin-top:20px; font-size:10px; letter-spacing:3px;">SYSTEM_X_READY</p>
+</div>
 
-    <div id="admin-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:none; align-items:center; justify-content:center; padding:20px;">
-        <div style="background:var(--bg); width:100%; max-width:280px; padding:25px; border-radius:20px; border:1px solid var(--primary); text-align:center;">
-            <p style="font-family:'Orbitron'; font-size:10px; color:var(--primary); margin-bottom:15px;">SECURE_LOGIN</p>
-            <input type="password" id="admin-pass" class="admin-input" placeholder="PASS_CODE" style="text-align:center;">
-            <button onclick="verifyAdmin()" class="save-btn">ACCESS_SYSTEM</button>
-            <button onclick="closeModal()" style="background:transparent; color:gray; border:none; margin-top:10px; font-size:9px;">CANCEL</button>
+<audio id="audioPlayer" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
+
+<div id="app">
+    <div id="home" class="page active">
+        <header><h1>SCI_XENCETWO</h1></header>
+        <div class="hero-box">
+            <img src="./img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x400/0b141a/00d2ff?text=IMG_NOT_FOUND'">
+        </div>
+        <div class="grid">
+            <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
+            <div class="card" onclick="move('siswa')"><span>🎓</span><h3>Siswa</h3></div>
+            <div class="card" onclick="move('jadwal')"><span>📚</span><h3>Mapel</h3></div>
+            <div class="card" onclick="move('piket')"><span>🧹</span><h3>Piket</h3></div>
+            <div class="card" onclick="move('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
+            <div class="card" onclick="openAdminModal()"><span>⚙️</span><h3>Admin</h3></div>
+        </div>
+        <div id="next-class-display"></div>
+        <div class="chalkboard">
+            <marquee id="marquee-info" scrollamount="6">>> WELCOME BACK AGENT BAGUS <<</marquee>
         </div>
     </div>
 
-    <audio id="audioPlayer" loop><source src="lagu_web/menteri.mp3" type="audio/mpeg"></audio>
-
-    <div id="app">
-        <div id="home" class="page active">
-            <header><h1>SCI_XENCETWO</h1></header>
-            <div id="current-date" class="date-display"></div>
-            
-            <div class="hero-box">
-                <img src="./img/sekelas.jpg" class="hero-img" alt="CLASS_TEAM" onerror="this.src='https://via.placeholder.com/600x300/0b141a/00d2ff?text=FOTO_TIDAK_ADA'">
-            </div>
-
-            <div class="grid">
-                <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
-                <div class="card" onclick="move('siswa')"><span>🎓</span><h3>Siswa</h3></div>
-                <div class="card" onclick="move('jadwal')"><span>📚</span><h3>Mapel</h3></div>
-                <div class="card" onclick="move('piket')"><span>🧹</span><h3>Piket</h3></div>
-                <div class="card" onclick="move('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
-                <div class="card" onclick="openAdminModal()"><span>⚙️</span><h3>Admin</h3></div>
-            </div>
-        </div>
-
-        <div id="absen" class="page">
-            <div style="background:var(--primary); color:#000; padding:5px 10px; border-radius:5px; font-size:10px; display:inline-block; margin-bottom:10px;" onclick="move('home')">← BACK</div>
-            <div id="isi-absen"></div>
-        </div>
-
-        <div id="siswa" class="page">
-            <div style="background:var(--primary); color:#000; padding:5px 10px; border-radius:5px; font-size:10px; display:inline-block; margin-bottom:10px;" onclick="move('home')">← BACK</div>
-            <input type="text" id="searchSiswa" onkeyup="filterSiswa()" placeholder="SEARCH_SISWA..." class="admin-input">
-            <div class="list" id="isi-siswa"></div>
-        </div>
-
-        <div id="admin-page" class="page">
-            <div style="background:var(--primary); color:#000; padding:5px 10px; border-radius:5px; font-size:10px; display:inline-block; margin-bottom:10px;" onclick="move('home')">← EXIT</div>
-            <div class="list">
-                <p style="font-size:9px; font-family:'Orbitron';">ATTENDANCE_MANAGER:</p>
-                <div id="admin-isi-absen"></div>
-            </div>
-        </div>
-
-        <footer><p>© 2026 SCI_XENCETWO | A. ZAINAL BAGUS M.</p></footer>
-    </div>
-
-    <div class="nav">
-        <div class="nav-btn" onclick="move('home')">🏠</div>
-        <div class="nav-btn" onclick="move('absen')">📝</div>
-        <div class="nav-btn" onclick="move('siswa')">🎓</div>
-        <div class="nav-btn" onclick="openAdminModal()">⚙️</div>
-    </div>
-
-    <script>
-        const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
+    <div id="admin-page" class="page">
+        <div class="back-btn" onclick="move('home')">← EXIT_ADMIN</div>
+        <h2 style="font-family:'Orbitron'; font-size:14px; color:var(--primary); margin-bottom:20px;">DASHBOARD_V1.2</h2>
         
-        let isAdmin = false;
-        let dataAbsen = JSON.parse(localStorage.getItem('db_xencetwo_2026')) || {};
+        <div class="list" style="margin-bottom:20px;">
+            <p style="font-size:10px; font-family:'Orbitron'; margin-bottom:10px;">CHALKBOARD_EDITOR:</p>
+            <textarea id="input-chalkboard" class="admin-input" rows="3" placeholder="Update info kelas..."></textarea>
+            <button class="save-btn" onclick="saveChalkboard()">COMMIT_CHANGES</button>
+        </div>
 
-        function initApp() {
-            // Load theme
-            if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-            
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.getElementById('app').classList.add('enter-active');
-                displayCurrentDate();
-            }, 2000);
+        <div class="grid">
+            <div class="card" style="padding:15px;" onclick="move('absen')"><span>📝</span><h3>Edit Absensi</h3></div>
+        </div>
+    </div>
+
+    <div id="siswa" class="page">
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <input type="text" id="searchSiswa" onkeyup="filterList('isi-siswa', 'searchSiswa')" placeholder="SEARCH_SISWA..." class="admin-input">
+        <div class="list" id="isi-siswa"></div>
+    </div>
+
+    <div id="absen" class="page">
+        <div class="back-btn" onclick="move('home')">← BACK</div>
+        <input type="text" id="searchAbsen" onkeyup="filterList('isi-absen-list', 'searchAbsen')" placeholder="SEARCH_NAME..." class="admin-input">
+        <div id="isi-absen"></div>
+    </div>
+
+    <div id="jadwal" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-mapel"></div></div>
+    <div id="piket" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-piket"></div></div>
+
+    <footer><p>© 2026 SCI_XENCETWO<br>DEV: A. ZAINAL BAGUS M.</p></footer>
+</div>
+
+<div class="nav">
+    <div class="nav-btn active" id="btn-home" onclick="move('home')">🏠</div>
+    <div class="nav-btn" id="btn-absen" onclick="move('absen')">📝</div>
+    <div class="nav-btn" id="btn-siswa" onclick="move('siswa')">🎓</div>
+    <div class="nav-btn" id="btn-admin" onclick="openAdminModal()">⚙️</div>
+</div>
+
+<script>
+    const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
+    
+    const jadwalData = {
+        'Senin': [{h:'07:00', m:'POK'}, {h:'08:30', m:'BK'}, {h:'10:00', m:'SKI'}, {h:'11:30', m:'AA'}, {h:'13:00', m:'BA'}, {h:'14:30', m:'BO'}],
+        'Selasa': [{h:'07:00', m:'BIN'}, {h:'08:30', m:'KM'}, {h:'10:00', m:'FK'}, {h:'11:30', m:'FS'}, {h:'13:00', m:'MT'}, {h:'14:30', m:'BIG TL'}],
+        'Rabu': [{h:'07:00', m:'AH'}, {h:'08:30', m:'BO'}, {h:'10:00', m:'PP'}, {h:'11:30', m:'SJ'}, {h:'13:00', m:'TBS'}],
+        'Kamis': [{h:'07:00', m:'SB'}, {h:'08:30', m:'PK'}, {h:'10:00', m:'BIG TL'}, {h:'11:30', m:'RS'}, {h:'13:00', m:'FS'}, {h:'14:30', m:'BIN'}],
+        'Jumat': [{h:'07:00', m:'KM'}, {h:'08:30', m:'MT'}, {h:'10:00', m:'PBL'}, {h:'11:30', m:'BIG'}, {h:'13:00', m:'FK'}]
+    };
+
+    let isAdmin = false;
+    let dataAbsen = JSON.parse(localStorage.getItem('db_xencetwo_2026')) || {};
+
+    setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('app').classList.add('enter-active');
+        updateNextClass();
+    }, 2000);
+
+    function checkSavedData() {
+        let savedInfo = localStorage.getItem('chalk_info_2026');
+        if(savedInfo) {
+            document.getElementById('marquee-info').innerText = ">> INFO: " + savedInfo + " <<";
+            document.getElementById('input-chalkboard').value = savedInfo;
         }
+    }
 
-        function displayCurrentDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', options).toUpperCase();
+    function move(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if(id === 'home') document.getElementById('btn-home').classList.add('active');
+        if(id === 'absen') { document.getElementById('btn-absen').classList.add('active'); renderAbsen(); }
+        if(id === 'siswa') document.getElementById('btn-siswa').classList.add('active');
+        if(id === 'admin-page') document.getElementById('btn-admin').classList.add('active');
+        if(id === 'jadwal') renderMapel();
+        if(id === 'piket') renderPiket();
+        window.scrollTo(0,0);
+    }
+
+    // CUSTOM MODAL LOGIC
+    function openAdminModal() {
+        if(isAdmin) { move('admin-page'); return; }
+        document.getElementById('admin-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('admin-modal').classList.add('show'), 10);
+        document.getElementById('admin-pass').focus();
+    }
+
+    function closeModal(e) {
+        document.getElementById('admin-modal').classList.remove('show');
+        setTimeout(() => document.getElementById('admin-modal').style.display = 'none', 300);
+        document.getElementById('admin-pass').value = "";
+    }
+
+    function verifyAdmin() {
+        let p = document.getElementById('admin-pass').value;
+        if(p === "7anhidup") {
+            isAdmin = true;
+            closeModal();
+            move('admin-page');
+        } else {
+            document.getElementById('error-msg').style.display = 'block';
+            setTimeout(() => document.getElementById('error-msg').style.display = 'none', 2000);
+            document.getElementById('admin-pass').value = "";
         }
+    }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    function saveChalkboard() {
+        let text = document.getElementById('input-chalkboard').value;
+        localStorage.setItem('chalk_info_2026', text);
+        document.getElementById('marquee-info').innerText = ">> INFO: " + text + " <<";
+        alert("CHANGES_SAVED_BRO!");
+    }
+
+    function filterList(containerId, inputId) {
+        let input = document.getElementById(inputId).value.toUpperCase();
+        let items = document.getElementById(containerId).getElementsByClassName('item');
+        for (let i = 0; i < items.length; i++) {
+            let name = items[i].innerText || items[i].textContent;
+            items[i].style.display = name.toUpperCase().indexOf(input) > -1 ? "" : "none";
         }
+    }
 
-        function toggleAudio() {
-            const audio = document.getElementById("audioPlayer");
-            const icon = document.getElementById("audio-icon");
-            if (audio.paused) { audio.play(); icon.innerText = "🔊"; } 
-            else { audio.pause(); icon.innerText = "🔇"; }
+    function updateNextClass() {
+        const now = new Date();
+        const hari = now.toLocaleDateString('id-ID', {weekday: 'long'});
+        const t = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+        let next = "OFFLINE";
+        if(jadwalData[hari]) {
+            const f = jadwalData[hari].find(j => j.h > t);
+            next = f ? `${f.m} @ ${f.h}` : "COMPLETED";
         }
+        document.getElementById('next-class-display').innerHTML = `
+            <div class="next-class-box">
+                <div style="font-size:24px;">🚀</div>
+                <div><p style="font-size:8px; opacity:0.6; font-family:'Orbitron';">UPCOMING_MODULE</p>
+                <p style="font-weight:bold; font-size:14px; color:var(--primary);">${next}</p></div>
+            </div>`;
+    }
 
-        function move(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(id === 'siswa') renderSiswa();
-            if(id === 'absen') renderAbsen();
-            if(id === 'admin-page') renderAdminAbsen();
-            window.scrollTo(0,0);
-        }
+    function renderSiswa() {
+        let h = "";
+        murid.forEach((n, i) => {
+            h += `<div class="item"><p style="font-size:11px; font-weight:bold; flex:1;">${n}</p>
+                  <div style="width:25px; height:25px; border-radius:5px; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:9px;">${i+1}</div></div>`;
+        });
+        document.getElementById('isi-siswa').innerHTML = h;
+    }
 
-        function renderAbsen() {
-            let h = `<div class="list">`;
-            murid.forEach((n, i) => {
-                let no = (i+1).toString().padStart(2, '0');
-                let stat = dataAbsen[no] || "HADIR";
-                let color = stat === "HADIR" ? "var(--secondary)" : "var(--alert)";
-                h += `<div class="item"><span>${n}</span><span style="font-family:'Orbitron'; font-size:9px; color:${color}; font-weight:bold;">${stat}</span></div>`;
-            });
-            document.getElementById('isi-absen').innerHTML = h + `</div>`;
-        }
+    function renderAbsen() {
+        let h = `<div class="list" id="isi-absen-list">`;
+        murid.forEach((n, i) => {
+            let no = (i+1).toString().padStart(2, '0');
+            let stat = dataAbsen[no] || "HADIR";
+            h += `<div class="item">
+                    <span style="font-size:10px; font-weight:bold; flex:1;">${n}</span>
+                    <select onchange="updateStat('${no}', this.value)" ${isAdmin ? '' : 'disabled'}>
+                        <option ${stat==='HADIR'?'selected':''}>HADIR</option>
+                        <option ${stat==='IZIN'?'selected':''}>IZIN</option>
+                        <option ${stat==='SAKIT'?'selected':''}>SAKIT</option>
+                        <option ${stat==='ALPA'?'selected':''}>ALPA</option>
+                    </select>
+                  </div>`;
+        });
+        h += `</div>`;
+        document.getElementById('isi-absen').innerHTML = h;
+    }
 
-        function renderAdminAbsen() {
-            let h = "";
-            murid.forEach((n, i) => {
-                let no = (i+1).toString().padStart(2, '0');
-                let stat = dataAbsen[no] || "HADIR";
-                h += `<div class="item"><span>${n}</span>
-                      <select onchange="updateStat('${no}', this.value)" style="background:var(--primary); color:#000; border:none; font-size:9px; border-radius:4px;">
-                        <option ${stat==='HADIR'?'selected':''}>HADIR</option><option ${stat==='IZIN'?'selected':''}>IZIN</option><option ${stat==='SAKIT'?'selected':''}>SAKIT</option><option ${stat==='ALPA'?'selected':''}>ALPA</option>
-                      </select></div>`;
-            });
-            document.getElementById('admin-isi-absen').innerHTML = h;
-        }
+    function renderMapel() {
+        const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+        let list = jadwalData[hari] ? jadwalData[hari].map(j => `[${j.h}] • ${j.m}`).join('<br>') : "NO_DATA";
+        document.getElementById('isi-mapel').innerHTML = `<div class="box-info">>> ${hari.toUpperCase()}<br>---<br>${list}</div>`;
+    }
 
-        function updateStat(no, val) { dataAbsen[no] = val; localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen)); }
+    function renderPiket() {
+        const hari = new Date().toLocaleDateString('id-ID', {weekday: 'long'});
+        const regu = { 'Senin': 'Valentino, Nadin, Dian, Sindy, Humam, Shakiya, Rista', 'Selasa': 'Alya, Ayyesa, Sandy, Miko, Bagus, Tata, Zabrian', 'Rabu': 'Zainal, Falen, Rifki, Elsa, Salsa, Dinda, Olivia', 'Kamis': 'Tika, Isna, Andiina, Zila, Istik, Wahyu, Raditya', 'Jumat': 'Rafi, Bayu, Adit, Esa, Diva, Elvia, Andin' };
+        document.getElementById('isi-piket').innerHTML = `<div class="box-info" style="border-color:var(--primary); color:var(--primary); background:transparent;">>> PIKET: ${hari.toUpperCase()}<br>---<br><span style="color:#fff;">${regu[hari] || 'REST'}</span></div>`;
+    }
 
-        function renderSiswa() {
-            let h = "";
-            murid.forEach((n, i) => {
-                h += `<div class="item"><span>${n}</span><span style="color:var(--primary); font-size:9px;">${i+1}</span></div>`;
-            });
-            document.getElementById('isi-siswa').innerHTML = h;
-        }
-
-        function filterSiswa() {
-            let val = document.getElementById('searchSiswa').value.toUpperCase();
-            let items = document.getElementById('isi-siswa').getElementsByClassName('item');
-            for(let i=0; i<items.length; i++) {
-                items[i].style.display = items[i].innerText.toUpperCase().includes(val) ? "" : "none";
-            }
-        }
-
-        function openAdminModal() { if(isAdmin) move('admin-page'); else document.getElementById('admin-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('admin-modal').style.display = 'none'; }
-        function verifyAdmin() { if(document.getElementById('admin-pass').value === "Tika¹") { isAdmin = true; closeModal(); move('admin-page'); } else alert("WRONG_PASS"); }
-    </script>
+    function updateStat(no, val) { dataAbsen[no] = val; localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen)); }
+    function initAudio() { document.getElementById("audioPlayer").play().catch(() => {}); }
+</script>
 </body>
 </html>
