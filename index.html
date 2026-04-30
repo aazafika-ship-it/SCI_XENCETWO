@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI_XENCETWO | ZANZOS V1.3</title>
+    <title>SCI_XENCETWO | ZANZOS V1.6</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -62,13 +62,18 @@
 
         .date-display { font-family: 'Orbitron'; font-size: 10px; color: var(--doi-rose); text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
         footer { text-align: center; padding: 30px 0; opacity: 0.6; font-family: 'Orbitron'; font-size: 8px; color: var(--doi-pink); }
+        
+        /* Banner Style */
+        .banner { background: linear-gradient(135deg, var(--doi-pink), var(--doi-rose)); border-radius: 20px; padding: 15px; color: white; text-align: center; margin-bottom: 20px; box-shadow: var(--glow); }
+        .banner p { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 2px; margin-bottom: 5px; }
+        .banner h2 { font-size: 20px; margin-bottom: 5px; }
     </style>
 </head>
 <body onload="initApp()">
 
     <div id="loader">
         <div class="loader-ring"></div>
-        <p style="font-family:'Orbitron'; color:var(--doi-pink); margin-top:20px; font-size:9px; letter-spacing:3px;">IX IPA A2_UPDATE...</p>
+        <p style="font-family:'Orbitron'; color:var(--doi-pink); margin-top:20px; font-size:9px; letter-spacing:3px;">ZANZOS_V1.6_BOOTING...</p>
     </div>
 
     <div class="floating-ctrl">
@@ -91,7 +96,15 @@
         <div id="home" class="page active">
             <header><h1>SCI_XENCETWO</h1></header>
             <div id="current-date" class="date-display"></div>
+            
+            <div class="banner" id="next-class-container">
+                <p>NEXT_MISSION</p>
+                <h2 id="next-mapel">--</h2>
+                <span id="next-timer" style="font-size: 10px; opacity: 0.9;">Scanning...</span>
+            </div>
+
             <div class="hero-box"><img src="./img/sekelas.jpg" class="hero-img" onerror="this.src='https://via.placeholder.com/600x300/F0A8D0/ffffff?text=X_ENCETWO_TEAM'"></div>
+            
             <div class="grid">
                 <div class="card" onclick="move('absen')"><span>📝</span><h3>Absensi</h3></div>
                 <div class="card" onclick="move('siswa')"><span>🎓</span><h3>Siswa</h3></div>
@@ -100,31 +113,28 @@
                 <div class="card" onclick="move('galeri')"><span>🖼️</span><h3>Galeri</h3></div>
                 <div class="card" onclick="openAdminModal()"><span>⚙️</span><h3>Admin</h3></div>
             </div>
+
+            <span class="day-title">ASSIGNMENT_LOG</span>
+            <div class="list" style="border: 2px dashed var(--doi-pink);">
+                <div id="info-tugas-display" style="padding: 15px; font-size: 12px; line-height: 1.6;">
+                    Belum ada tugas hari ini, Agent. Santai dulu!
+                </div>
+            </div>
         </div>
 
-        <div id="jadwal" class="page">
-            <div class="back-btn" onclick="move('home')">← BACK</div>
-            <div id="isi-jadwal"></div>
-        </div>
-
-        <div id="piket" class="page">
-            <div class="back-btn" onclick="move('home')">← BACK</div>
-            <div id="isi-piket"></div>
-        </div>
-
-        <div id="absen" class="page">
-            <div class="back-btn" onclick="move('home')">← BACK</div>
-            <div id="isi-absen"></div>
-        </div>
-
-        <div id="siswa" class="page">
-            <div class="back-btn" onclick="move('home')">← BACK</div>
-            <input type="text" id="searchSiswa" onkeyup="filterSiswa()" placeholder="SEARCH..." class="admin-input">
-            <div class="list" id="isi-siswa"></div>
-        </div>
+        <div id="jadwal" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-jadwal"></div></div>
+        <div id="piket" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-piket"></div></div>
+        <div id="absen" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><div id="isi-absen"></div></div>
+        <div id="siswa" class="page"><div class="back-btn" onclick="move('home')">← BACK</div><input type="text" id="searchSiswa" onkeyup="filterSiswa()" placeholder="SEARCH..." class="admin-input"><div class="list" id="isi-siswa"></div></div>
 
         <div id="admin-page" class="page">
             <div class="back-btn" onclick="move('home')">← EXIT</div>
+            <span class="day-title">UPDATE_TUGAS</span>
+            <div class="list" style="padding:15px;">
+                <textarea id="input-tugas-baru" class="admin-input" rows="4" placeholder="Tulis tugas di sini... (Gunakan <br> untuk baris baru)"></textarea>
+                <button onclick="simpanTugas()" class="save-btn">UPDATE_ASSIGNMENT</button>
+            </div>
+            <span class="day-title">UPDATE_ABSENSI</span>
             <div class="list"><div id="admin-isi-absen"></div></div>
         </div>
 
@@ -142,48 +152,70 @@
         const murid = ["ADITYA PUTRA KUSUMA", "AHMAD ZAINAL BAGUS M.", "ALYA SAFFANAH ZAHRA", "ANDINA PUTRI CAHYANI", "AURA TAHTA ALFINA", "AYYESA FANNY ZAHRA Z.", "DIAN FATIKHASARI", "DINDA AYU MONICA", "DIVA ANGGRAINI MAGHFIROH", "ELVIA ADINSA JULYSTA", "ESA ROSITA", "FADHKAMIL HARITS ALGHANY H.", "FALENTINA JIHAN TRISNAWATI", "ISTIK FEBRIANA", "M. RAFI ZAIDAAN M.", "MOCH. SAMSUL WAHYUDI", "MUFIDATUL ISNA", "MUHAMMAD RIFKI", "MUKHAMAD SANDY ABDUL HADI", "MUSTIKATUN NISA", "NADIA ZULFA ANDIN NUR AINI", "NADIN RAMADANI ISMAIL", "NAZZILATUR RAHMANIA", "OLIVIA FITRI AL ZAHRA", "RADITYA YOGA PRIMATAMA", "SALSABILA PUTRI", "SELVIA MIRDA ALESIA", "SHAKIYA AURA PRADITHA", "SINDY AMEYLIA PUTRI", "TRI BAYU MAULANA", "VALLENTINO ZULNANDA P.", "WAHYU JATMIKO", "WISNU BAGUS SAJIWO", "PUTRI DWI ARISTA", "MUHAMMAD ZABRIAN A."];
 
         const dataJadwal = {
-            "SENIN": ["Upacara", "Matematika", "B. Indonesia", "Fisika"],
-            "SELASA": ["Kimia", "Biologi", "B. Inggris", "PAI"],
-            "RABU": ["Sejarah", "PJOK", "PKN", "Seni Budaya"],
-            "KAMIS": ["Geografi", "Ekonomi", "Sosiologi", "B. Daerah"],
-            "JUMAT": ["Senam", "B. Arab", "Informatika"]
+            "SENIN": [{jam:"07:00",mapel:"SE"},{jam:"07:45",mapel:"SE"},{jam:"08:30",mapel:"POK"},{jam:"09:15",mapel:"BK"},{jam:"10:10",mapel:"SKI"},{jam:"10:55",mapel:"SKI"},{jam:"11:50",mapel:"AA"},{jam:"13:00",mapel:"AA"},{jam:"13:45",mapel:"BA"},{jam:"14:30",mapel:"BA"},{jam:"15:15",mapel:"BO"},{jam:"15:30",mapel:"BO"}],
+            "SELASA": [{jam:"07:00",mapel:"SE"},{jam:"07:45",mapel:"SE"},{jam:"08:30",mapel:"BIN"},{jam:"09:15",mapel:"KM"},{jam:"10:10",mapel:"FK"},{jam:"10:55",mapel:"FK"},{jam:"11:50",mapel:"FS"},{jam:"13:00",mapel:"FS"},{jam:"13:45",mapel:"MT"},{jam:"14:30",mapel:"MT"},{jam:"15:15",mapel:"BIG TL"},{jam:"15:30",mapel:"BIG TL"}],
+            "RABU": [{jam:"07:00",mapel:"RA"},{jam:"07:45",mapel:"AH"},{jam:"08:30",mapel:"AH"},{jam:"09:15",mapel:"BO"},{jam:"10:10",mapel:"BO"},{jam:"10:55",mapel:"PP"},{jam:"11:50",mapel:"PP"},{jam:"13:00",mapel:"SJ"},{jam:"13:45",mapel:"SJ"},{jam:"14:30",mapel:"TBS"},{jam:"15:15",mapel:"TBS"},{jam:"15:30",mapel:"TBS"}],
+            "KAMIS": [{jam:"07:00",mapel:"KA"},{jam:"07:45",mapel:"SB"},{jam:"08:30",mapel:"SB"},{jam:"09:15",mapel:"PK"},{jam:"10:10",mapel:"PK"},{jam:"10:55",mapel:"BIG TL"},{jam:"11:50",mapel:"BIG TL"},{jam:"13:00",mapel:"RS"},{jam:"13:45",mapel:"RS"},{jam:"14:30",mapel:"FS"},{jam:"15:15",mapel:"BIN"},{jam:"15:30",mapel:"BIN"}],
+            "JUM'AT": [{jam:"07:00",mapel:"JU"},{jam:"07:45",mapel:"KM"},{jam:"08:30",mapel:"KM"},{jam:"09:15",mapel:"MT"},{jam:"10:10",mapel:"MT"},{jam:"10:55",mapel:"PBL"},{jam:"11:50",mapel:"PBL"},{jam:"13:00",mapel:"BIG"},{jam:"13:45",mapel:"BIG"}]
         };
 
         const dataPiket = {
-            "SENIN": ["Aditya", "Ahmad", "Alya", "Andina", "Aura"],
-            "SELASA": ["Ayyesa", "Dian", "Dinda", "Diva", "Elvia"],
-            "RABU": ["Esa", "Fadhkamil", "Falentina", "Istik", "Rafi"],
-            "KAMIS": ["Samsul", "Mufidatul", "Rifki", "Sandy", "Mustikatun"],
-            "JUMAT": ["Nadia", "Nadin", "Nazzilatur", "Olivia", "Raditya"]
+            "SENIN": ["Valentino", "Nadin", "Dian", "Sindy", "Humam", "Shakiya", "Rista"],
+            "SELASA": ["Alya", "Ayyesa", "Sandy", "Miko", "Bagus", "Tata", "Zabrian"],
+            "RABU": ["Zainal", "Falen", "Rifki", "Elsa", "Salsa", "Dinda", "Olivia"],
+            "KAMIS": ["Tika", "Isna", "Andiina", "Zila", "Istik", "Wahyu", "Raditya"],
+            "JUM'AT": ["Rafi", "Bayu", "Adit", "Esa", "Diva", "Elvia", "Andin"]
         };
 
         let isAdmin = false;
         let dataAbsen = JSON.parse(localStorage.getItem('db_xencetwo_2026')) || {};
+        let teksTugas = localStorage.getItem('info_tugas_xencetwo') || "Belum ada tugas hari ini, Agent. Santai dulu!";
 
         function initApp() {
             if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+            document.getElementById('info-tugas-display').innerHTML = teksTugas;
+            document.getElementById('input-tugas-baru').value = teksTugas;
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
                 document.getElementById('app').classList.add('enter-active');
                 displayDate();
+                updateNextClass();
             }, 1500);
         }
 
-        function displayDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', options).toUpperCase();
+        function simpanTugas() {
+            teksTugas = document.getElementById('input-tugas-baru').value;
+            localStorage.setItem('info_tugas_xencetwo', teksTugas);
+            document.getElementById('info-tugas-display').innerHTML = teksTugas;
+            alert("TASK_LOG_UPDATED");
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-        }
+        function updateNextClass() {
+            const now = new Date();
+            const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUM'AT", "SABTU"];
+            const currentDay = days[now.getDay()];
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            const nextMapelEl = document.getElementById('next-mapel');
+            const nextTimerEl = document.getElementById('next-timer');
 
-        function toggleAudio() {
-            const a = document.getElementById("audioPlayer");
-            const icon = document.getElementById("audio-icon");
-            if (a.paused) { a.play(); icon.innerText = "🔊"; } else { a.pause(); icon.innerText = "🔇"; }
+            if (currentDay === "SABTU" || currentDay === "MINGGU") {
+                nextMapelEl.innerText = "WEEKEND!";
+                nextTimerEl.innerText = "Enjoy your day!";
+                return;
+            }
+
+            const jadwalHariIni = dataJadwal[currentDay];
+            let found = false;
+            for (let i = 0; i < jadwalHariIni.length; i++) {
+                const [hour, minute] = jadwalHariIni[i].jam.split(':').map(Number);
+                if ((hour * 60 + minute) > currentTime) {
+                    nextMapelEl.innerText = jadwalHariIni[i].mapel;
+                    nextTimerEl.innerText = `Dimulai jam ${jadwalHariIni[i].jam}`;
+                    found = true; break;
+                }
+            }
+            if (!found) { nextMapelEl.innerText = "FINISH"; nextTimerEl.innerText = "Go Home Safely!"; }
         }
 
         function move(id) {
@@ -201,8 +233,8 @@
             let h = "";
             for(let hari in dataJadwal) {
                 h += `<span class="day-title">${hari}</span><div class="list">`;
-                dataJadwal[hari].forEach(m => {
-                    h += `<div class="item"><span>${m}</span><span style="font-size:10px; color:var(--doi-pink);">07:30</span></div>`;
+                dataJadwal[hari].forEach((item, index) => {
+                    h += `<div class="item"><div style="display:flex; flex-direction:column;"><span style="font-weight:600;">${item.mapel}</span><span style="font-size:8px; opacity:0.6;">Jam ke-${index + 1}</span></div><span style="font-size:10px; color:var(--doi-pink);">${item.jam}</span></div>`;
                 });
                 h += `</div>`;
             }
@@ -236,22 +268,27 @@
             murid.forEach((n, i) => {
                 let no = (i+1).toString().padStart(2, '0');
                 let st = dataAbsen[no] || "HADIR";
-                h += `<div class="item"><span style="font-size:9px;">${n}</span>
-                    <select onchange="updateStat('${no}', this.value)" style="border:none; font-size:9px; background:var(--doi-rose); color:#fff; border-radius:4px;">
-                        <option ${st==='HADIR'?'selected':''}>HADIR</option><option ${st==='IZIN'?'selected':''}>IZIN</option><option ${st==='SAKIT'?'selected':''}>SAKIT</option><option ${st==='ALPA'?'selected':''}>ALPA</option>
-                    </select></div>`;
+                h += `<div class="item"><span style="font-size:9px;">${n}</span><select onchange="updateStat('${no}', this.value)" style="border:none; font-size:9px; background:var(--doi-rose); color:#fff; border-radius:4px;"><option ${st==='HADIR'?'selected':''}>HADIR</option><option ${st==='IZIN'?'selected':''}>IZIN</option><option ${st==='SAKIT'?'selected':''}>SAKIT</option><option ${st==='ALPA'?'selected':''}>ALPA</option></select></div>`;
             });
             document.getElementById('admin-isi-absen').innerHTML = h;
         }
 
         function updateStat(no, v) { dataAbsen[no] = v; localStorage.setItem('db_xencetwo_2026', JSON.stringify(dataAbsen)); }
 
-        function renderSiswa() {
-            let h = "";
-            murid.sort().forEach((n, i) => {
-                h += `<div class="item"><span>${n}</span><span style="color:var(--doi-pink); font-size:9px;">${(i+1).toString().padStart(2,'0')}</span></div>`;
-            });
-            document.getElementById('isi-siswa').innerHTML = h;
+        function displayDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', options).toUpperCase();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        function toggleAudio() {
+            const a = document.getElementById("audioPlayer");
+            const icon = document.getElementById("audio-icon");
+            if (a.paused) { a.play(); icon.innerText = "🔊"; } else { a.pause(); icon.innerText = "🔇"; }
         }
 
         function filterSiswa() {
@@ -262,12 +299,22 @@
             }
         }
 
+        function renderSiswa() {
+            let h = "";
+            murid.sort().forEach((n, i) => {
+                h += `<div class="item"><span>${n}</span><span style="color:var(--doi-pink); font-size:9px;">${(i+1).toString().padStart(2,'0')}</span></div>`;
+            });
+            document.getElementById('isi-siswa').innerHTML = h;
+        }
+
         function openAdminModal() { if(isAdmin) move('admin-page'); else document.getElementById('admin-modal').style.display = 'flex'; }
         function closeModal() { document.getElementById('admin-modal').style.display = 'none'; }
         function verifyAdmin() { 
             if(document.getElementById('admin-pass').value === "7anhidup") { isAdmin = true; closeModal(); move('admin-page'); } 
             else { alert("WRONG_PASS"); } 
         }
+
+        setInterval(updateNextClass, 60000);
     </script>
 </body>
 </html>
